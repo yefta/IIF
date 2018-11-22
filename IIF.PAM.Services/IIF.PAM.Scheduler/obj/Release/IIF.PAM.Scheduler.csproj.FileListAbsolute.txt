@@ -1,0 +1,10 @@
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\IIF.PAM.Scheduler.exe.config
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\IIF.PAM.Scheduler.exe
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\IIF.PAM.Scheduler.pdb
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\IIF.PAM.Utilities.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\log4net.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\IIF.PAM.Utilities.pdb
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Release\log4net.xml
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Release\IIF.PAM.Scheduler.csprojResolveAssemblyReference.cache
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Release\IIF.PAM.Scheduler.exe
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Release\IIF.PAM.Scheduler.pdb

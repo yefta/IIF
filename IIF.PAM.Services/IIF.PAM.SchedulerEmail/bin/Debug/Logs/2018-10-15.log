@@ -1,0 +1,12 @@
+2018-10-15 10:15:17,103 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Scheduler - Start
+2018-10-15 10:15:17,150 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Send OutboxEmail - Start
+2018-10-15 10:15:17,151 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Send OutboxEmail - Done
+2018-10-15 10:15:17,151 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Scheduler - Done
+2018-10-15 10:21:31,171 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Scheduler - Start
+2018-10-15 10:21:31,223 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Send OutboxEmail - Start
+2018-10-15 10:21:31,223 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Send OutboxEmail - Done
+2018-10-15 10:21:31,224 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Scheduler - Done
+2018-10-15 10:21:40,338 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Scheduler - Start
+2018-10-15 10:21:40,392 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Send OutboxEmail - Start
+2018-10-15 10:21:40,396 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Send OutboxEmail - Done
+2018-10-15 10:21:40,499 - [9] INFO    IIF.PAM.SchedulerEmail.Program [(null)] - Scheduler - Done

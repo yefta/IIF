@@ -1,0 +1,35 @@
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.pdb
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.pdb
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csprojResolveAssemblyReference.cache
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.xml
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.dll
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.pdb
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.dll
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\stdole.dll
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.xml
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csprojAssemblyReference.cache
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csproj.CoreCompileInputs.cache
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csproj.CopyComplete
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.dll
+D:\IIF Proj\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.pdb
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.dll
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.pdb
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.dll
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\stdole.dll
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.xml
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csprojAssemblyReference.cache
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csproj.CoreCompileInputs.cache
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csproj.CopyComplete
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.dll
+D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\IIF.PAM.MergeDocumentServices.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\stdole.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Release\log4net.xml
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.csprojResolveAssemblyReference.cache
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Release\IIF.PAM.MergeDocumentServices.pdb

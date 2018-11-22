@@ -1,0 +1,10 @@
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\IIF.PAM.SchedulerEmail.exe.config
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\IIF.PAM.SchedulerEmail.exe
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\IIF.PAM.SchedulerEmail.pdb
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\IIF.PAM.Utilities.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\log4net.dll
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\IIF.PAM.Utilities.pdb
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\bin\Release\log4net.xml
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\obj\Release\IIF.PAM.SchedulerEmail.csprojResolveAssemblyReference.cache
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\obj\Release\IIF.PAM.SchedulerEmail.exe
+D:\Srf\Project\PIS\IIF\Code\IIF.PAM.Services\IIF.PAM.SchedulerEmail\obj\Release\IIF.PAM.SchedulerEmail.pdb

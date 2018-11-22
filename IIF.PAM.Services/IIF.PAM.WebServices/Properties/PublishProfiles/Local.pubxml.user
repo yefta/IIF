@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Project\IIF\Publish</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="AttachmentServices.asmx">
+      <publishTime>09/14/2018 14:37:44</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.MergeDocumentServices.dll">
+      <publishTime>11/22/2018 11:13:45</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.MergeDocumentServices.pdb">
+      <publishTime>11/22/2018 11:13:45</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.Utilities.dll">
+      <publishTime>11/07/2018 10:14:06</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.Utilities.pdb">
+      <publishTime>11/07/2018 10:14:06</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.WebServices.dll">
+      <publishTime>11/22/2018 11:13:46</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.WebServices.pdb">
+      <publishTime>11/22/2018 11:13:46</publishTime>
+    </File>
+    <File Include="bin/log4net.dll">
+      <publishTime>10/15/2018 09:26:14</publishTime>
+    </File>
+    <File Include="bin/SourceCode.Workflow.Client.dll">
+      <publishTime>08/28/2018 09:45:36</publishTime>
+    </File>
+    <File Include="bin/stdole.dll">
+      <publishTime>03/19/2010 13:21:56</publishTime>
+    </File>
+    <File Include="IIFCMAttachmentServices.asmx">
+      <publishTime>10/12/2018 10:07:02</publishTime>
+    </File>
+    <File Include="IIFCMServices.asmx">
+      <publishTime>10/15/2018 15:39:44</publishTime>
+    </File>
+    <File Include="IIFK2Services.asmx">
+      <publishTime>09/25/2018 10:19:30</publishTime>
+    </File>
+    <File Include="IIFPAMAttachmentServices.asmx">
+      <publishTime>09/27/2018 11:03:16</publishTime>
+    </File>
+    <File Include="IIFPAMServices.asmx">
+      <publishTime>10/02/2018 14:59:08</publishTime>
+    </File>
+    <File Include="IIFStaticServices.asmx">
+      <publishTime>09/27/2018 11:02:12</publishTime>
+    </File>
+    <File Include="Images/IIFLogo.png">
+      <publishTime>09/21/2018 14:28:28</publishTime>
+    </File>
+    <File Include="Images/Information.ico">
+      <publishTime>09/18/2018 16:02:22</publishTime>
+    </File>
+    <File Include="Images/QuestionMark.png">
+      <publishTime>09/18/2018 15:16:58</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>10/15/2018 09:26:18</publishTime>
+    </File>
+    <File Include="ProjectAnalysisServices.asmx">
+      <publishTime>09/14/2018 12:36:27</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>11/22/2018 11:13:48</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

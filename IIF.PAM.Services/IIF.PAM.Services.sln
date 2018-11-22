@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIF.PAM.WebServices", "IIF.PAM.WebServices\IIF.PAM.WebServices.csproj", "{59390E9F-8051-42CC-8298-4F67C641C082}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIF.PAM.MergeDocumentServices", "IIF.PAM.MergeDocumentServices\IIF.PAM.MergeDocumentServices.csproj", "{6955C1AD-0BEA-4AD5-80DE-8CAC8C62F82E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIF.PAM.MergeDocumentTester", "IIF.PAM.MergeDocumentTester\IIF.PAM.MergeDocumentTester.csproj", "{1B9F707E-5433-47B3-9D50-50011091C29A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIF.PAM.Utilities", "IIF.PAM.Utilities\IIF.PAM.Utilities.csproj", "{06D42467-7C29-443C-97E7-2F4113FF6CE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIF.PAM.Scheduler", "IIF.PAM.Scheduler\IIF.PAM.Scheduler.csproj", "{269E023D-6A92-43ED-B790-1A7491BAE5BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IIF.PAM.SchedulerEmail", "IIF.PAM.SchedulerEmail\IIF.PAM.SchedulerEmail.csproj", "{6E72C6C5-3022-4EB7-904C-149611462EF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59390E9F-8051-42CC-8298-4F67C641C082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59390E9F-8051-42CC-8298-4F67C641C082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59390E9F-8051-42CC-8298-4F67C641C082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59390E9F-8051-42CC-8298-4F67C641C082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6955C1AD-0BEA-4AD5-80DE-8CAC8C62F82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6955C1AD-0BEA-4AD5-80DE-8CAC8C62F82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6955C1AD-0BEA-4AD5-80DE-8CAC8C62F82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6955C1AD-0BEA-4AD5-80DE-8CAC8C62F82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B9F707E-5433-47B3-9D50-50011091C29A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B9F707E-5433-47B3-9D50-50011091C29A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B9F707E-5433-47B3-9D50-50011091C29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B9F707E-5433-47B3-9D50-50011091C29A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06D42467-7C29-443C-97E7-2F4113FF6CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06D42467-7C29-443C-97E7-2F4113FF6CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06D42467-7C29-443C-97E7-2F4113FF6CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06D42467-7C29-443C-97E7-2F4113FF6CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269E023D-6A92-43ED-B790-1A7491BAE5BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269E023D-6A92-43ED-B790-1A7491BAE5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269E023D-6A92-43ED-B790-1A7491BAE5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269E023D-6A92-43ED-B790-1A7491BAE5BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E72C6C5-3022-4EB7-904C-149611462EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E72C6C5-3022-4EB7-904C-149611462EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E72C6C5-3022-4EB7-904C-149611462EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E72C6C5-3022-4EB7-904C-149611462EF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

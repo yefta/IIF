@@ -1,0 +1,6 @@
+D:\IIF Proj\IIFGenerateDocument\IIFGenerateDocument\bin\Debug\IIFGenerateDocument.dll
+D:\IIF Proj\IIFGenerateDocument\IIFGenerateDocument\bin\Debug\IIFGenerateDocument.pdb
+D:\IIF Proj\IIFGenerateDocument\IIFGenerateDocument\obj\Debug\IIFGenerateDocument.csproj.CoreCompileInputs.cache
+D:\IIF Proj\IIFGenerateDocument\IIFGenerateDocument\obj\Debug\IIFGenerateDocument.dll
+D:\IIF Proj\IIFGenerateDocument\IIFGenerateDocument\obj\Debug\IIFGenerateDocument.pdb
+D:\IIF Proj\IIFGenerateDocument\IIFGenerateDocument\obj\Debug\IIFGenerateDocument.csprojAssemblyReference.cache
