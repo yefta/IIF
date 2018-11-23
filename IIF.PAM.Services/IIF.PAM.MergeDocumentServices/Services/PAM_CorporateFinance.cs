@@ -26,7 +26,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_PAM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
             string fileName = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".docx";
-            //string fileNamePDF = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
+
+            string fileNamePDF = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
             string fileTemplateName = "PAM Template - Corporate Finance.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
@@ -478,8 +479,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     #endregion
 
                     doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
-					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);
-					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
 				}
                 finally
                 {
@@ -492,14 +492,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
             }
 
             File.Delete(destFile);
-			// string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);
-			string destFilePDF = Path.Combine(temporaryFolderLocation, fileName);
+			string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
 			byte[] fileContent = File.ReadAllBytes(destFilePDF);
 
             FileMergeResult result = new FileMergeResult();
             result.FileContent = fileContent;
-            //result.FileName = fileNamePDF;
-			result.FileName = fileName;
+            result.FileName = fileNamePDF;			
 			return result;
         }
     }

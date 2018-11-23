@@ -47,3 +47,14 @@ D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\II
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.csproj.CopyComplete
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.exe
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\IIF.PAM.MergeDocumentTester.exe.config
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\IIF.PAM.MergeDocumentTester.exe
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\IIF.PAM.MergeDocumentTester.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\log4net.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\stdole.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\IIF.PAM.MergeDocumentServices.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\log4net.xml
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.csprojResolveAssemblyReference.cache
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.exe
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.pdb

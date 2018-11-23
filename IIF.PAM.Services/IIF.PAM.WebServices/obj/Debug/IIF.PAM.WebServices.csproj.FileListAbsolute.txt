@@ -46,3 +46,16 @@ D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.We
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.WebServices.csproj.CopyComplete
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.WebServices.dll
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.WebServices.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.WebServices.dll.config
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.WebServices.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.WebServices.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.Utilities.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\log4net.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\stdole.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.MergeDocumentServices.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.Utilities.pdb
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\log4net.xml
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.WebServices.csprojResolveAssemblyReference.cache
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.WebServices.dll
+C:\Project\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Debug\IIF.PAM.WebServices.pdb

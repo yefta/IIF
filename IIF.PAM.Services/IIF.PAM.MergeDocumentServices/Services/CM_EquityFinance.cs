@@ -26,8 +26,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_CM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
 
-            string fileName = "CM-" + dataResult[0].ProductType + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".docx";
-            string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
+			string fileName = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".docx";
+			string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
             string fileTemplateName = "CM Template - Equity.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
@@ -296,9 +296,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Columns[rowcount].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Single Project Exposure limit";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].SingleProjectExposureRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -306,9 +306,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     rowcount++;
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Product";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceProductMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceProductProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].ProductRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -316,9 +316,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     rowcount++;
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Group Exposure Limit";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceGrupExposureMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceGrupExposureMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceGrupExposureProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceGrupExposureProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].GrupExposureRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -326,9 +326,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     rowcount++;
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Sector exposure";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceSectorExposureMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSectorExposureMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceSectorExposureProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSectorExposureProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].SectorExposureRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -395,36 +395,29 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmOtherbankFacilities", AppConstants.TableName.CM_OtherBanksFacilities, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmValutationReport", AppConstants.TableName.CM_ValuationReport, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmOtherAttachment", AppConstants.TableName.CM_OtherAttachment, cmId);
-                    #endregion
+					#endregion
 
-                    doc.Save();
+					doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);
+				}
+				finally
+				{
+					doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+				}
+			}
+			finally
+			{
+				app.Quit();
+			}
 
-                    if (app.Documents != null)
-                    {
-                        if (doc != null)
-                        {
-                            doc.SaveAs2(temporaryFolderLocation + fileNamePDF, WdExportFormat.wdExportFormatPDF);
-                        }
-                    }
-                }
-                finally
-                {
-                    doc.Close();
-                }
-            }
-            finally
-            {
-                app.Quit();
-            }
+			File.Delete(destFile);
+			string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);
+			byte[] fileContent = File.ReadAllBytes(destFilePDF);
 
-            File.Delete(destFile);
-            string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);
-            byte[] fileContent = File.ReadAllBytes(destFilePDF);
-
-            FileMergeResult result = new FileMergeResult();
-            result.FileContent = fileContent;
-            result.FileName = fileNamePDF;
-            return result;
-        }
+			FileMergeResult result = new FileMergeResult();
+			result.FileContent = fileContent;
+			result.FileName = fileNamePDF;
+			return result;
+		}
     }
 }

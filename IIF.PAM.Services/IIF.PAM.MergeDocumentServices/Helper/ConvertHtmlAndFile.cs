@@ -11,13 +11,25 @@ namespace IIF.PAM.MergeDocumentServices.Helper
             string htmlTempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.html", Path.GetRandomFileName()));
             using (StreamWriter writer = File.CreateText(htmlTempFilePath))
             {
-                html = string.Format("<html>{0}</html>", html);
+                html = string.Format("<html style=\"font-family: Roboto Light; font-size: 13px\">{0}</html>", html);
                 writer.WriteLine(html);
             }
             return htmlTempFilePath;
         }
 
-        public static string SaveToFile(string sFile)
+		public static string SaveToHtmlNew(string html, string fontFamily, float fontSize)
+		{
+			string htmlTempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.html", Path.GetRandomFileName()));
+			string myFontSize = convertFontSize(fontSize);
+			using (StreamWriter writer = File.CreateText(htmlTempFilePath))
+			{
+				html = string.Format("<html style=\"font-family: "+ fontFamily + "; font-size: "+ myFontSize + "\">{0}</html>", html);
+				writer.WriteLine(html);
+			}
+			return htmlTempFilePath;
+		}
+
+		public static string SaveToFile(string sFile)
         {
             String ID = Guid.NewGuid().ToString().ToUpper();
             XDocument xDoc = new XDocument();
@@ -30,6 +42,16 @@ namespace IIF.PAM.MergeDocumentServices.Helper
             File.WriteAllBytes(tmpFile, bFile);
 
             return tmpFile;
-        } 
+        }
+
+		public static string convertFontSize(float fontSize)
+		{
+			string res = "";
+
+			if (fontSize == 10)
+				res = "13px";
+
+			return res;
+		}
     }
 }

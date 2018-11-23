@@ -16,15 +16,16 @@ namespace IIF.PAM.MergeDocumentTester
 		        log4net.Config.XmlConfigurator.Configure();
                 MergeDocument svcMerge = new MergeDocument();
                 string conStringIIF = "data source=k2projectiif;initial catalog=IIF;user id=sa;password=P@ssw0rd;";
-                //svcMerge.MergePAMDocument(32, conStringIIF, @"D:\Srf\Project\PIS\IIF\Merge\PAMTemplate", @"D:\Srf\Project\PIS\IIF\Merge\Temp", "MergeByFQN", "MergeBy");
-                svcMerge.MergePAMDocument(28, conStringIIF, @"D:\IIF Proj\Template_Edit", @"D:\Document\PAM\", "MergeByFQN", "MergeBy");
-                Console.WriteLine("Success");
+				//svcMerge.MergePAMDocument(32, conStringIIF, @"D:\Srf\Project\PIS\IIF\Merge\PAMTemplate", @"D:\Srf\Project\PIS\IIF\Merge\Temp", "MergeByFQN", "MergeBy");
+				//svcMerge.MergePAMDocument(10112, conStringIIF, @"C:\Project\IIF\PAMTemplate", @"C:\temp", "MergeByFQN", "MergeBy");
+				svcMerge.MergeCMDocument(10191, conStringIIF, @"C:\Project\IIF\PAMTemplate", @"C:\temp", "MergeByFQN", "MergeBy");
+				Console.WriteLine("Success");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }

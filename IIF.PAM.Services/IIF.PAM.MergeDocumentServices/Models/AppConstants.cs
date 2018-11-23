@@ -31,8 +31,9 @@ namespace IIF.PAM.MergeDocumentServices.Models
             public static string CM_CreditMemorandum { get { return "[dbo].[CM_CreditMemorandum]"; } }
             public static string CM_PreviousApprovals { get { return "[dbo].[CM_PreviousApprovals]"; } }
             public static string CM_RiskRating{ get { return "[dbo].[CM_RiskRating]"; } }
-            public static string CM_KYCChecklists { get { return "[dbo].[PAM_SupplementalProcurementAndInsurance]"; } }
-            public static string CM_SAndEReview { get { return "[dbo].[CM_SAndEReview]"; } }
+			//public static string CM_KYCChecklists { get { return "[dbo].[PAM_SupplementalProcurementAndInsurance]"; } }
+			public static string CM_KYCChecklists { get { return "[dbo].[CM_KYCChecklists]"; } }
+			public static string CM_SAndEReview { get { return "[dbo].[CM_SAndEReview]"; } }
             public static string CM_OtherBanksFacilities { get { return "[dbo].[CM_OtherBanksFacilitiesOrSummaryofPefindoReport]"; } }
             public static string CM_ValuationReport { get { return "[dbo].[CM_ValuationReport]"; } }
             public static string CM_OtherAttachment { get { return "[dbo].[CM_OtherAttachmentOrReports]"; } }

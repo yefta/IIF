@@ -23,24 +23,23 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             System.Data.DataTable listFacility = db.ExecToDataTable(con, "Generate_Document_CM_ProposalFacility_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
-            System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_CM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+            System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_CM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });			
 
-            string fileName = "CM-" + dataResult[0].ProductType + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".docx";
-            string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
+			string fileName = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".docx";
+			string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
+			string fileTemplateName = "CM Template - Project Finance.docx";
+			string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
-            string fileTemplateName = "CM Template - Project Finance.docx";
-            string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
+			string getfileName = Path.GetFileName(fileTemplateFullName);
+			string destFile = Path.Combine(temporaryFolderLocation, fileName);
+			File.Copy(fileTemplateFullName, destFile, true);
 
-            string getfileName = Path.GetFileName(fileTemplateFullName);
-            string destFile = Path.Combine(temporaryFolderLocation, fileName);
-            File.Copy(fileTemplateFullName, destFile, true);
-
-            object missing = System.Reflection.Missing.Value;
-            object readOnly = (object)false;
-            Application app = new Application();
+			object missing = System.Reflection.Missing.Value;
+			object readOnly = (object)false;
+			Application app = new Application();
 
 
-            try
+			try
             {
                 Document doc = app.Documents.Open(destFile, ref missing, ref readOnly);
                 app.Visible = false;
@@ -78,15 +77,15 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblproject.Cell(3, 1).Range.Text = "Project Cost";
                     tblproject.Cell(3, 2).Range.Text = dataResult[0].ProjectCosCUrr + " " + dataResult[0].ProjectCostAmount;
                     tblproject.Cell(4, 1).Range.Text = "Project Scope";
-                    tblproject.Cell(4, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].ProjectScope));
-                    tblproject.Cell(5, 1).Range.Text = "Project Structure";
-                    tblproject.Cell(5, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].ProjectStructure));
-                    tblproject.Cell(6, 1).Range.Text = "Deal Strategy";
-                    tblproject.Cell(6, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].DealStrategy));
-                    #endregion
+					tblproject.Cell(4, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].ProjectScope, tblproject.Range.Font.Name, tblproject.Range.Font.Size));					
+					tblproject.Cell(5, 1).Range.Text = "Project Structure";
+                    tblproject.Cell(5, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].ProjectStructure, tblproject.Range.Font.Name, tblproject.Range.Font.Size));
+					tblproject.Cell(6, 1).Range.Text = "Deal Strategy";
+                    tblproject.Cell(6, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].DealStrategy, tblproject.Range.Font.Name, tblproject.Range.Font.Size));
+					#endregion
 
-                    #region BORROWER
-                    Range borrower = app.ActiveDocument.Bookmarks["Borrower"].Range;
+					#region BORROWER
+					Range borrower = app.ActiveDocument.Bookmarks["Borrower"].Range;
                     Table tblborrower = app.ActiveDocument.Tables.Add(borrower, 3, 5, WdDefaultTableBehavior.wdWord9TableBehavior);
                     int rowCount = 3;
                     tblborrower.Range.Font.Name = "Roboto Light";
@@ -317,12 +316,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
                     rowcount++;
                     tblProposal.Rows.Add(ref missing);
-                    tblProposal.Columns[rowcount].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+                    //tblProposal.Columns[rowcount].Shading.BackgroundPatternColor = WdColor.wdColorWhite;
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Single Project Exposure limit";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].SingleProjectExposureRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -331,9 +330,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Rows.Add(ref missing);
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Product";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceProductMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceProductProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].ProductRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -342,9 +341,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Rows.Add(ref missing);
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Risk Rating";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceRiskRatingMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceRiskRatingMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceRiskRatingProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceRiskRatingProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].RiskRatingRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -353,9 +352,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Rows.Add(ref missing);
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Group Exposure Limit";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceGrupExposureMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceGrupExposureMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceGrupExposureProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceGrupExposureProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].GrupExposureRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -364,9 +363,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Rows.Add(ref missing);
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "Sector exposure";
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].FacilityLimitComplianceSectorExposureMaxLimit;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSectorExposureMaxLimit);
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-                    tblProposal.Rows[rowcount].Cells[4].Range.Text = dataResult[0].FacilityLimitComplianceSectorExposureProposed;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSectorExposureProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].SectorExposureRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -383,14 +382,14 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     #endregion
 
                     #region D.Recommendation
-                    Range keyInvestment = app.ActiveDocument.Bookmarks["KeyInvestment"].Range;
+                    Range keyInvestment = app.ActiveDocument.Bookmarks["Recomendation"].Range;
                     Paragraph paragraph = doc.Content.Paragraphs.Add(keyInvestment);
                     paragraph.Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].KeyInvestmentRecommendation));
 
-                    Range recommendation = app.ActiveDocument.Bookmarks["Recommendation"].Range;
+                    Range recommendation = app.ActiveDocument.Bookmarks["Recomendation"].Range;
                     paragraph.Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].Recommendation));
 
-                    Range accountResponsible = app.ActiveDocument.Bookmarks["AccountResponsible"].Range;
+                    Range accountResponsible = app.ActiveDocument.Bookmarks["Recomendation"].Range;
                     Table tblAccountResponsible = app.ActiveDocument.Tables.Add(accountResponsible, 1, 3, WdDefaultTableBehavior.wdWord9TableBehavior);
                     tblAccountResponsible.Range.Font.Name = "Roboto Light";
                     tblAccountResponsible.Range.Font.Size = 10;
@@ -432,36 +431,30 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     this.FillBookmarkWithCMAttachmentType1(app, con, "SandEReview", AppConstants.TableName.CM_SAndEReview, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "OtherBanksfacilities", AppConstants.TableName.CM_OtherBanksFacilities, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "OtherAttachment", AppConstants.TableName.CM_OtherAttachment, cmId);
-                    #endregion
+					#endregion
 
-                    doc.Save();
+					doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
+				}
+				finally
+				{
+					doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+				}
+			}
+			finally
+			{
+				app.Quit();
+			}
 
-                    if (app.Documents != null)
-                    {
-                        if (doc != null)
-                        {
-                            doc.SaveAs2(temporaryFolderLocation + fileNamePDF, WdExportFormat.wdExportFormatPDF);
-                        }
-                    }
-                }
-                finally
-                {
-                    doc.Close();
-                }
-            }
-            finally
-            {
-                app.Quit();
-            }
+			//File.Delete(destFile);
+			//string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
+			//byte[] fileContent = File.ReadAllBytes(destFilePDF);
 
-            File.Delete(destFile);
-            string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);
-            byte[] fileContent = File.ReadAllBytes(destFilePDF);
-
-            FileMergeResult result = new FileMergeResult();
-            result.FileContent = fileContent;
-            result.FileName = fileNamePDF;
-            return result;
-        }
+			FileMergeResult result = new FileMergeResult();
+			//result.FileContent = fileContent;
+			//result.FileName = fileNamePDF;			
+			return result;
+		}
     }
 }

@@ -16,7 +16,8 @@ namespace IIF.PAM.WebServices
     // [System.Web.Script.Services.ScriptService]
     public class IIFCMServices : BaseWebService
     {
-        public void DoMergePAMDocument(long id, string mergeByFQN, string mergeBy)
+		[WebMethod]
+		public void DoMergePAMDocument(long id, string mergeByFQN, string mergeBy)
         {
             try
             {
@@ -31,7 +32,8 @@ namespace IIF.PAM.WebServices
             }
         }
 
-        public void SendGroupEmail(CMGroupEmailParameter param)
+		[WebMethod]
+		public void SendGroupEmail(CMGroupEmailParameter param)
         {
             try
             {
