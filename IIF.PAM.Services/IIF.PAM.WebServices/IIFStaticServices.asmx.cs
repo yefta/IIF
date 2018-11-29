@@ -21,6 +21,7 @@ namespace IIF.PAM.WebServices
             this.Logger.Info("WebServiceUrl");
             return this.AppConfig.WebServiceUrl;
             //Testing GIT
+            //Testing GIT 2
         }
 
         [WebMethod]
