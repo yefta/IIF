@@ -23,7 +23,7 @@ namespace IIF.PAM.WebServices
             {
                 MergeCMDocumentServices svcMerge = new MergeCMDocumentServices();
                 svcMerge.AppConfig = this.AppConfig;
-                svcMerge.DoMergeCMDocument(id, mergeByFQN, mergeBy);
+                //svcMerge.DoMergeCMDocument(id, mergeByFQN, mergeBy);
             }
             catch (Exception ex)
             {
