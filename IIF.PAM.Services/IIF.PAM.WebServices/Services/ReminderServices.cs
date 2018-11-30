@@ -80,7 +80,7 @@ namespace IIF.PAM.WebServices.Services
                                 sbQueryInsert.Append(", [IDReference], [SendDate]");
                                 sbQueryInsert.Append(") VALUES (");
                                 sbQueryInsert.Append("@From, @To, NULL, NULL, @Subject, @Body");
-                                sbQueryInsert.Append(", NULL, @IDEmailTemplate, GETDATE()");
+                                sbQueryInsert.Append(", 0, @IDEmailTemplate, GETDATE()");
                                 sbQueryInsert.Append(", @IDReference, NULL");
                                 sbQueryInsert.Append(");");
 

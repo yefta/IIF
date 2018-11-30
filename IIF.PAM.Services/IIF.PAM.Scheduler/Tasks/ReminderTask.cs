@@ -9,7 +9,7 @@ namespace IIF.PAM.Scheduler.Tasks
     {
         public void SendReminderEmail()
         {
-            string url = this.AppConfig.WebServiceUrl.AppendUrlPath("IIFPAMServices.asmx/SendReminderEmail");
+            string url = this.AppConfig.WebServiceUrl.AppendUrlPath("IIFStaticServices.asmx/ReminderInsertOutboxEmail");
             HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(url);
             webrequest.Method = "GET";            
             

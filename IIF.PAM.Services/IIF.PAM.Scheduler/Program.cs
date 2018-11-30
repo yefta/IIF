@@ -45,21 +45,34 @@ namespace IIF.PAM.Scheduler
                 Logger.Info("Send Reminder Email - Start");
                 tskReminder.SendReminderEmail();
                 Logger.Info("Send Reminder Email - Done");
-
-                Logger.Info("End K2 Out of Office - Start");
-                tskK2OOF.EndK2OOF();
-                Logger.Info("End K2 Out of Office - Done");
-
-                Logger.Info("Start K2 Out of Office - Start");
-                tskK2OOF.StartK2OOF();
-                Logger.Info("Start K2 Out of Office - Done");
-
-                Logger.Info("Scheduler - Done");
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);                
+                Logger.Error(ex);
             }
+
+            try
+            {
+                Logger.Info("End K2 Out of Office - Start");
+                tskK2OOF.EndK2OOF();
+                Logger.Info("End K2 Out of Office - Done");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+
+            try
+            {
+                Logger.Info("Start K2 Out of Office - Start");
+                tskK2OOF.StartK2OOF();
+                Logger.Info("Start K2 Out of Office - Done");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            Logger.Info("Scheduler - Done");
         }
     }
 }
