@@ -113,14 +113,14 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblborrower.Cell(2, 2).SetWidth(140, WdRulerStyle.wdAdjustFirstColumn);
                     tblborrower.Cell(2, 2).Range.Text = "Borrower(s)";
                     tblborrower.Cell(2, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Cell(2, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Cell(2, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     
                     tblborrower.Cell(2, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Cell(2, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Cell(2, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Cell(2, 3).Range.Text = "Shareholders";
 
                     tblborrower.Cell(2, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Cell(2, 5).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Cell(2, 5).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Cell(2, 5).Range.Text = "% ownership";
 
                     string prevkey1 = "";
@@ -169,16 +169,16 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblborrower.Rows[rowCount].Cells[1].Range.Text = "Rating";
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[2].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Rows[rowCount].Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Rows[rowCount].Cells[2].Range.Text = "IIF Rating";
                     tblborrower.Rows[rowCount].Cells[3].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Rows[rowCount].Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Rows[rowCount].Cells[3].Range.Text = "External Rating";
                     tblborrower.Rows[rowCount].Cells[4].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Rows[rowCount].Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Rows[rowCount].Cells[4].Range.Text = "S&E Category";
                     tblborrower.Rows[rowCount].Cells[5].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[5].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Rows[rowCount].Cells[5].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Rows[rowCount].Cells[5].Range.Text = "LQC/BI Checking";
 
                     rowCount++;
@@ -280,11 +280,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Cell(3, 1).Range.Text = "Facility";
                     tblProposal.Cell(3, 1).Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
 
-                    tblProposal.Cell(3, 2).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(3, 2).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(3, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Cell(3, 2).Range.Text = "Type";
 
-                    tblProposal.Cell(3, 3).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(3, 3).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(3, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Cell(3, 3).Range.Text = "Amount";
 
@@ -435,10 +435,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblAccountResponsible.Cell(1, 1).Range.Text = "Account Responsible";
                     tblAccountResponsible.Cell(1, 2).Range.Text = "Deal Team";
                     tblAccountResponsible.Cell(1, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblAccountResponsible.Cell(1, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblAccountResponsible.Cell(1, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblAccountResponsible.Cell(1, 3).Range.Text = "CIO";
                     tblAccountResponsible.Cell(1, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblAccountResponsible.Cell(1, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblAccountResponsible.Cell(1, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
 
                     int rowCountDealTeam = 1;
                     foreach (DataRow item in listDealTeam.Rows)

@@ -11,9 +11,9 @@ using IIF.PAM.MergeDocumentServices.Models;
 
 namespace IIF.PAM.MergeDocumentServices.Services
 {
-    public class CM_EquityFinance : BaseServices
+    public class CM_WaiverFinance : BaseServices
     {
-        public FileMergeResult MergeCMEquityFinance(SqlConnection con, long cmId, string foldertemplate, string temporaryFolderLocation)
+        public FileMergeResult MergeCMWaiverFinance(SqlConnection con, long cmId, string foldertemplate, string temporaryFolderLocation)
         {
             DBHelper db = new DBHelper();
 
@@ -25,10 +25,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_CM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
-
 			string fileName = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".docx";
 			string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
-            string fileTemplateName = "CM Template - Equity.docx";
+
+            string fileTemplateName = "CM Template - Waivers.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
             string getfileName = Path.GetFileName(fileTemplateFullName);
@@ -39,6 +39,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
             object readOnly = (object)false;
             Application app = new Application();
 
+
             try
             {
                 Document doc = app.Documents.Open(destFile, ref missing, ref readOnly);
@@ -46,21 +47,21 @@ namespace IIF.PAM.MergeDocumentServices.Services
                 try
                 {
                     #region Cover
-                    Range reviewMemo = app.ActiveDocument.Bookmarks["bmReviewMemo"].Range;
-                    reviewMemo.Text = dataResult[0].ReviewMemo;
-                    Range projCompanyName = app.ActiveDocument.Bookmarks["bmInvesteeCompanyName"].Range;
-                    projCompanyName.Text = dataResult[0].CompanyName;
-                    projCompanyName.Font.Name = "Roboto Light";
-                    Range cmNumber = app.ActiveDocument.Bookmarks["bmCMNumber"].Range;
-                    //cmNumber.Text = dataResult[0].CM;
+                    Range CompanyName = app.ActiveDocument.Bookmarks["bmCompanyName"].Range;
+                    CompanyName.Text = dataResult[0].CompanyName;
+                    CompanyName.Font.Name = "Roboto Light";
+                    Range cmNumber = app.ActiveDocument.Bookmarks["bmCMnumber"].Range;
+                    //cmNumber.Text = dataResult[0].CompanyName;
                     cmNumber.Font.Name = "Roboto Light";
 
                     Range projName = app.ActiveDocument.Bookmarks["bmProjectName"].Range;
                     projName.Text = dataResult[0].ProjectName;
                     projName.Font.Name = "Roboto Light";
+
                     Range projCode = app.ActiveDocument.Bookmarks["bmProjectCode"].Range;
                     projCode.Text = dataResult[0].ProjectCode;
                     projCode.Font.Name = "Roboto Light";
+
                     Range projDate = app.ActiveDocument.Bookmarks["bmProjectDate"].Range;
                     projDate.Text = dataResult[0].CMDate.ToString("dd-MMMM-yyyy");
                     projDate.Font.Name = "Roboto Light";
@@ -77,38 +78,38 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblproject.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitWindow);
 
                     tblproject.Cell(1, 1).Range.Text = "Project Name";
-                    tblproject.Cell(1, 2).Range.Text = dataResult[0].ProjectName;
-                    tblproject.Cell(2, 1).Range.Text = "Sector – Sub sector";
+					//tblproject.Cell(1, 2).Range.Text = dataResult[0].ProjectName;
+					tblproject.Cell(1, 2).Range.Text = "-";
+					tblproject.Cell(2, 1).Range.Text = "Sector – Sub sector";
                     tblproject.Cell(2, 2).Range.Text = dataResult[0].SubSector + " " + dataResult[0].SubSector;
                     tblproject.Cell(3, 1).Range.Text = "Funding Needs";
                     tblproject.Cell(3, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].FundingNeeds));
-                    tblproject.Cell(4, 1).Range.Text = "Deal Strategy";
-                    tblproject.Cell(4, 2).Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].DealStrategy));
                     #endregion
 
                     #region BORROWER
-                    Range borrower = app.ActiveDocument.Bookmarks["bmInvesteeCompany"].Range;
+                    Range borrower = app.ActiveDocument.Bookmarks["bmBorrower"].Range;
 
-                    Table tblborrower = app.ActiveDocument.Tables.Add(borrower, 3, 4, WdDefaultTableBehavior.wdWord9TableBehavior);
+                    Table tblborrower = app.ActiveDocument.Tables.Add(borrower, 3, 5, WdDefaultTableBehavior.wdWord9TableBehavior);
                     tblborrower.Range.Font.Name = "Roboto Light";
                     tblborrower.Range.Font.Size = 10;
                     tblborrower.set_Style("Table Grid");
-                    tblproject.Columns[1].SetWidth(90, WdRulerStyle.wdAdjustFirstColumn);
+                    tblborrower.Columns[1].SetWidth(90, WdRulerStyle.wdAdjustFirstColumn);
                     tblborrower.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitWindow);
 
-                    tblborrower.Cell(1, 1).Range.Text = "Investee  Company";
-                    tblborrower.Cell(1, 2).Merge(tblborrower.Cell(1, 4));
+                    tblborrower.Cell(1, 1).Range.Text = "Project Company/ Investee/ Borrower";
+                    tblborrower.Cell(1, 2).Merge(tblborrower.Cell(1, 5));
 
+                    tblborrower.Cell(2, 1).Range.Text = "Project Sponsors/Shareholders";
                     tblborrower.Cell(2, 1).Range.Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
-                    tblborrower.Cell(2, 1).Range.Text = "Shareholders";
+                    tblborrower.Cell(2, 2).Range.Text = "Project Company/ Investee/ Borrower";
                     tblborrower.Cell(2, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Cell(2, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
-                    tblborrower.Cell(2, 2).Range.Text = "Investee";
+                    tblborrower.Cell(2, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
+                    tblborrower.Cell(2, 3).Merge(tblborrower.Cell(2, 4));
                     tblborrower.Cell(2, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Cell(2, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
-                    tblborrower.Cell(2, 3).Range.Text = "Name";
+                    tblborrower.Cell(2, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
+                    tblborrower.Cell(2, 3).Range.Text = "Project Sponsors/Shareholders";
                     tblborrower.Cell(2, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Cell(2, 4).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblborrower.Cell(2, 4).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblborrower.Cell(2, 4).Range.Text = "% ownership";
 
                     string prevkey = "";
@@ -137,7 +138,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblborrower.Rows[rowCount].Cells[1].Range.Text = "Ultimate Beneficial Owner";
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "";
+                    tblborrower.Rows[rowCount].Cells[2].Range.Text = dataResult[0].UltimateBeneficialOwner;
                     int rowtemp = rowCount;
 
                     rowCount++;
@@ -146,14 +147,17 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderTop].LineStyle = WdLineStyle.wdLineStyleSingle;
                     tblborrower.Rows[rowCount].Cells[2].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "External Rating";
+                    tblborrower.Rows[rowCount].Cells[2].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
+                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "IIF Rating";
                     tblborrower.Rows[rowCount].Cells[3].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
-                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "S&E Category";
+                    tblborrower.Rows[rowCount].Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
+                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "External Rating";
                     tblborrower.Rows[rowCount].Cells[4].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblborrower.Rows[rowCount].Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
-                    tblborrower.Rows[rowCount].Cells[4].Range.Text = "LQC/BI Checking";
+                    tblborrower.Rows[rowCount].Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
+                    tblborrower.Rows[rowCount].Cells[4].Range.Text = "S&E Category";
+                    tblborrower.Rows[rowCount].Cells[5].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                    tblborrower.Rows[rowCount].Cells[5].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
+                    tblborrower.Rows[rowCount].Cells[5].Range.Text = "LQC/BI Checking";
 
                     rowCount++;
                     tblborrower.Rows.Add(ref missing);
@@ -163,60 +167,61 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblborrower.Rows[rowCount].Cells[3].Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
                     tblborrower.Rows[rowCount].Cells[4].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblborrower.Rows[rowCount].Cells[4].Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+                    tblborrower.Rows[rowCount].Cells[5].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    tblborrower.Rows[rowCount].Cells[5].Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "S&P: ";
-                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "";
+                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "";
+                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "S&P: ";
                     tblborrower.Rows[rowCount].Cells[4].Range.Text = "";
+                    tblborrower.Rows[rowCount].Cells[5].Range.Text = "";
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[2].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[3].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[4].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
+                    tblborrower.Rows[rowCount].Cells[5].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
 
                     rowCount++;
                     tblborrower.Rows.Add(ref missing);
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "Moodys: " + dataResult[0].MoodysRate;
+                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "Rating Date: " + dataResult[0].IIFRatingDate;
+                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "Moodys: " + dataResult[0].MoodysRate;
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[2].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[3].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[4].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
+                    tblborrower.Rows[rowCount].Cells[5].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
 
                     rowCount++;
                     tblborrower.Rows.Add(ref missing);
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "Fitch: " + dataResult[0].FitchRate;
+                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "Fitch: " + dataResult[0].FitchRate;
                     tblborrower.Rows[rowCount].Cells[1].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[2].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[3].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
                     tblborrower.Rows[rowCount].Cells[4].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
+                    tblborrower.Rows[rowCount].Cells[5].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleNone;
 
                     rowCount++;
                     tblborrower.Rows.Add(ref missing);
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = "Pefindo: " + dataResult[0].PefindoRate;
-
-                    rowCount++;
-                    tblborrower.Rows.Add(ref missing);
-                    tblborrower.Rows[rowCount].Cells[1].Range.Text = "Business Activities";
-                    tblborrower.Rows[rowCount].Cells[2].Merge(tblborrower.Rows[rowCount].Cells[4]);
-                    tblborrower.Rows[rowCount].Cells[2].Range.Text = dataResult[0].BusinessActivities;
-                    tblborrower.Rows[rowCount].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
+                    tblborrower.Rows[rowCount].Cells[3].Range.Text = "Pefindo: " + dataResult[0].PefindoRate;
 
                     rowCount++;
                     tblborrower.Rows.Add(ref missing);
                     tblborrower.Rows[rowCount].Cells[1].Range.Text = "Other information";
+                    tblborrower.Rows[rowCount].Cells[2].Merge(tblborrower.Rows[rowCount].Cells[5]);
                     tblborrower.Rows[rowCount].Cells[2].Range.Text = dataResult[0].OtherInformation;
                     tblborrower.Rows[rowCount].Borders[WdBorderType.wdBorderBottom].LineStyle = WdLineStyle.wdLineStyleSingle;
 
-                    tblborrower.Rows[rowtemp].Cells[2].Merge(tblborrower.Rows[rowtemp].Cells[4]);
+                    tblborrower.Rows[rowtemp].Cells[2].Merge(tblborrower.Rows[rowtemp].Cells[5]);
                     #endregion
 
                     #region PROPOSAL
-                    Range proposal = app.ActiveDocument.Bookmarks["bmProposal"].Range;
+                    Range proposal = app.ActiveDocument.Bookmarks["bmFacility"].Range;
                     Table tblProposal = app.ActiveDocument.Tables.Add(proposal, 3, 5, WdDefaultTableBehavior.wdWord9TableBehavior);
                     tblProposal.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitWindow);
                     tblProposal.Range.Font.Name = "Roboto Light";
                     tblProposal.Range.Font.Size = 10;
                     tblProposal.set_Style("Table Grid");
-                    tblProposal.Columns[1].SetWidth(app.InchesToPoints(1.8f / 2.54f), WdRulerStyle.wdAdjustNone);
-                    int rowcount = 2;
+                    tblProposal.Columns[1].SetWidth(120, WdRulerStyle.wdAdjustFirstColumn);
+                    tblProposal.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitWindow);
 
                     tblProposal.Cell(1, 1).Range.Text = "Purpose";
                     tblProposal.Cell(1, 2).Merge(tblProposal.Cell(1, 3));
@@ -227,23 +232,24 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Cell(2, 2).Range.Text = dataResult[0].ApprovalAuhority;
 
                     tblProposal.Cell(3, 1).Range.Text = "Investment";
-                    tblProposal.Cell(3, 2).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(3, 2).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(3, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Cell(3, 2).Range.Text = "Type";
-                    tblProposal.Cell(3, 3).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(3, 3).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(3, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Cell(3, 3).Range.Text = "Approved";
-                    tblProposal.Cell(3, 4).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(3, 4).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(3, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Cell(3, 4).Range.Text = "Proposed";
-                    tblProposal.Cell(3, 5).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(3, 5).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(3, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblProposal.Cell(3, 5).Range.Text = "MTM";
+                    tblProposal.Cell(3, 5).Range.Text = "Outstanding";
 
+                    int rowcount = 3;
                     foreach (DataRow item in listFacility.Rows)
                     {
-                        tblProposal.Rows.Add(ref missing);
                         rowcount++;
+                        tblProposal.Rows.Add(ref missing);
                         tblProposal.Rows[rowcount].Cells[2].Range.Text = item[0].ToString();
                         tblProposal.Rows[rowcount].Cells[3].Range.Text = item[1].ToString() + " " + item[2].ToString();
                         tblProposal.Rows[rowcount].Cells[4].Range.Text = item[3].ToString() + " " + item[4].ToString();
@@ -262,13 +268,44 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
                     rowcount++;
                     tblProposal.Rows.Add(ref missing);
-                    tblProposal.Rows[rowcount].Cells[1].Range.Text = "Expected Holding Period";
+                    tblProposal.Rows[rowcount].Cells[1].Range.Text = "Tenor";
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = dataResult[0].TenorYear + " year(s)  " + dataResult[0].TenorMonth + " month(s)";
 
                     rowcount++;
                     tblProposal.Rows.Add(ref missing);
-                    tblProposal.Rows[rowcount].Cells[1].Range.Text = "Expected Return";
-                    tblProposal.Rows[rowcount].Cells[2].Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].PricingOtherConditions));
+                    tblProposal.Rows[rowcount].Cells[1].Range.Text = "Average Loan Life";
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = dataResult[0].AverageLoanLifeYear + " year(s)  " + dataResult[0].AverageLoanLifeMonth + " month(s)";
+
+                    rowcount++;
+                    tblProposal.Rows.Add(ref missing);
+                    tblProposal.Rows[rowcount].Cells[1].Range.Text = "Pricing";
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = "Interest rate";
+                    tblProposal.Rows[rowcount].Cells[3].Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].PricingInterestRate));
+
+                    rowcount++;
+                    tblProposal.Rows.Add(ref missing);
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = "Commitment Fee";
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].PricingCommitmentFee;
+
+                    rowcount++;
+                    tblProposal.Rows.Add(ref missing);
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = "Upfront Fee";
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].PricingUpfrontFacilityFee;
+
+                    rowcount++;
+                    tblProposal.Rows.Add(ref missing);
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = "Structuring Fee";
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].PricingStructuringFee;
+
+                    rowcount++;
+                    tblProposal.Rows.Add(ref missing);
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = "Arranger Fee";
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = dataResult[0].PricingArrangerFee;
+
+                    rowcount++;
+                    tblProposal.Rows.Add(ref missing);
+                    tblProposal.Rows[rowcount].Cells[1].Range.Text = "Collateral";
+                    tblProposal.Rows[rowcount].Cells[2].Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].PricingCollateral));
 
                     rowcount++;
                     tblProposal.Rows.Add(ref missing);
@@ -278,16 +315,16 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     rowcount++;
                     tblProposal.Rows.Add(ref missing);
                     tblProposal.Rows[rowcount].Cells[1].Range.Text = "Limit Compliance";
-                    tblProposal.Cell(rowcount, 2).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(rowcount, 2).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Rows[rowcount].Cells[2].Range.Text = "IDR  million, as of xx1] ";
-                    tblProposal.Cell(rowcount, 3).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(rowcount, 3).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Rows[rowcount].Cells[3].Range.Text = "Max Limit";
-                    tblProposal.Cell(rowcount, 4).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(rowcount, 4).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Rows[rowcount].Cells[4].Range.Text = "Proposed";
-                    tblProposal.Cell(rowcount, 5).Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblProposal.Cell(rowcount, 5).Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = "Remarks";
 
@@ -311,6 +348,16 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductProposed);
                     tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
                     tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].ProductRemarks;
+                    tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+                    rowcount++;
+                    tblProposal.Rows[rowcount].Cells[2].Range.Text = "Risk Rating";
+                    tblProposal.Cell(rowcount, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    tblProposal.Rows[rowcount].Cells[3].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceRiskRatingMaxLimit);
+                    tblProposal.Cell(rowcount, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    tblProposal.Rows[rowcount].Cells[4].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceRiskRatingProposed);
+                    tblProposal.Cell(rowcount, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+                    tblProposal.Rows[rowcount].Cells[5].Range.Text = dataResult[0].RiskRatingRemarks;
                     tblProposal.Cell(rowcount, 5).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
                     rowcount++;
@@ -345,14 +392,14 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     #endregion
 
                     #region D.Recommendation
-                    Range keyInvestment = app.ActiveDocument.Bookmarks["KeyInvestment"].Range;
+                    Range keyInvestment = app.ActiveDocument.Bookmarks["bmRecommendation"].Range;
                     Paragraph paragraph = doc.Content.Paragraphs.Add(keyInvestment);
                     paragraph.Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].KeyInvestmentRecommendation));
 
                     Range recommendation = app.ActiveDocument.Bookmarks["Recommendation"].Range;
                     paragraph.Range.InsertFile(ConvertHtmlAndFile.SaveToHtml(dataResult[0].Recommendation));
 
-                    Range accountResponsible = app.ActiveDocument.Bookmarks["AccountResponsible"].Range;
+                    Range accountResponsible = app.ActiveDocument.Bookmarks["bmRecommendation"].Range;
                     Table tblAccountResponsible = app.ActiveDocument.Tables.Add(accountResponsible, 1, 3, WdDefaultTableBehavior.wdWord9TableBehavior);
                     tblAccountResponsible.Range.Font.Name = "Roboto Light";
                     tblAccountResponsible.Range.Font.Size = 10;
@@ -363,10 +410,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     tblAccountResponsible.Cell(1, 1).Range.Text = "Account Responsible";
                     tblAccountResponsible.Cell(1, 2).Range.Text = "Deal Team";
                     tblAccountResponsible.Cell(1, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblAccountResponsible.Cell(1, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblAccountResponsible.Cell(1, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
                     tblAccountResponsible.Cell(1, 3).Range.Text = "CIO";
                     tblAccountResponsible.Cell(1, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-                    tblAccountResponsible.Cell(1, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray40;
+                    tblAccountResponsible.Cell(1, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
 
                     int rowCountDealTeam = 1;
                     foreach (DataRow item in listDealTeam.Rows)
@@ -387,13 +434,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     #endregion
 
                     #region Attachment 
-                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmPeriodicReview", AppConstants.TableName.CM_PeriodicReview, cmId);
-                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmPreviousApproval", AppConstants.TableName.CM_PreviousApprovals, cmId);
-                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmRiskRating", AppConstants.TableName.CM_RiskRating, cmId);
+                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmCreditMemo", AppConstants.TableName.CM_CreditMemorandum, cmId);
+                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmPreviousapproval", AppConstants.TableName.CM_PreviousApprovals, cmId);
+                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmRiskrating", AppConstants.TableName.CM_RiskRating, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmKYCchecklist", AppConstants.TableName.CM_KYCChecklists, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmSAndEReview", AppConstants.TableName.CM_SAndEReview, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmOtherbankFacilities", AppConstants.TableName.CM_OtherBanksFacilities, cmId);
-                    this.FillBookmarkWithCMAttachmentType1(app, con, "bmValutationReport", AppConstants.TableName.CM_ValuationReport, cmId);
                     this.FillBookmarkWithCMAttachmentType1(app, con, "bmOtherAttachment", AppConstants.TableName.CM_OtherAttachment, cmId);
 					#endregion
 

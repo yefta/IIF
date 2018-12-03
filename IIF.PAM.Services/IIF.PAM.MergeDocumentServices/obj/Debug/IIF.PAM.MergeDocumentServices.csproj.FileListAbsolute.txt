@@ -42,3 +42,10 @@ C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\log4net.
 C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.dll
 C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.pdb
 C:\Project\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.csprojResolveAssemblyReference.cache
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.pdb
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\log4net.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\stdole.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\log4net.xml
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.pdb

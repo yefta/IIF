@@ -46,15 +46,15 @@ namespace IIF.PAM.MergeDocumentServices
                     switch (productTypeId.Value)
                     {
                         case 1:
-                            PAM_ProjectFinance svcPAMProjectFinance = new PAM_ProjectFinance();
+                            PAM_ProjectFinanceNEW svcPAMProjectFinance = new PAM_ProjectFinanceNEW();
                             fileMergeResult = svcPAMProjectFinance.MergePAMProjectFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         case 2:
-                            PAM_CorporateFinance svcPAMCorporateFinance = new PAM_CorporateFinance();
+							PAM_CorporateFinanceNEW svcPAMCorporateFinance = new PAM_CorporateFinanceNEW();
                             fileMergeResult = svcPAMCorporateFinance.MergePAMCorporateFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         case 3:
-                            PAM_EquityFinance svcEquityFinance = new PAM_EquityFinance();
+                            PAM_EquityFinanceNEW svcEquityFinance = new PAM_EquityFinanceNEW();
                             fileMergeResult = svcEquityFinance.MergePAMEquityFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         default:
@@ -62,7 +62,7 @@ namespace IIF.PAM.MergeDocumentServices
                     }
                     
                     SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
-                    svcSave.SavePAMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
+                    //svcSave.SavePAMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
                 }
                 con.Close();
             }
@@ -102,19 +102,19 @@ namespace IIF.PAM.MergeDocumentServices
                     switch (productTypeId.Value)
                     {
                         case 1:
-                            CM_ProjectFinance svcCMProjectFinance = new CM_ProjectFinance();
+                            CM_ProjectFinanceNEW svcCMProjectFinance = new CM_ProjectFinanceNEW();
                             fileMergeResult = svcCMProjectFinance.MergeCMProjectFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         case 2:
-                            CM_CorporateFinance svcCMCorporateFinance = new CM_CorporateFinance();
+                            CM_CorporateFinanceNEW svcCMCorporateFinance = new CM_CorporateFinanceNEW();
                             fileMergeResult = svcCMCorporateFinance.MergeCMCorporateFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         case 3:
-                            CM_EquityFinance svcCMEquityFinance = new CM_EquityFinance();
+                            CM_EquityFinanceNEW svcCMEquityFinance = new CM_EquityFinanceNEW();
                             fileMergeResult = svcCMEquityFinance.MergeCMEquityFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         case 4:
-                            CM_WaiverFinance svcCMWaiver = new CM_WaiverFinance();
+                            CM_WaiverFinanceNEW svcCMWaiver = new CM_WaiverFinanceNEW();
                             fileMergeResult = svcCMWaiver.MergeCMWaiverFinance(con, id, folderTemplateLocation, temporaryFolderLocation);
                             break;
                         default:

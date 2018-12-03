@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace IIF.PAM.MergeDocumentServices.Helper
@@ -21,6 +22,12 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 		{
 			string htmlTempFilePath = Path.Combine(Path.GetTempPath(), string.Format("{0}.html", Path.GetRandomFileName()));
 			string myFontSize = convertFontSize(fontSize);
+
+			//apus <style>
+			html = Regex.Replace(html, "(<style.+?</style>)|(<script.+?</script>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			//apus style dari s sampai >
+			html = Regex.Replace(html, "(style.+?>)", ">", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
 			using (StreamWriter writer = File.CreateText(htmlTempFilePath))
 			{
 				html = string.Format("<html style=\"font-family: "+ fontFamily + "; font-size: "+ myFontSize + "\">{0}</html>", html);
