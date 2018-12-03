@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using IIF.PAM.MergeDocumentServices.Models;
 using Microsoft.Office.Interop.Word;
 
 namespace IIF.PAM.MergeDocumentServices.Helper
@@ -26,6 +27,44 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				res.Rows[1].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
 			
 			return res;
+		}
+
+		public static void createPreviousApproval(Application app, System.Data.DataTable listData, string bookmarkName, List<CMData> dataResult)
+		{
+			Table tblPreviousApproval = IIFCommon.createTable(app, bookmarkName, 1, false);
+			tblPreviousApproval.Borders.Enable = 0;
+
+			int rowCounter = 0;
+			object missing = System.Reflection.Missing.Value;
+
+			tblPreviousApproval.Rows.Add(ref missing);
+			rowCounter++;
+			
+			string cmNumber = IIFCommon.generateCMNumber(
+				dataResult[0].ProjectCode
+				, Convert.ToInt32(dataResult[0].CMNumber).ToString("00")
+				, dataResult[0].ApprovalAuhority
+				, dataResult[0].CMDate.ToString("MMM")
+				, dataResult[0].CMDate.ToString("yyyy")
+				);
+
+			tblPreviousApproval.Cell(rowCounter, 1).Range.Text = "xx";
+			tblPreviousApproval.Cell(rowCounter, 1).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+			foreach (DataRow item in listData.Rows)
+			{
+				tblPreviousApproval.Rows.Add(ref missing);
+				rowCounter++;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Text = "BoD-IC Approval";
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+				tblPreviousApproval.Rows.Add(ref missing);
+				rowCounter++;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Text = Convert.ToDateTime(item[4].ToString()).ToString("dd MMM yyyy");
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+			}
 		}
 
 		public static string generateCMNumber(string projectCode, string noUrut, string wewenangPemutus, string bulan, string tahun)

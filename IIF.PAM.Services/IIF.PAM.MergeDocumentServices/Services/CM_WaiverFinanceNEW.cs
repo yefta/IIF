@@ -228,7 +228,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region Attachment 
 					this.FillBookmarkWithCMAttachmentType1(app, con, "PeriodicReview", AppConstants.TableName.CM_PeriodicReview, cmId);
-					this.FillBookmarkWithCMAttachmentType1(app, con, "PreviousApprovals", AppConstants.TableName.CM_PreviousApprovals, cmId);
+
+					System.Data.DataTable listPreviousApprovalBOD = db.ExecToDataTable(con, "Generate_Document_CM_PreviousApprovalBOD_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+					System.Data.DataTable listPreviousApprovalBOC = db.ExecToDataTable(con, "Generate_Document_CM_PreviousApprovalBOC_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+
+					IIFCommon.createPreviousApproval(app, listPreviousApprovalBOD, "PreviousApprovalsBOD", dataResult);
+
 					this.FillBookmarkWithCMAttachmentType1(app, con, "RiskRating", AppConstants.TableName.CM_RiskRating, cmId);
 					this.FillBookmarkWithCMAttachmentType1(app, con, "KYCChecklists", AppConstants.TableName.CM_KYCChecklists, cmId);
 					this.FillBookmarkWithCMAttachmentType1(app, con, "SandEReview", AppConstants.TableName.CM_SAndEReview, cmId);
