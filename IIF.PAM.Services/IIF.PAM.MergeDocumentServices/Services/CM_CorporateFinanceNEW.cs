@@ -8,6 +8,7 @@ using Microsoft.Office.Interop.Word;
 
 using IIF.PAM.MergeDocumentServices.Helper;
 using IIF.PAM.MergeDocumentServices.Models;
+using System.Configuration;
 
 namespace IIF.PAM.MergeDocumentServices.Services
 {
@@ -17,7 +18,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
         {
             DBHelper db = new DBHelper();
 
-            List<CMData> dataResult = db.ExecToModel<CMData>(con, "dbo.Generate_Document_CM_Data_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+			//foldertemplate = ConfigurationManager.AppSettings["CM_TEMPLATE_FOLDER_LOCATION"];
+			//temporaryFolderLocation = ConfigurationManager.AppSettings["CM_MERGE_FOLDER_LOCATION"];
+
+			List<CMData> dataResult = db.ExecToModel<CMData>(con, "dbo.Generate_Document_CM_Data_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
             System.Data.DataTable listBorrower = db.ExecToDataTable(con, "Generate_Document_CM_Borrower_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
@@ -28,7 +32,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 			string fileName = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".docx";
 			string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
 
-            string fileTemplateName = "CM Template - Corporate Finance NEW LF.docx";
+            string fileTemplateName = "CM Corporate Finance Template.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
             string getfileName = Path.GetFileName(fileTemplateFullName);
@@ -40,7 +44,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
             Application app = new Application();
 
 			string currFontFamily = "Roboto Light";
-			float currFontSize = 0;
+			float currFontSize = 10;
 			try
             {
                 Document doc = app.Documents.Open(destFile, ref missing, ref readOnly);
@@ -68,7 +72,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region PROJECT
 					app.ActiveDocument.Bookmarks["AxPROJECTxProjectName"].Range.Text = dataResult[0].ProjectName;
-					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].Sector + " " + dataResult[0].SubSector;					
+					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " " + dataResult[0].SubSectorDesc;					
 					app.ActiveDocument.Bookmarks["AxPROJECTxFundingNeeds"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].FundingNeeds, currFontFamily, currFontSize));
 					app.ActiveDocument.Bookmarks["AxPROJECTxDealStrategy"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].DealStrategy, currFontFamily, currFontSize));
 					#endregion
@@ -124,11 +128,14 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					}
 
 					app.ActiveDocument.Bookmarks["BxBORROWERxUltimateBeneficialOwner"].Range.Text = dataResult[0].UltimateBeneficialOwner;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRating"].Range.Text = dataResult[0].IIFRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = Convert.ToDateTime(dataResult[0].IIFRatingDate).ToString("dd MMM yyyy");
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = "";
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxMoodys"].Range.Text = dataResult[0].MoodysRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxFitch"].Range.Text = dataResult[0].FitchRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxPefindo"].Range.Text = dataResult[0].PefindoRate;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxLQCBIChecking"].Range.Text = dataResult[0].LQCOrBICheckingRate;
 
 					app.ActiveDocument.Bookmarks["BxBORROWERxBusinessActivities"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].BusinessActivities, currFontFamily, currFontSize));
 					app.ActiveDocument.Bookmarks["BxBORROWERxOtherInformation"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].OtherInformation, currFontFamily, currFontSize));
@@ -187,6 +194,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed);
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxR"].Range.Text = dataResult[0].SingleProjectExposureRemarks;
 
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexCurrency"].Range.Text = dataResult[0].LimitComplianceCurrency;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexAsFor"].Range.Text = Convert.ToDateTime("01-" + dataResult[0].FacilityLimitComplianceMonth.ToString() + "-1985").ToString("MMM") + " " + dataResult[0].FacilityLimitComplianceYear.ToString();
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRiskRating"].Range.Text = dataResult[0].FacilityLimitComplianceIIFRate;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSecExposure"].Range.Text = dataResult[0].SectorDesc;
+
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductMaxLimit);
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductProposed);
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxR"].Range.Text = dataResult[0].ProductRemarks;
@@ -230,7 +242,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region Attachment 
 					this.FillBookmarkWithCMAttachmentType1(app, con, "PeriodicReview", AppConstants.TableName.CM_PeriodicReview, cmId);
-					this.FillBookmarkWithCMAttachmentType1(app, con, "PreviousApprovals", AppConstants.TableName.CM_PreviousApprovals, cmId);
+
+					System.Data.DataTable listPreviousApproval = db.ExecToDataTable(con, "Generate_Document_CM_PreviousApproval_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@ProjectCode", SqlDbType.VarChar, dataResult[0].ProjectCode) });
+					IIFCommon.createPreviousApproval(app, listPreviousApproval, "PreviousApprovals", dataResult, currFontFamily, currFontSize);
+
 					this.FillBookmarkWithCMAttachmentType1(app, con, "RiskRating", AppConstants.TableName.CM_RiskRating, cmId);
 					this.FillBookmarkWithCMAttachmentType1(app, con, "KYCChecklists", AppConstants.TableName.CM_KYCChecklists, cmId);
 					this.FillBookmarkWithCMAttachmentType1(app, con, "SandEReview", AppConstants.TableName.CM_SAndEReview, cmId);

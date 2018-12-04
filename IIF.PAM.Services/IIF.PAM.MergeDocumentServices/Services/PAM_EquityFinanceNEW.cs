@@ -8,6 +8,7 @@ using Microsoft.Office.Interop.Word;
 
 using IIF.PAM.MergeDocumentServices.Helper;
 using IIF.PAM.MergeDocumentServices.Models;
+using System.Configuration;
 
 namespace IIF.PAM.MergeDocumentServices.Services
 {
@@ -17,7 +18,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
         {
             DBHelper db = new DBHelper();
 
-            List<PAMData> dataResult = db.ExecToModel<PAMData>(con, "dbo.Generate_Document_PAM_Data_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
+			//foldertemplate = ConfigurationManager.AppSettings["PAM_TEMPLATE_FOLDER_LOCATION"];
+			//temporaryFolderLocation = ConfigurationManager.AppSettings["PAM_MERGE_FOLDER_LOCATION"];
+
+			List<PAMData> dataResult = db.ExecToModel<PAMData>(con, "dbo.Generate_Document_PAM_Data_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
             System.Data.DataTable listBorrower = db.ExecToDataTable(con, "Generate_Document_PAM_Borrower_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
@@ -27,7 +31,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             string fileName = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".docx";
             string fileNamePDF = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
-            string fileTemplateName = "PAM Template - Equity NEW LF.docx";
+            string fileTemplateName = "PAM Equity Investment Template.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
             string getfileName = Path.GetFileName(fileTemplateFullName);
@@ -58,7 +62,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region PROJECT
 					app.ActiveDocument.Bookmarks["AxPROJECTxProjectName"].Range.Text = dataResult[0].ProjectName;
-					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].Sector + " - " + dataResult[0].SubSector;
+					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " - " + dataResult[0].SubSectorDesc;
 					app.ActiveDocument.Bookmarks["AxPROJECTxFundingNeeds"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].FundingNeeds, currFontFamily, currFontSize));
 					app.ActiveDocument.Bookmarks["AxPROJECTxDealStrategy"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].DealStrategy, currFontFamily, currFontSize));
 					#endregion
@@ -119,6 +123,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxMoodys"].Range.Text = dataResult[0].MoodysRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxFitch"].Range.Text = dataResult[0].FitchRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxPefindo"].Range.Text = dataResult[0].PefindoRate;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxLQCBIChecking"].Range.Text = dataResult[0].LQCOrBICheckingRate;
 
 					app.ActiveDocument.Bookmarks["BxBORROWERxBusinessActivities"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].BusinessActivities, currFontFamily, currFontSize));
 					app.ActiveDocument.Bookmarks["BxBORROWERxOtherInformation"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].OtherInformation, currFontFamily, currFontSize));

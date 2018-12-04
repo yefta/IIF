@@ -29,17 +29,21 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			return res;
 		}
 
-		public static void createPreviousApproval(Application app, System.Data.DataTable listData, string bookmarkName, List<CMData> dataResult)
+		public static void createPreviousApproval(Application app, System.Data.DataTable listData, string bookmarkName, List<CMData> dataResult, string currFontFamily, float currFontSize)
 		{
-			Table tblPreviousApproval = IIFCommon.createTable(app, bookmarkName, 1, false);
-			tblPreviousApproval.Borders.Enable = 0;
+			Table tblPreviousApproval = IIFCommon.createTable(app, bookmarkName, 5, true);
+			tblPreviousApproval.Borders.Enable = 1;
 
-			int rowCounter = 0;
+			//header
+			tblPreviousApproval.Cell(1, 1).Range.Text = "Type Document";
+			tblPreviousApproval.Cell(1, 2).Range.Text = "No. Document";
+			tblPreviousApproval.Cell(1, 3).Range.Text = "Approval";
+			tblPreviousApproval.Cell(1, 4).Range.Text = "Approval Date";
+			tblPreviousApproval.Cell(1, 5).Range.Text = "Purpose";
+
+			int rowCounter = 1;
 			object missing = System.Reflection.Missing.Value;
 
-			tblPreviousApproval.Rows.Add(ref missing);
-			rowCounter++;
-			
 			string cmNumber = IIFCommon.generateCMNumber(
 				dataResult[0].ProjectCode
 				, Convert.ToInt32(dataResult[0].CMNumber).ToString("00")
@@ -48,23 +52,35 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				, dataResult[0].CMDate.ToString("yyyy")
 				);
 
-			tblPreviousApproval.Cell(rowCounter, 1).Range.Text = "xx";
-			tblPreviousApproval.Cell(rowCounter, 1).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
-
 			foreach (DataRow item in listData.Rows)
 			{
-				tblPreviousApproval.Rows.Add(ref missing);
-				rowCounter++;
-				tblPreviousApproval.Cell(rowCounter, 1).Range.Text = "BoD-IC Approval";
-				tblPreviousApproval.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-				tblPreviousApproval.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				if (item[3].ToString() == null || item[3].ToString().Trim().Length == 0) //ApprovalDate
+					continue;
 
 				tblPreviousApproval.Rows.Add(ref missing);
 				rowCounter++;
-				tblPreviousApproval.Cell(rowCounter, 1).Range.Text = Convert.ToDateTime(item[4].ToString()).ToString("dd MMM yyyy");
+
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Text = item[1].ToString();
 				tblPreviousApproval.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-				tblPreviousApproval.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+				tblPreviousApproval.Cell(rowCounter, 2).Range.Text = item[2].ToString();
+				tblPreviousApproval.Cell(rowCounter, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+				tblPreviousApproval.Cell(rowCounter, 2).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+				tblPreviousApproval.Cell(rowCounter, 3).Range.Text = item[3].ToString();
+				tblPreviousApproval.Cell(rowCounter, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+				tblPreviousApproval.Cell(rowCounter, 3).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+				tblPreviousApproval.Cell(rowCounter, 4).Range.Text = Convert.ToDateTime(item[4].ToString()).ToString("dd MMM yyyy");
+				tblPreviousApproval.Cell(rowCounter, 4).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+				tblPreviousApproval.Cell(rowCounter, 4).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+
+				tblPreviousApproval.Cell(rowCounter, 5).Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(item[5].ToString(), currFontFamily, currFontSize));
+				tblPreviousApproval.Cell(rowCounter, 5).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+				tblPreviousApproval.Cell(rowCounter, 5).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 			}
+			
 		}
 
 		public static string generateCMNumber(string projectCode, string noUrut, string wewenangPemutus, string bulan, string tahun)
@@ -137,6 +153,6 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				doc.DeleteAllComments();
 			}
 			catch { }
-		}
+		}		
 	}
 }

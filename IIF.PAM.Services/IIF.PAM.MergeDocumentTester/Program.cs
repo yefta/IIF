@@ -16,7 +16,7 @@ namespace IIF.PAM.MergeDocumentTester
 		        log4net.Config.XmlConfigurator.Configure();
                 MergeDocument svcMerge = new MergeDocument();
                 string conStringIIF = "data source=k2projectiif;initial catalog=IIF;user id=sa;password=P@ssw0rd;";
-				string templateFolder = @"\\k2projectiif\c$\IIF\PAMTemplate";
+				string templateFolder = @"\\k2projectiif\c$\IIF\PAMTemplate\Newest";
 				string mergeResultFolder = @"\\k2projectiif\c$\IIF\MergeResult";
 				//svcMerge.MergePAMDocument(32, conStringIIF, @"D:\Srf\Project\PIS\IIF\Merge\PAMTemplate", @"D:\Srf\Project\PIS\IIF\Merge\Temp", "MergeByFQN", "MergeBy");
 				//svcMerge.MergePAMDocument(10112, conStringIIF, templateFolder, @"C:\temp", "MergeByFQN", "MergeBy");
@@ -58,10 +58,21 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergePAMDocument(2, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//5 - PAM Project Finance
-				//svcMerge.MergePAMDocument(5, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				svcMerge.MergePAMDocument(5, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+
+
+				//20 - CM Equity
+				//svcMerge.MergeCMDocument(20, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//5 - CM Corporate Finance
+				//svcMerge.MergeCMDocument(5, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");				
+
+				//17 - CM Project Finance
+				//svcMerge.MergeCMDocument(17, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//1 - CM Waiver
-				svcMerge.MergeCMDocument(1, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergeCMDocument(1, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 				#endregion
 
 				Console.WriteLine("Success");

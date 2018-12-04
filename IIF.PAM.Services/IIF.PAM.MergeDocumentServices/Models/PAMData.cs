@@ -17,9 +17,11 @@ namespace IIF.PAM.MergeDocumentServices.Models
         public string ProjectCostCurr { get; set; }
         public decimal ProjectCostAmount { get; set; }
         public string ProjectDescription { get; set; }
-        public string Sector { get; set; }
-        public string SubSector { get; set; }
-        public string ProjectScope { get; set; }
+		public string SubSector { get; set; }
+		public string SubSectorDesc { get; set; }
+		public string Sector { get; set; }
+		public string SectorDesc { get; set; }
+		public string ProjectScope { get; set; }
         public string ProjectStructure { get; set; }
         public string FundingNeeds { get; set; }
         public string DealStrategy { get; set; }

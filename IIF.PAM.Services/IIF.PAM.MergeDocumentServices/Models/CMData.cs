@@ -17,7 +17,9 @@ namespace IIF.PAM.MergeDocumentServices.Models
 		public DateTime CMDate { get; set; }
 		public string ProjectDescription { get; set; }
 		public string SubSector { get; set; }
+		public string SubSectorDesc { get; set; }
 		public string Sector { get; set; }
+		public string SectorDesc { get; set; }
 		public string ProjectCosCUrr { get; set; }
 		public decimal ProjectCostAmount { get; set; }
 		public string ProjectScope { get; set; }
@@ -54,6 +56,7 @@ namespace IIF.PAM.MergeDocumentServices.Models
 		public string PricingExceptionToIIFPolicy { get; set; }
 		public string ProposalReviewPeriod { get; set; }
 		public Int64 FacilityLimitComplianceCurrencyId { get; set; }
+		public string LimitComplianceCurrency { get; set; }
 		public int FacilityLimitComplianceMonth { get; set; }
 		public int FacilityLimitComplianceYear { get; set; }
 		public decimal FacilityLimitComplianceSingleProjectExposureMaxLimit { get; set; }
@@ -64,12 +67,13 @@ namespace IIF.PAM.MergeDocumentServices.Models
 		public decimal FacilityLimitComplianceProductProposed { get; set; }
 		public string ProductRemarks { get; set; }
 		public int FacilityLimitComplianceRiskRatingId { get; set; }
+		public string FacilityLimitComplianceIIFRate { get; set; }
 		public decimal FacilityLimitComplianceRiskRatingMaxLimit { get; set; }
 		public decimal FacilityLimitComplianceRiskRatingProposed { get; set; }
 		public string RiskRatingRemarks { get; set; }
 		public decimal FacilityLimitComplianceGrupExposureMaxLimit { get; set; }
 		public decimal FacilityLimitComplianceGrupExposureProposed { get; set; }
-		public string GrupExposureRemarks { get; set; }
+		public string GrupExposureRemarks { get; set; }		
 		public decimal FacilityLimitComplianceSectorExposureMaxLimit { get; set; }
 		public decimal FacilityLimitComplianceSectorExposureProposed { get; set; }
 		public string SectorExposureRemarks { get; set; }

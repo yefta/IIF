@@ -69,3 +69,4 @@ C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\log4ne
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.csprojResolveAssemblyReference.cache
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.exe
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\obj\Debug\IIF.PAM.MergeDocumentTester.pdb
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentTester\bin\Debug\IIF.PAM.MergeDocumentServices.dll.config
