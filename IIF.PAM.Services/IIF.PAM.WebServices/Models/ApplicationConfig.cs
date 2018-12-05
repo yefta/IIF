@@ -9,6 +9,7 @@ namespace IIF.PAM.WebServices
     {
         public string IIFConnectionString { get; set; }
         public string WebServiceUrl { get; set; }
+        public string ReportViewerUrl { get; set; }
         public string K2Server { get; set; }
         public string PAMMergeDocumentTemplateLocation { get; set; }
         public string PAMMergeDocumentTemporaryLocation { get; set; }
