@@ -38,6 +38,8 @@ namespace IIF.PAM.WebServices
                     this._appConfig = new ApplicationConfig();                    
                     this._appConfig.IIFConnectionString = ConfigurationManager.AppSettings["IIFConnectionString"];
                     this._appConfig.WebServiceUrl = ConfigurationManager.AppSettings["WebServiceUrl"];
+                    this._appConfig.ReportViewerUrl = ConfigurationManager.AppSettings["ReportViewerUrl"];
+                    this._appConfig.RichTextEditorUrl = ConfigurationManager.AppSettings["RichTextEditorUrl"];
                     this._appConfig.K2Server = ConfigurationManager.AppSettings["K2Server"];
                     this._appConfig.PAMMergeDocumentTemplateLocation = ConfigurationManager.AppSettings["PAMMergeDocumentTemplateLocation"];
                     this._appConfig.PAMMergeDocumentTemporaryLocation = ConfigurationManager.AppSettings["PAMMergeDocumentTemporaryLocation"];

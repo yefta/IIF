@@ -18,8 +18,19 @@ namespace IIF.PAM.WebServices
         [WebMethod]
         public string GetWebServiceUrl()
         {
-            this.Logger.Info("WebServiceUrl");
             return this.AppConfig.WebServiceUrl;
+        }
+
+        [WebMethod]
+        public string GetReportViewerUrl()
+        {
+            return this.AppConfig.ReportViewerUrl;
+        }
+
+        [WebMethod]
+        public string GetRichTextEditorUrl()
+        {
+            return this.AppConfig.RichTextEditorUrl;
         }
 
         [WebMethod]
