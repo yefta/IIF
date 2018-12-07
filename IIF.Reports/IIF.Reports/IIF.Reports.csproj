@@ -23,6 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,19 +67,97 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <Content Include="ReportPAM\ReportPAM.xsc">
-      <DependentUpon>ReportPAM.xsd</DependentUpon>
+    <Content Include="Dataset\DataSetTATReportCMperDirectorate.xsc">
+      <DependentUpon>DataSetTATReportCMperDirectorate.xsd</DependentUpon>
     </Content>
-    <None Include="ReportPAM\ReportPAM.xsd">
+    <Content Include="Dataset\DataSetTATReportCMperDirectorate.xss">
+      <DependentUpon>DataSetTATReportCMperDirectorate.xsd</DependentUpon>
+    </Content>
+    <Content Include="Dataset\DataSetTATReportCMperPerson.xsc">
+      <DependentUpon>DataSetTATReportCMperPerson.xsd</DependentUpon>
+    </Content>
+    <Content Include="Dataset\DataSetTATReportCMperPerson.xss">
+      <DependentUpon>DataSetTATReportCMperPerson.xsd</DependentUpon>
+    </Content>
+    <Content Include="FormReportViewer\frmViewReportPAM.aspx" />
+    <Content Include="FormReportViewer\frmViewReportTATReportFinancingApproval.aspx" />
+    <Content Include="FormReportViewer\frmViewReportTATReportPAMperDirectorate.aspx" />
+    <Content Include="FormReportViewer\frmViewReportTATReportPAMPeriodic.aspx" />
+    <Content Include="FormReportViewer\frmViewReportTATReportPAMperPerson.aspx" />
+    <Content Include="FormReportViewer\ViewReportCMPerDirectorate.aspx" />
+    <Content Include="FormReportViewer\ViewReportCMPerPeriodic.aspx" />
+    <Content Include="FormReportViewer\ViewReportCMPerPerson.aspx" />
+    <Content Include="packages.config" />
+    <Content Include="Dataset\DataSetReportPAM.xsc">
+      <DependentUpon>DataSetReportPAM.xsd</DependentUpon>
+    </Content>
+    <None Include="Dataset\DataSetReportPAM.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ReportPAM.Designer.cs</LastGenOutput>
+      <LastGenOutput>DataSetReportPAM.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="ReportPAM\ReportPAM.xss">
-      <DependentUpon>ReportPAM.xsd</DependentUpon>
+    <Content Include="Dataset\DataSetReportPAM.xss">
+      <DependentUpon>DataSetReportPAM.xsd</DependentUpon>
     </Content>
+    <None Include="Dataset\DataSetTATReportCMperDirectorate.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetTATReportCMperDirectorate.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Dataset\DataSetTATReportCMPeriodic.xsc">
+      <DependentUpon>DataSetTATReportCMPeriodic.xsd</DependentUpon>
+    </Content>
+    <None Include="Dataset\DataSetTATReportCMPeriodic.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetTATReportCMPeriodic.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Dataset\DataSetTATReportCMPeriodic.xss">
+      <DependentUpon>DataSetTATReportCMPeriodic.xsd</DependentUpon>
+    </Content>
+    <None Include="Dataset\DataSetTATReportCMperPerson.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetTATReportCMperPerson.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Dataset\DataSetTATReportPAMperPerson.xsc">
+      <DependentUpon>DataSetTATReportPAMperPerson.xsd</DependentUpon>
+    </Content>
+    <Content Include="Dataset\DataSetTATReportPAMperDirectorate.xsc">
+      <DependentUpon>DataSetTATReportPAMperDirectorate.xsd</DependentUpon>
+    </Content>
+    <None Include="Dataset\DataSetTATReportPAMperDirectorate.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetTATReportPAMperDirectorate.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Dataset\DataSetTATReportPAMperDirectorate.xss">
+      <DependentUpon>DataSetTATReportPAMperDirectorate.xsd</DependentUpon>
+    </Content>
+    <Content Include="Dataset\DataSetTATReportPAMPeriodic.xsc">
+      <DependentUpon>DataSetTATReportPAMPeriodic.xsd</DependentUpon>
+    </Content>
+    <None Include="Dataset\DataSetTATReportPAMPeriodic.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetTATReportPAMPeriodic.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Dataset\DataSetTATReportPAMPeriodic.xss">
+      <DependentUpon>DataSetTATReportPAMPeriodic.xsd</DependentUpon>
+    </Content>
+    <None Include="Dataset\DataSetTATReportPAMperPerson.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetTATReportPAMperPerson1.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Dataset\DataSetTATReportPAMperPerson.xss">
+      <DependentUpon>DataSetTATReportPAMperPerson.xsd</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -87,28 +166,132 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReportPAM\frmViewReportPAM.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Report\ReportTATReportCMperPerson.rdlc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportPAM\frmViewReportPAM.aspx.cs">
+    <Compile Include="Dataset\DataSetReportPAM.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetReportPAM.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportCMperDirectorate.Designer.cs">
+      <DependentUpon>DataSetTATReportCMperDirectorate.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportCMPeriodic.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetTATReportCMPeriodic.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportCMperPerson.Designer.cs">
+      <DependentUpon>DataSetTATReportCMperPerson.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportPAMperDirectorate.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetTATReportPAMperDirectorate.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportPAMPeriodic.cs">
+      <DependentUpon>DataSetTATReportPAMPeriodic.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportPAMPeriodic.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetTATReportPAMPeriodic.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportPAMperPerson.cs">
+      <DependentUpon>DataSetTATReportPAMperPerson.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportPAMperPerson.Designer.cs">
+      <DependentUpon>DataSetTATReportPAMperPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dataset\DataSetTATReportPAMperPerson1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetTATReportPAMperPerson.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportPAM.aspx.cs">
       <DependentUpon>frmViewReportPAM.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ReportPAM\frmViewReportPAM.aspx.designer.cs">
+    <Compile Include="FormReportViewer\frmViewReportPAM.aspx.designer.cs">
       <DependentUpon>frmViewReportPAM.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ReportPAM\ReportPAM.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReportPAM.xsd</DependentUpon>
+    <Compile Include="FormReportViewer\frmViewReportTATReportFinancingApproval.aspx.cs">
+      <DependentUpon>frmViewReportTATReportFinancingApproval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportFinancingApproval.aspx.designer.cs">
+      <DependentUpon>frmViewReportTATReportFinancingApproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportPAMperDirectorate.aspx.cs">
+      <DependentUpon>frmViewReportTATReportPAMperDirectorate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportPAMperDirectorate.aspx.designer.cs">
+      <DependentUpon>frmViewReportTATReportPAMperDirectorate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportPAMPeriodic.aspx.cs">
+      <DependentUpon>frmViewReportTATReportPAMPeriodic.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportPAMPeriodic.aspx.designer.cs">
+      <DependentUpon>frmViewReportTATReportPAMPeriodic.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportPAMperPerson.aspx.cs">
+      <DependentUpon>frmViewReportTATReportPAMperPerson.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportViewer\frmViewReportTATReportPAMperPerson.aspx.designer.cs">
+      <DependentUpon>frmViewReportTATReportPAMperPerson.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\ViewReportCMPerDirectorate.aspx.cs">
+      <DependentUpon>ViewReportCMPerDirectorate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportViewer\ViewReportCMPerDirectorate.aspx.designer.cs">
+      <DependentUpon>ViewReportCMPerDirectorate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\ViewReportCMPerPeriodic.aspx.cs">
+      <DependentUpon>ViewReportCMPerPeriodic.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportViewer\ViewReportCMPerPeriodic.aspx.designer.cs">
+      <DependentUpon>ViewReportCMPerPeriodic.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportViewer\ViewReportCMPerPerson.aspx.cs">
+      <DependentUpon>ViewReportCMPerPerson.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportViewer\ViewReportCMPerPerson.aspx.designer.cs">
+      <DependentUpon>ViewReportCMPerPerson.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\DisableFormat.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReportPAM\ReportPAM.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Report\ReportTATReportPAMperDirectorate.rdlc" />
+    <Content Include="Report\ReportTATReportPAMperPerson.rdlc" />
+    <Content Include="Report\ReportTATReportCMperDirectorate.rdlc" />
+    <Content Include="Report\Report_PAM.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Report\ReportTATReportFinancingApproval.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Report\ReportTATReportCMPeriodic.rdlc" />
+    <Content Include="Report\ReportTATReportPAMPeriodic.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

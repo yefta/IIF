@@ -61,9 +61,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     {
                         string fileContent = dr.GetNullableString(0);
                         if (fileContent != null)
-                        {							
-                            string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
-                            rangeBookmark.InsertFile(htmlResult);
+                        {
+							string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
+							//string htmlResult = ConvertHtmlAndFile.SaveToFile2(fileContent);
+							rangeBookmark.InsertFile(htmlResult);
                             rangeBookmark.Font.Name = "Roboto Light";							
 						}
                     }
@@ -167,11 +168,34 @@ namespace IIF.PAM.MergeDocumentServices.Services
                         string fileContent = dr.GetNullableString(0);
                         if (fileContent != null)
                         {
-                            string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
-                            rangeBookmark.InsertFile(htmlResult);
-                            rangeBookmark.Font.Name = "Roboto Light";
-                        }
-                    }
+							//string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
+							//rangeBookmark.InsertFile(htmlResult);
+							//rangeBookmark.Font.Name = "Roboto Light";
+							//rangeBookmark.set_Style("Normal");
+
+							String ID = Guid.NewGuid().ToString().ToUpper();
+							string tempDocPath = ConvertHtmlAndFile.SaveToFileTmp(fileContent);
+
+							Application app2 = new Application();							
+							Document sourceDocument = app2.Documents.Open(tempDocPath);
+							try
+							{
+								sourceDocument.Content.Find.ClearFormatting();
+								sourceDocument.Content.Copy();
+								
+								rangeBookmark.PasteAndFormat(WdRecoveryType.wdFormatSurroundingFormattingWithEmphasis);								
+							}
+							catch (Exception ex)
+							{
+							}
+							finally
+							{								
+								sourceDocument.Close(WdSaveOptions.wdDoNotSaveChanges);
+								app2.Quit();
+								//File.Delete(tempDocPath);
+							}
+						}
+					}
                 }
             }
         }

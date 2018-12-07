@@ -201,14 +201,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithPAMAttachmentType1(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
 					this.FillBookmarkWithPAMAttachmentType1(app, con, "HistoricalFinancialandFinancialProject", AppConstants.TableName.PAM_HistoricalFinancial, pamId);
 					this.FillBookmarkWithPAMAttachmentType1(app, con, "Supplemental", AppConstants.TableName.PAM_Supplemental, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "SocialEnvironmental", AppConstants.TableName.PAM_Social, pamId);
-					//this.FillBookmarkWithPAMAttachmentType1(app, con, "GroupStructure", AppConstants.TableName.PAM_GroupStructure, pamId);
+					this.FillBookmarkWithPAMAttachmentType1(app, con, "SocialEnvironmental", AppConstants.TableName.PAM_Social, pamId);					
 					this.FillBookmarkWithPAMAttachmentType1(app, con, "TermSheet", AppConstants.TableName.PAM_TermSheet, pamId);
 					this.FillBookmarkWithPAMAttachmentType1(app, con, "RiskRating", AppConstants.TableName.PAM_RiskRating, pamId);
 					this.FillBookmarkWithPAMAttachmentType1(app, con, "KYCChecklists", AppConstants.TableName.PAM_KYCChecklists, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "OtherBanksfacilities", AppConstants.TableName.PAM_OtherBanksFacilities, pamId);
-					//this.FillBookmarkWithPAMAttachmentType1(app, con, "IndustryAnalysis", AppConstants.TableName.PAM_IndustryAnalysis, pamId);
-
+					this.FillBookmarkWithPAMAttachmentType1(app, con, "OtherBanksfacilities", AppConstants.TableName.PAM_OtherBanksFacilities, pamId);					
 
 					System.Data.DataTable listLegalDue = db.ExecToDataTable(con, "Generate_Document_PAM_LegalDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listLegalDue, "LegalDuediligenceReportAttachment", "LegalDuediligenceReportDescription");					

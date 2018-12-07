@@ -1,0 +1,114 @@
+USE [IIF]
+GO
+/****** Object:  StoredProcedure [dbo].[Rpt_TAT_Report_CM_perDirectorate_SP]    Script Date: 12/5/2018 3:15:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[Rpt_TAT_Report_CM_perDirectorate_SP]
+	 @ProjectCode_LIKE AS VARCHAR(MAX) = NULL
+	,@CustomerName_LIKE AS VARCHAR(MAX) = NULL
+	,@CMNumber_LIKE AS VARCHAR(MAX) = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SET @CustomerName_LIKE = ISNULL(@CustomerName_LIKE, '')
+
+	SELECT DISTINCT
+		CM.Id
+		,[Borrower].ProjectCompanyOrInvesteeOrBorrower As ClientName
+		,[Project].ProjectCode
+		,[Project].ProjectName
+		,[CM].CMNumber
+		,CASE
+		WHEN [MWorkflowStatus].Name = 'Approved'
+		 THEN 'Investment Commite'
+		WHEN MRole.Name = 'Investment Team Leader' 
+		 THEN 'Investment'
+		WHEN MRole.Name = 'Investment Team' 
+		 THEN 'Investment'
+		WHEN MRole.Name = 'Risk Team Leader' 
+		 THEN 'Risk'
+		WHEN MRole.Name = 'Risk Team' 
+		 THEN 'Risk'	
+		END 
+		AS [Directorate]
+		,[WorkflowHistory].ActionByName AS [Name]
+		,[WorkflowHistory].ReceivedOn AS [IN]
+		,CASE 
+			WHEN WorkflowHistory.MWorkflowStatusId = 10 And WorkflowHistory.[Action]='Approve'
+				THEN CM_BoDDecision.BoDDecisionDate
+			ELSE
+				[WorkflowHistory].ActionOn 
+			END AS [Out]
+		,[dbo].[FormatTAT](dbo.CalculateTATMinutes([WorkflowHistory].ReceivedOn, [WorkflowHistory].ActionOn)) As TAT
+		,dbo.FormatTAT_SUM([DAY], [HOUR],[MINUTE]) as Investment
+		,dbo.FormatTAT_SUM([DAYRISK],[HOURRISK],[MINUTERISK]) as Risk
+		,dbo.FormatTAT_SUM([DAYCommittee],[HOURCommittee],[MINUTECommittee]) as [Investment Committee]
+		,CASE 
+			WHEN WorkflowHistory.[Action] = 'Revise'
+				THEN  'Need Revision'
+			WHEN WorkflowHistory.[Action] = 'ReSubmit'
+				THEN  'Re-Submitted'
+			WHEN MRole.Name = 'Risk Team' And Action='Submit'
+				THEN  'Responded (Risk Team)'
+			WHEN MRole.Name = 'Risk Team'  And WorkflowHistory.[Action]='Approve'
+				THEN  'Approved'
+			WHEN MRole.Name = 'Risk Team'  And WorkflowHistory.[Action]='Approve with Revision'
+				THEN  'Approved with Revision'
+			WHEN WorkflowHistory.MWorkflowStatusId =  6 or
+				WorkflowHistory.MWorkflowStatusId =  10 or
+				WorkflowHistory.MWorkflowStatusId =  11
+				THEN WorkflowHistory.Action
+			ELSE 
+				MWorkflowStatus.Name
+		 END AS WorkflowStatus
+	FROM CM  
+		LEFT JOIN [dbo].[CM_ProjectData] as [Project]
+		ON CM.Id = [Project].Id
+		LEFT JOIN CM_BoDDecision
+		ON CM.Id = CM_BoDDecision.CMId
+		LEFT JOIN [dbo].[CM_BorrowerOrInvesteeCompanyData] as [Borrower] 
+		ON CM.Id = Borrower.Id
+		LEFT JOIN WorkflowHistory 
+		ON CM.Id = WorkflowHistory.DocumentId AND MDocTypeId = 2
+		LEFT JOIN MWorkflowStatus 
+		ON WorkflowHistory.MWorkflowStatusId = MWorkflowStatus.Id 
+		LEFT JOIN MRole
+		ON WorkflowHistory.MRoleId = MRole.Id
+		LEFT JOIN Vw_ReportSumTAT_CM_Investment
+		ON Vw_ReportSumTAT_CM_Investment.id = Project.Id
+		LEFT JOIN Vw_ReportSumTAT_CM_Risk
+		ON Vw_ReportSumTAT_CM_Risk.id = Project.Id
+		LEFT JOIN Vw_ReportSumTAT_CM_Committee
+		ON Vw_ReportSumTAT_CM_Committee.id = Project.Id
+	WHERE  
+	(
+		@ProjectCode_LIKE IS NULL
+		OR
+		@ProjectCode_LIKE = ''
+		OR
+		[Project].[ProjectCode] LIKE '%' + @ProjectCode_LIKE + '%'
+	)
+	AND
+	(
+		@CustomerName_LIKE IS NULL
+		OR
+		@CustomerName_LIKE = ''
+		OR
+		[Borrower].[ProjectCompanyOrInvesteeOrBorrower] LIKE '%' + @CustomerName_LIKE + '%'
+	)
+	AND
+	(
+		@CmNumber_LIKE IS NULL
+		OR
+		@CMNumber_LIKE = ''
+		OR
+		[CM].CMNumber like '%' + @CMNumber_LIKE + '%'
+	)
+	AND
+	[CM].IsFinalApproved = 1 
+	AND WorkflowHistory.IsActive=1
+	ORDER BY WorkflowHistory.ReceivedOn 
+END

@@ -51,6 +51,18 @@ namespace IIF.PAM.MergeDocumentServices.Helper
             return tmpFile;
         }
 
+		public static string SaveToFileTmp(string sFile)
+		{			
+			XDocument xDoc = new XDocument();
+			xDoc = XDocument.Parse(sFile);			
+			byte[] bFile = Convert.FromBase64String(xDoc.Root.Element("content").Value);			
+			
+			var tmpFile = Path.GetTempFileName();
+			File.WriteAllBytes(tmpFile, bFile);
+
+			return tmpFile;
+		}
+
 		public static string convertFontSize(float fontSize)
 		{
 			string res = "";
