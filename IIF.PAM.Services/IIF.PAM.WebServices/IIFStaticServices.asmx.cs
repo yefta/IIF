@@ -28,6 +28,12 @@ namespace IIF.PAM.WebServices
         }
 
         [WebMethod]
+        public string GetRichTextEditorUrl()
+        {
+            return this.AppConfig.RichTextEditorUrl;
+        }
+
+        [WebMethod]
         public string GetSMTPFromEmail()
         {
             return this.AppConfig.SMTPFromEmail;

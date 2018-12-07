@@ -25,7 +25,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2018 10:14:06</publishTime>
     </File>
     <File Include="bin/IIF.PAM.WebServices.dll">
-      <publishTime>12/05/2018 09:49:58</publishTime>
+      <publishTime>12/07/2018 10:59:05</publishTime>
     </File>
     <File Include="bin/IIF.PAM.WebServices.pdb">
       <publishTime>11/23/2018 10:52:50</publishTime>
@@ -73,7 +73,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/14/2018 12:36:27</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/05/2018 09:50:05</publishTime>
+      <publishTime>12/07/2018 10:59:06</publishTime>
     </File>
   </ItemGroup>
 </Project>
