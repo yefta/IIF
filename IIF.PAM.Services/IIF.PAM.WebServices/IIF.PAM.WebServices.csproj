@@ -177,7 +177,6 @@
     <Compile Include="Services\CM_SAndEReview_Services.cs" />
     <Compile Include="Services\CM_ValuationReport_Services.cs" />
     <Compile Include="Services\CM_WorkingPaper_Services.cs" />
-    <Compile Include="Services\IIFWorklistServices.cs" />
     <Compile Include="Services\MergeCMDocumentServices.cs" />
     <Compile Include="Services\PAM_DocumentRelatedToBoCDecision_Services.cs" />
     <Compile Include="Services\PAM_DocumentRelatedToBoDDecision_Services.cs" />
