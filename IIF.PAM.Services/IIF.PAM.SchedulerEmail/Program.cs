@@ -4,11 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using log4net;
+using log4net.Config;
+
 using IIF.PAM.SchedulerEmail.Models;
 using IIF.PAM.SchedulerEmail.Properties;
 using IIF.PAM.SchedulerEmail.Tasks;
-
-using log4net;
 
 namespace IIF.PAM.SchedulerEmail
 {
@@ -22,12 +23,11 @@ namespace IIF.PAM.SchedulerEmail
                 if (_Logger == null)
                 {
                     _Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-                    log4net.Config.XmlConfigurator.Configure();
+                    XmlConfigurator.Configure();
                 }
                 return _Logger;
             }
         }
-
 
         static void Main(string[] args)
         {

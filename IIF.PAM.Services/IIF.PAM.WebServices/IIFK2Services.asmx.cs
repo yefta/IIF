@@ -22,9 +22,17 @@ namespace IIF.PAM.WebServices
         [WebMethod]
         public List<IIFWorklistItem> ListIIFWorklistItem(IIFWorklistItem_Filter filter)
         {
-            IIFWorklistServices svc = new IIFWorklistServices();
+            K2Services svc = new K2Services();
             svc.AppConfig = this.AppConfig;
             return svc.ListIIFWorklistItem(filter);
+        }
+
+        [WebMethod]
+        public void RetryWorkflow()
+        {
+            K2Services svc = new K2Services();
+            svc.AppConfig = this.AppConfig;
+            svc.RetryWorkflow();
         }
 
     }

@@ -8,3 +8,8 @@ D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Ut
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Utilities.csproj.CoreCompileInputs.cache
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Utilities.dll
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\bin\Release\IIF.PAM.Utilities.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\bin\Release\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Utilities.csprojResolveAssemblyReference.cache
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Utilities.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Release\IIF.PAM.Utilities.pdb
