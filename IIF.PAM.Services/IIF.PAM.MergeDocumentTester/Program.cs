@@ -51,22 +51,26 @@ namespace IIF.PAM.MergeDocumentTester
 				#endregion
 
 				#region DBBARU-CLEAN (IIF)
-				//1 - PAM Equity
-				//svcMerge.MergePAMDocument(1, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");								
+				//42 - PAM Equity
+				//svcMerge.MergePAMDocument(42, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
-				//2 - PAM Corporate
-				//svcMerge.MergePAMDocument(2, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//39 - PAM Equity
+				//svcMerge.MergePAMDocument(39, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
-				//5 - PAM Project Finance
-				//svcMerge.MergePAMDocument(5, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//40 - PAM Corporate
+				//svcMerge.MergePAMDocument(40, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
-				//14 - PAM Corporate
-				//svcMerge.MergePAMDocument(14, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//41 - PAM Project Finance
+				//svcMerge.MergePAMDocument(41, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//70 - PAM Corporate
+				svcMerge.MergePAMDocument(70, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
 
 
 
 				//20 - CM Equity
-				svcMerge.MergeCMDocument(20, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergeCMDocument(20, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//5 - CM Corporate Finance
 				//svcMerge.MergeCMDocument(5, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");				

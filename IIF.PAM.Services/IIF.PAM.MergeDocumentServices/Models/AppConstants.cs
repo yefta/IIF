@@ -24,10 +24,17 @@ namespace IIF.PAM.MergeDocumentServices.Models
             public static string PAM_SAndEDueDiligence { get { return "[dbo].[PAM_SAndEDueDiligence]"; } }
             public static string PAM_ShareValuationReport { get { return "[dbo].[PAM_ShareValuationReport]"; } }
             public static string PAM_OtherReports { get { return "[dbo].[PAM_OtherReports]"; } }
-            #endregion
 
-            #region CM
-            public static string CM_PeriodicReview { get { return "[dbo].[CM_PeriodicReview]"; } }
+			public static string PAM_ProjectData { get { return "[dbo].[PAM_ProjectData]"; } }
+			public static string PAM_BorrowerOrTargetCompanyData { get { return "[dbo].[PAM_BorrowerOrTargetCompanyData]"; } }
+			public static string PAM_ProposalData { get { return "[dbo].[PAM_ProposalData]"; } }
+			public static string PAM_RecommendationData { get { return "[dbo].[PAM_RecommendationData]"; } }
+			
+
+			#endregion
+
+			#region CM
+			public static string CM_PeriodicReview { get { return "[dbo].[CM_PeriodicReview]"; } }
             public static string CM_CreditMemorandum { get { return "[dbo].[CM_CreditMemorandum]"; } }
             public static string CM_PreviousApprovals { get { return "[dbo].[CM_PreviousApprovals]"; } }
             public static string CM_RiskRating{ get { return "[dbo].[CM_RiskRating]"; } }

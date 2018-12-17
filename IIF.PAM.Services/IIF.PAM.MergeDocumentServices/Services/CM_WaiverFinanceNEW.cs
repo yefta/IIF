@@ -137,11 +137,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["BxBORROWERxUltimateBeneficialOwner"].Range.Text = dataResult[0].UltimateBeneficialOwner;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRating"].Range.Text = dataResult[0].IIFRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = Convert.ToDateTime(dataResult[0].IIFRatingDate).ToString("dd MMM yyyy");
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = "";
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = dataResult[0].SAndPRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxMoodys"].Range.Text = dataResult[0].MoodysRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxFitch"].Range.Text = dataResult[0].FitchRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxPefindo"].Range.Text = dataResult[0].PefindoRate;
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate + "-" + dataResult[0].SAndECategoryType;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxLQCBIChecking"].Range.Text = dataResult[0].LQCOrBICheckingRate;
 					
 
@@ -168,9 +168,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 						tblFacility.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 						tblFacility.Cell(rowCounter, 1).Range.Text = item[0].ToString();
+						tblFacility.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
 						tblFacility.Cell(rowCounter, 2).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblFacility.Cell(rowCounter, 2).Range.Text = item[1].ToString() + item[2].ToString();
+						tblFacility.Cell(rowCounter, 2).Range.Text = item[1].ToString() + " " + item[2].ToString();
+						tblFacility.Cell(rowCounter, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 
 						tblFacility.Cell(rowCounter, 3).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 						tblFacility.Cell(rowCounter, 3).Range.Text = "";
@@ -180,11 +182,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					}
 
 					tblFacility.Rows.Add(ref missing);
-					tblFacility.Cell(rowCounter + 1, 1).Range.Text = "Remarks : ";
+					tblFacility.Cell(rowCounter + 1, 1).Range.Text = "Remarks : " + dataResult[0].FacilityOrInvestmentRemarks;
 					tblFacility.Cell(rowCounter + 1, 1).Merge(tblFacility.Cell(rowCounter + 1, 4));
 					tblFacility.Cell(rowCounter + 1, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxGroupExposure"].Range.Text = dataResult[0].GroupExposureCurr + dataResult[0].GroupExposureAmount;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxGroupExposure"].Range.Text = dataResult[0].GroupExposureCurr + " " + dataResult[0].GroupExposureAmount;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxRemarks"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Remarks, currFontFamily, currFontSize));
 					app.ActiveDocument.Bookmarks["CxPROPOSALxTenor"].Range.Text = dataResult[0].TenorYear + " year(s)  " + dataResult[0].TenorMonth + " month(s)";
 					app.ActiveDocument.Bookmarks["CxPROPOSALxAverageLoanLife"].Range.Text = dataResult[0].AverageLoanLifeYear + " year(s)  " + dataResult[0].AverageLoanLifeMonth + " month(s)";
@@ -249,16 +251,16 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					#endregion
 
 					#region Attachment 
-					this.FillBookmarkWithCMAttachmentType1(app, con, "PeriodicReview", AppConstants.TableName.CM_PeriodicReview, cmId);
+					this.FillBookmarkWithCMAttachmentNormal(app, con, "PeriodicReview", AppConstants.TableName.CM_PeriodicReview, cmId);
 
 					System.Data.DataTable listPreviousApproval = db.ExecToDataTable(con, "Generate_Document_CM_PreviousApproval_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@ProjectCode", SqlDbType.VarChar, dataResult[0].ProjectCode) });					
 					IIFCommon.createPreviousApproval(app, listPreviousApproval, "PreviousApprovals", dataResult, currFontFamily, currFontSize);
 
-					this.FillBookmarkWithCMAttachmentType1(app, con, "RiskRating", AppConstants.TableName.CM_RiskRating, cmId);
-					this.FillBookmarkWithCMAttachmentType1(app, con, "KYCChecklists", AppConstants.TableName.CM_KYCChecklists, cmId);
-					this.FillBookmarkWithCMAttachmentType1(app, con, "SandEReview", AppConstants.TableName.CM_SAndEReview, cmId);
-					this.FillBookmarkWithCMAttachmentType1(app, con, "OtherBanksfacilities", AppConstants.TableName.CM_OtherBanksFacilities, cmId);
-					this.FillBookmarkWithCMAttachmentType1(app, con, "OtherAttachment", AppConstants.TableName.CM_OtherAttachment, cmId);
+					this.FillBookmarkWithCMAttachmentNormal(app, con, "RiskRating", AppConstants.TableName.CM_RiskRating, cmId);
+					this.FillBookmarkWithCMAttachmentNormal(app, con, "KYCChecklists", AppConstants.TableName.CM_KYCChecklists, cmId);
+					this.FillBookmarkWithCMAttachmentNormal(app, con, "SandEReview", AppConstants.TableName.CM_SAndEReview, cmId);
+					this.FillBookmarkWithCMAttachmentNormal(app, con, "OtherBanksfacilities", AppConstants.TableName.CM_OtherBanksFacilities, cmId);
+					this.FillBookmarkWithCMAttachmentNormal(app, con, "OtherAttachment", AppConstants.TableName.CM_OtherAttachment, cmId);
 					#endregion
 
 					IIFCommon.finalizeDoc(doc);

@@ -15,7 +15,7 @@ namespace IIF.PAM.MergeDocumentServices.Models
         public string ProjectCode { get; set; }
         public DateTime PAMDate { get; set; }
         public string ProjectCostCurr { get; set; }
-        public decimal ProjectCostAmount { get; set; }
+        public string ProjectCostAmount { get; set; }
         public string ProjectDescription { get; set; }
 		public string SubSector { get; set; }
 		public string SubSectorDesc { get; set; }
@@ -33,15 +33,19 @@ namespace IIF.PAM.MergeDocumentServices.Models
         public string FitchRate { get; set; }
         public string PefindoRate { get; set; }
         public string SAndECategoryRate { get; set; }
-        public string LQCOrBICheckingRate { get; set; }
+		public string SAndECategoryType { get; set; }
+		public string LQCOrBICheckingRate { get; set; }
         public string BusinessActivities { get; set; }
         public string OtherInformation { get; set; }
         public string Purpose { get; set; }
         public string ApprovalAuthority { get; set; }
         public string GroupExposureCurr { get; set; }
-        public decimal GroupExposureAmount { get; set; }
+        public string GroupExposureAmount { get; set; }
         public string Remarks { get; set; }
-        public int? tenorMonth { get; set; }
+		public string FacilityOrInvestmentRemarks { get; set; }		
+		public int? ExpectedHoldingPeriodYear { get; set; }
+		public int? ExpectedHoldingPeriodMonth { get; set; }
+		public int? tenorMonth { get; set; }
         public int? tenorYear { get; set; }
         public int? averageLoanLifeMonth { get; set; }
         public int? averageLoanLifeYear { get; set; }

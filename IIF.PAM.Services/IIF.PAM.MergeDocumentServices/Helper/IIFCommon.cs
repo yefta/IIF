@@ -116,6 +116,8 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblAttachment.Rows.Add(ref missing);
 				rowCounter++;
 				string valueAttachmentName = IIFCommon.readValueHTMLString(item[0].ToString(), "name");
+				if (valueAttachmentName.ToLower() == "scnull")
+					valueAttachmentName = "-";
 				tblAttachment.Cell(rowCounter, 1).Range.Text = valueAttachmentName;
 				tblAttachment.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblAttachment.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
@@ -140,7 +142,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 		{
 			try
 			{
-				doc.TablesOfContents[1].UpdatePageNumbers();
+				//doc.TablesOfContents[1].UpdatePageNumbers();
 			}
 			catch { }
 			try
@@ -151,6 +153,16 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			try
 			{
 				doc.DeleteAllComments();
+			}
+			catch { }
+
+			try
+			{
+				object start = doc.Content.Start;
+				object end = doc.Content.End;
+				Microsoft.Office.Interop.Word.Range myRange = doc.Range(ref start, ref end);
+				myRange.Select();
+				myRange.Font.Name = "Roboto Light";				
 			}
 			catch { }
 		}		

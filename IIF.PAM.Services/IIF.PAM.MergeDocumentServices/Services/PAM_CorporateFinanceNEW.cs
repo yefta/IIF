@@ -62,9 +62,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region PROJECT
 					app.ActiveDocument.Bookmarks["AxPROJECTxProjectName"].Range.Text = dataResult[0].ProjectName;
-					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " - " + dataResult[0].SubSectorDesc;
-					app.ActiveDocument.Bookmarks["AxPROJECTxFundingNeeds"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].FundingNeeds, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["AxPROJECTxDealStrategy"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].DealStrategy, currFontFamily, currFontSize));
+					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " - " + dataResult[0].SubSectorDesc;					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "AxPROJECTxFundingNeeds", AppConstants.TableName.PAM_ProjectData, pamId, "FundingNeeds", "Id");					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "AxPROJECTxDealStrategy", AppConstants.TableName.PAM_ProjectData, pamId, "DealStrategy", "Id");
 					#endregion
 
 					#region BORROWER
@@ -120,19 +120,20 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["BxBORROWERxUltimateBeneficialOwner"].Range.Text = dataResult[0].UltimateBeneficialOwner;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRating"].Range.Text = dataResult[0].IIFRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = Convert.ToDateTime(dataResult[0].IIFRatingDate).ToString("dd MMM yyyy");
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = "";
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = dataResult[0].SAndPRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxMoodys"].Range.Text = dataResult[0].MoodysRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxFitch"].Range.Text = dataResult[0].FitchRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxPefindo"].Range.Text = dataResult[0].PefindoRate;
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate;
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate + "-" + dataResult[0].SAndECategoryType;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxLQCBIChecking"].Range.Text = dataResult[0].LQCOrBICheckingRate;
-
-					app.ActiveDocument.Bookmarks["BxBORROWERxBusinessActivities"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].BusinessActivities, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["BxBORROWERxOtherInformation"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].OtherInformation, currFontFamily, currFontSize));
+					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "BxBORROWERxBusinessActivities", AppConstants.TableName.PAM_BorrowerOrTargetCompanyData, pamId, "BusinessActivities", "Id");					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "BxBORROWERxOtherInformation", AppConstants.TableName.PAM_BorrowerOrTargetCompanyData, pamId, "OtherInformation", "Id");
 					#endregion
 
-					#region PROPOSAL
-					app.ActiveDocument.Bookmarks["CxPROPOSALxPurpose"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Purpose, currFontFamily, currFontSize));
+					#region PROPOSAL					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxPurpose", AppConstants.TableName.PAM_ProposalData, pamId, "Purpose", "Id");
+
 					app.ActiveDocument.Bookmarks["CxPROPOSALxApprovalAuthority"].Range.Text = dataResult[0].ApprovalAuthority;
 
 					Table tblFacility = IIFCommon.createTable(app, "CxPROPOSALxFacility", 2, true);
@@ -149,37 +150,43 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 						tblFacility.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 						tblFacility.Cell(rowCounter, 1).Range.Text = item[0].ToString();
+						tblFacility.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
 						tblFacility.Cell(rowCounter, 2).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblFacility.Cell(rowCounter, 2).Range.Text = item[1].ToString() + item[2].ToString();
+						tblFacility.Cell(rowCounter, 2).Range.Text = item[1].ToString() + " " + item[2].ToString();
+						tblFacility.Cell(rowCounter, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					}
 
 					tblFacility.Rows.Add(ref missing);
-					tblFacility.Cell(rowCounter + 1, 1).Range.Text = "Remarks : ";
+					tblFacility.Cell(rowCounter + 1, 1).Range.Text = "Remarks : " + dataResult[0].FacilityOrInvestmentRemarks;
 					tblFacility.Cell(rowCounter + 1, 1).Merge(tblFacility.Cell(rowCounter + 1, 2));
 					tblFacility.Cell(rowCounter + 1, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxGroupExposure"].Range.Text = dataResult[0].GroupExposureCurr + dataResult[0].GroupExposureAmount;
-					app.ActiveDocument.Bookmarks["CxPROPOSALxRemarks"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Remarks, currFontFamily, currFontSize));
+					app.ActiveDocument.Bookmarks["CxPROPOSALxGroupExposure"].Range.Text = dataResult[0].GroupExposureCurr + " " + dataResult[0].GroupExposureAmount;
+					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxRemarks", AppConstants.TableName.PAM_ProposalData, pamId, "Remarks", "Id");
+
 					app.ActiveDocument.Bookmarks["CxPROPOSALxTenor"].Range.Text = dataResult[0].tenorYear + " year(s)  " + dataResult[0].tenorMonth + " month(s)";
 					app.ActiveDocument.Bookmarks["CxPROPOSALxAverageLoanLife"].Range.Text = dataResult[0].averageLoanLifeYear + " year(s)  " + dataResult[0].averageLoanLifeMonth + " month(s)";
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxInterestRate"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].pricingInterestRate, currFontFamily, currFontSize));
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxPricingxInterestRate", AppConstants.TableName.PAM_ProposalData, pamId, "PricingInterestRate", "Id");
+
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxCommitmentFee"].Range.Text = dataResult[0].pricingCommitmentFee;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxFacility"].Range.Text = dataResult[0].pricingUpfrontFacilityFee;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxStructuringFee"].Range.Text = dataResult[0].pricingStructuringFee;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxArrangerFee"].Range.Text = dataResult[0].pricingArrangerFee;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxCollateral"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].pricingCollateral, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["CxPROPOSALxOtherCondition"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].pricingOtherConditions, currFontFamily, currFontSize));
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxCollateral", AppConstants.TableName.PAM_ProposalData, pamId, "PricingCollateral", "Id");					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxOtherCondition", AppConstants.TableName.PAM_ProposalData, pamId, "PricingOtherConditions", "Id");
+					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxExceptionToIIFPolicy", AppConstants.TableName.PAM_ProposalData, pamId, "PricingExceptionToIIFPolicy", "Id");
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxExceptionToIIFPolicy"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].pricingExceptionToIIFPolicy, currFontFamily, currFontSize));
 					app.ActiveDocument.Bookmarks["CxPROPOSALxReviewPeriod"].Range.Text = dataResult[0].reviewPeriod;
 					#endregion
 
 					#region RECOMMENDATION
-					app.ActiveDocument.Bookmarks["DxRECOMMENDATIONxKeyInvestment"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].KeyInvestmentRecommendation, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["DxRECOMMENDATION"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Recommendation, currFontFamily, currFontSize));
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "DxRECOMMENDATIONxKeyInvestment", AppConstants.TableName.PAM_RecommendationData, pamId, "KeyInvestmentRecommendation", "Id");					
+					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "DxRECOMMENDATION", AppConstants.TableName.PAM_RecommendationData, pamId, "Recommendation", "Id");
 
 					Table tblDealTeam = IIFCommon.createTable(app, "DxRECOMMENDATIONxDealTeam", 1, false);
 					tblDealTeam.Borders.Enable = 0;
@@ -198,17 +205,20 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					#endregion
 
 					#region Attachment 
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "HistoricalFinancialandFinancialProject", AppConstants.TableName.PAM_HistoricalFinancial, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "Supplemental", AppConstants.TableName.PAM_Supplemental, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "SocialEnvironmental", AppConstants.TableName.PAM_Social, pamId);					
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "TermSheet", AppConstants.TableName.PAM_TermSheet, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "RiskRating", AppConstants.TableName.PAM_RiskRating, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "KYCChecklists", AppConstants.TableName.PAM_KYCChecklists, pamId);
-					this.FillBookmarkWithPAMAttachmentType1(app, con, "OtherBanksfacilities", AppConstants.TableName.PAM_OtherBanksFacilities, pamId);					
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "HistoricalFinancialandFinancialProject", AppConstants.TableName.PAM_HistoricalFinancial, pamId);
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "Supplemental", AppConstants.TableName.PAM_Supplemental, pamId);
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "SocialEnvironmental", AppConstants.TableName.PAM_Social, pamId);					
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "TermSheet", AppConstants.TableName.PAM_TermSheet, pamId);
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "RiskRating", AppConstants.TableName.PAM_RiskRating, pamId);
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "KYCChecklists", AppConstants.TableName.PAM_KYCChecklists, pamId);
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "OtherBanksfacilities", AppConstants.TableName.PAM_OtherBanksFacilities, pamId);					
 
 					System.Data.DataTable listLegalDue = db.ExecToDataTable(con, "Generate_Document_PAM_LegalDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
-					IIFCommon.createLegalSAndEDueOtherReportTable(app, listLegalDue, "LegalDuediligenceReportAttachment", "LegalDuediligenceReportDescription");					
+					IIFCommon.createLegalSAndEDueOtherReportTable(app, listLegalDue, "LegalDuediligenceReportAttachment", "LegalDuediligenceReportDescription");
+
+					System.Data.DataTable listSAndDue = db.ExecToDataTable(con, "Generate_Document_PAM_SAndDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
+					IIFCommon.createLegalSAndEDueOtherReportTable(app, listSAndDue, "SAndDuediligenceReportAttachment", "SAndDuediligenceReportDescription");
 
 					System.Data.DataTable listOtherReport = db.ExecToDataTable(con, "Generate_Document_PAM_OtherReport_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listOtherReport, "OtherReportAttachment", "OtherReportDescription");

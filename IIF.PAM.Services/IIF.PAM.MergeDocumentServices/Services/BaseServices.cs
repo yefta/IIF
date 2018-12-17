@@ -13,6 +13,7 @@ using log4net;
 using IIF.PAM.MergeDocumentServices.Helper;
 using IIF.PAM.MergeDocumentServices.Models;
 using System.IO;
+using System.Threading;
 
 namespace IIF.PAM.MergeDocumentServices.Services
 {
@@ -38,11 +39,13 @@ namespace IIF.PAM.MergeDocumentServices.Services
             return result;
         }
 
-        protected void FillBookmarkWithPAMAttachmentType1(Application app, SqlConnection con, string bookmarkName, string tableName, long pamId)
+        protected void FillBookmarkWithPAMAttachmentNormal(Application app, SqlConnection con, string bookmarkName, string tableName, long pamId)
         {
-            this.Logger.Info(tableName);            
+            this.Logger.Info(tableName);
+		
+			object Normal = "Normal";
 
-            string query = "SELECT";
+			string query = "SELECT";
             query = query + " Attachment";
             query = query + " FROM " + tableName;
             query = query + " WHERE PAMId = @PAMId";
@@ -54,33 +57,59 @@ namespace IIF.PAM.MergeDocumentServices.Services
                 cmd.CommandText = query;
                 cmd.Parameters.Add(this.NewSqlParameter("PAMId", SqlDbType.BigInt, pamId));
                 
-                Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;
-                using (SqlDataReader dr = cmd.ExecuteReader())
+                Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;				
+
+				using (SqlDataReader dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
                         string fileContent = dr.GetNullableString(0);
-                        if (fileContent != null)
-                        {
+						if (fileContent != null)
+						{
 							string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
-							//string htmlResult = ConvertHtmlAndFile.SaveToFile2(fileContent);
-							rangeBookmark.InsertFile(htmlResult);
-                            rangeBookmark.Font.Name = "Roboto Light";							
+
+							try
+							{
+								Application app2 = new Application();
+								Document sourceDocument = app2.Documents.Open(htmlResult);
+								object start = sourceDocument.Content.Start;
+								object end = sourceDocument.Content.End;
+								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
+								myRange.Select();
+								//myRange.set_Style(ref Normal);								
+								sourceDocument.Save();
+								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
+								app2.Quit();
+
+								rangeBookmark.InsertFile(htmlResult);
+							}
+							catch (Exception ex)
+							{
+								throw ex;
+							}
+							finally
+							{
+								File.Delete(htmlResult);
+							}
 						}
                     }
                 }
-            }            
+
+				
+			}            
         }
 
-		protected void FillBookmarkWithPAMAttachmentType1(Application app, SqlConnection con, string bookmarkName, string tableName, long pamId, string fontFamily, float fontSize)
+
+		protected void FillBookmarkWithPAMAttachmentABNormal(Application app, SqlConnection con, string bookmarkName, string tableName, long pamId, string columnName, string columnPAMId)
 		{
 			this.Logger.Info(tableName);
 
+			object Normal = "Normal";
+
 			string query = "SELECT";
-			query = query + " Attachment";
+			query = query + " " + columnName;
 			query = query + " FROM " + tableName;
-			query = query + " WHERE PAMId = @PAMId";
-			query = query + " ORDER BY OrderNumber";
+			query = query + " WHERE " + columnPAMId + " = @PAMId";			
 
 			using (SqlCommand cmd = con.CreateCommand())
 			{
@@ -88,7 +117,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				cmd.CommandText = query;
 				cmd.Parameters.Add(this.NewSqlParameter("PAMId", SqlDbType.BigInt, pamId));
 
-				Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;
+				Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;				
+
 				using (SqlDataReader dr = cmd.ExecuteReader())
 				{
 					while (dr.Read())
@@ -96,59 +126,45 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						string fileContent = dr.GetNullableString(0);
 						if (fileContent != null)
 						{
-							string myFontSize = ConvertHtmlAndFile.convertFontSize(fontSize);
-							//fileContent = string.Format("<html style=\"font-family: " + fontFamily + "; font-size: " + myFontSize + "\">{0}</html>", fileContent);
-
 							string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
-							string html = "";
-							using (StreamWriter writer = File.CreateText(htmlResult))
-							{
-								html = string.Format("<html style=\"font-family: " + fontFamily + "; font-size: " + myFontSize + "\">{0}</html>", fileContent);
-								writer.WriteLine(html);
-							}
 
-							rangeBookmark.InsertFile(htmlResult);
-							rangeBookmark.Font.Name = "Roboto Light";
+							try
+							{
+								Application app2 = new Application();
+								Document sourceDocument = app2.Documents.Open(htmlResult);
+								object start = sourceDocument.Content.Start;
+								object end = sourceDocument.Content.End;
+								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
+								myRange.Select();
+								//myRange.set_Style(ref Normal);
+								sourceDocument.Save();
+								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
+								app2.Quit();
+
+								rangeBookmark.InsertFile(htmlResult);
+							}
+							catch (Exception ex)
+							{
+								throw ex;
+							}
+							finally
+							{
+								File.Delete(htmlResult);
+							}
 						}
 					}
 				}
 			}
 		}
 
-		protected void FillBookmarkWithPAMAttachmentType2(Application app, SqlConnection con, string bookmarkName, string tableName, long pamId)
+
+		protected void FillBookmarkWithCMAttachmentNormal(Application app, SqlConnection con, string bookmarkName, string tableName, long cmId)
         {
-            this.Logger.Info(tableName);            
+            this.Logger.Info(tableName);
 
-            string query = "SELECT";
-            query = query + " Description";
-            query = query + " FROM " + tableName;
-            query = query + " WHERE PAMId = @PAMId";
-            query = query + " ORDER BY Id";
+			object Normal = "Normal";
 
-            using (SqlCommand cmd = con.CreateCommand())
-            {
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = query;
-                cmd.Parameters.Add(this.NewSqlParameter("PAMId", SqlDbType.BigInt, pamId));
-
-                Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;                
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        string description = dr.GetNullableString(0);
-                        rangeBookmark.InsertBefore(description);
-                        rangeBookmark.Font.Name = "Roboto Light";
-                    }
-                }
-            }
-        }
-
-        protected void FillBookmarkWithCMAttachmentType1(Application app, SqlConnection con, string bookmarkName, string tableName, long cmId)
-        {
-            this.Logger.Info(tableName);            
-
-            string query = "SELECT";
+			string query = "SELECT";
             query = query + " Attachment";
             query = query + " FROM " + tableName;
             query = query + " WHERE CMId = @CMId";
@@ -166,33 +182,32 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     while (dr.Read())
                     {
                         string fileContent = dr.GetNullableString(0);
-                        if (fileContent != null)
-                        {
-							//string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
-							//rangeBookmark.InsertFile(htmlResult);
-							//rangeBookmark.Font.Name = "Roboto Light";
-							//rangeBookmark.set_Style("Normal");
+						if (fileContent != null)
+						{
+							string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
 
-							String ID = Guid.NewGuid().ToString().ToUpper();
-							string tempDocPath = ConvertHtmlAndFile.SaveToFileTmp(fileContent);
-
-							Application app2 = new Application();							
-							Document sourceDocument = app2.Documents.Open(tempDocPath);
 							try
 							{
-								sourceDocument.Content.Find.ClearFormatting();
-								sourceDocument.Content.Copy();
-								
-								rangeBookmark.PasteAndFormat(WdRecoveryType.wdFormatSurroundingFormattingWithEmphasis);								
+								Application app2 = new Application();
+								Document sourceDocument = app2.Documents.Open(htmlResult);
+								object start = sourceDocument.Content.Start;
+								object end = sourceDocument.Content.End;
+								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
+								myRange.Select();
+								//myRange.set_Style(ref Normal);
+								sourceDocument.Save();
+								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
+								app2.Quit();
+
+								rangeBookmark.InsertFile(htmlResult);
 							}
 							catch (Exception ex)
 							{
+								throw ex;
 							}
 							finally
-							{								
-								sourceDocument.Close(WdSaveOptions.wdDoNotSaveChanges);
-								app2.Quit();
-								//File.Delete(tempDocPath);
+							{
+								File.Delete(htmlResult);
 							}
 						}
 					}
@@ -200,7 +215,63 @@ namespace IIF.PAM.MergeDocumentServices.Services
             }
         }
 
-        protected void SetBookmarkText(Application app, string bookmarkName, string value)
+		protected void FillBookmarkWithCMAttachmentABNormal(Application app, SqlConnection con, string bookmarkName, string tableName, long cmId, string columnName, string columnCMId)
+		{
+			this.Logger.Info(tableName);
+
+			object Normal = "Normal";
+
+			string query = "SELECT";
+			query = query + " " + columnName;
+			query = query + " FROM " + tableName;
+			query = query + " WHERE " + columnCMId + " = @CMId";			
+
+			using (SqlCommand cmd = con.CreateCommand())
+			{
+				cmd.CommandType = CommandType.Text;
+				cmd.CommandText = query;
+				cmd.Parameters.Add(this.NewSqlParameter("CMId", SqlDbType.BigInt, cmId));
+
+				Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;
+				using (SqlDataReader dr = cmd.ExecuteReader())
+				{
+					while (dr.Read())
+					{
+						string fileContent = dr.GetNullableString(0);
+						if (fileContent != null)
+						{
+							string htmlResult = ConvertHtmlAndFile.SaveToFile(fileContent);
+
+							try
+							{
+								Application app2 = new Application();
+								Document sourceDocument = app2.Documents.Open(htmlResult);
+								object start = sourceDocument.Content.Start;
+								object end = sourceDocument.Content.End;
+								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
+								myRange.Select();
+								//myRange.set_Style(ref Normal);
+								sourceDocument.Save();
+								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
+								app2.Quit();
+
+								rangeBookmark.InsertFile(htmlResult);
+							}
+							catch (Exception ex)
+							{
+								throw ex;
+							}
+							finally
+							{
+								File.Delete(htmlResult);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		protected void SetBookmarkText(Application app, string bookmarkName, string value)
         {
             Range rangeBookmark = app.ActiveDocument.Bookmarks[bookmarkName].Range;
             rangeBookmark.Font.Name = "Roboto Light";
