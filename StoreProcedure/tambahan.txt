@@ -1,0 +1,31 @@
+CREATE PROCEDURE [dbo].[Generate_Document_PAM_Borrower_Cover_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		PAM_BorrowerOrTargetCompany.BorrowerOrTargetCompany,		
+		Id
+			from 
+				PAM_BorrowerOrTargetCompany
+			where PAM_BorrowerOrTargetCompany.PAMId = @Id			
+		order by Id desc			
+END
+
+
+
+
+
+
+
+CREATE PROCEDURE [dbo].[Generate_Document_CM_Borrower_distinct_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		BorrowerOrCompany,		
+		Id	
+			from 
+				Vw_PAMCM_BorrowerOrCompany				
+			where Vw_PAMCM_BorrowerOrCompany.PAMOrCMId = @Id	
+		order by Id desc		
+END

@@ -49,7 +49,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
             query = query + " Attachment";
             query = query + " FROM " + tableName;
             query = query + " WHERE PAMId = @PAMId";
-            query = query + " ORDER BY OrderNumber";
+            query = query + " ORDER BY OrderNumber DESC";
 
             using (SqlCommand cmd = con.CreateCommand())
             {
@@ -168,7 +168,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
             query = query + " Attachment";
             query = query + " FROM " + tableName;
             query = query + " WHERE CMId = @CMId";
-            query = query + " ORDER BY OrderNumber";
+            query = query + " ORDER BY OrderNumber DESC";
 
             using (SqlCommand cmd = con.CreateCommand())
             {

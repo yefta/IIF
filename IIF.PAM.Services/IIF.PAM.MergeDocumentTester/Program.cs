@@ -55,16 +55,19 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergePAMDocument(42, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//39 - PAM Equity
-				//svcMerge.MergePAMDocument(39, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				svcMerge.MergePAMDocument(39, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//40 - PAM Corporate
 				//svcMerge.MergePAMDocument(40, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
+				//72 - PAM Corporate
+				//svcMerge.MergePAMDocument(72, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
 				//41 - PAM Project Finance
 				//svcMerge.MergePAMDocument(41, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
-				//70 - PAM Corporate
-				svcMerge.MergePAMDocument(70, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//70 - PAM Project Finance
+				//svcMerge.MergePAMDocument(70, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 
 

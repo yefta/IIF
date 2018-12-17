@@ -142,7 +142,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 		{
 			try
 			{
-				//doc.TablesOfContents[1].UpdatePageNumbers();
+				doc.TablesOfContents[1].UpdatePageNumbers();
 			}
 			catch { }
 			try

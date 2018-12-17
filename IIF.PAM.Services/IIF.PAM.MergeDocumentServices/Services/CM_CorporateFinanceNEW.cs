@@ -24,8 +24,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 			List<CMData> dataResult = db.ExecToModel<CMData>(con, "dbo.Generate_Document_CM_Data_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
             System.Data.DataTable listBorrower = db.ExecToDataTable(con, "Generate_Document_CM_Borrower_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+			System.Data.DataTable listBorrowerCover = db.ExecToDataTable(con, "Generate_Document_CM_Borrower_Cover_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
-            System.Data.DataTable listFacility = db.ExecToDataTable(con, "Generate_Document_CM_ProposalFacility_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+			System.Data.DataTable listFacility = db.ExecToDataTable(con, "Generate_Document_CM_ProposalFacility_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_CM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
@@ -53,7 +54,26 @@ namespace IIF.PAM.MergeDocumentServices.Services
                 {
 					#region Cover                    
 					app.ActiveDocument.Bookmarks["Review"].Range.Text = dataResult[0].ReviewMemo;
-					app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].CompanyName;
+
+					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].CompanyName;
+
+					int countBorrower = 0;
+					string prevBorrower = "";
+					string currentBorrower = "";
+					foreach (DataRow item in listBorrowerCover.Rows)
+					{
+						countBorrower++;
+						prevBorrower = item[0].ToString();
+						if (currentBorrower != prevBorrower)
+						{
+							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString();
+							currentBorrower = item[0].ToString();
+
+							if (countBorrower < listBorrowerCover.Rows.Count)
+								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
+						}
+					}
+
 					app.ActiveDocument.Bookmarks["ProjectName"].Range.Text = dataResult[0].ProjectName;
 
 					app.ActiveDocument.Bookmarks["CMNumber"].Range.Text = IIFCommon.generateCMNumber(

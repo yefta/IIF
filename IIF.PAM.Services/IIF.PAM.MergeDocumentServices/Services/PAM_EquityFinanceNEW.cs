@@ -24,8 +24,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 			List<PAMData> dataResult = db.ExecToModel<PAMData>(con, "dbo.Generate_Document_PAM_Data_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
             System.Data.DataTable listBorrower = db.ExecToDataTable(con, "Generate_Document_PAM_Borrower_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
+			System.Data.DataTable listBorrowerCover = db.ExecToDataTable(con, "Generate_Document_PAM_Borrower_Cover_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
-            System.Data.DataTable listFacility = db.ExecToDataTable(con, "Generate_Document_PAM_ProposalFacility_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
+			System.Data.DataTable listFacility = db.ExecToDataTable(con, "Generate_Document_PAM_ProposalFacility_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_PAM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
@@ -51,7 +52,26 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				try
 				{
 					#region Cover                    					
-					app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
+					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
+
+					int countBorrower = 0;
+					string prevBorrower = "";
+					string currentBorrower = "";
+					foreach (DataRow item in listBorrowerCover.Rows)
+					{
+						countBorrower++;
+						prevBorrower = item[0].ToString();
+						if (currentBorrower != prevBorrower)
+						{
+							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString();
+							currentBorrower = item[0].ToString();
+
+							if (countBorrower < listBorrowerCover.Rows.Count)
+								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
+						}
+					}
+
+
 					app.ActiveDocument.Bookmarks["ProjectName"].Range.Text = dataResult[0].ProjectName;
 
 					app.ActiveDocument.Bookmarks["ProjectCode"].Range.Text = dataResult[0].ProjectCode;
