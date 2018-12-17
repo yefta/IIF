@@ -14,3 +14,7 @@ D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\bin\Debug\IIF.PAM.Util
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.csproj.CoreCompileInputs.cache
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.dll
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\bin\Debug\IIF.PAM.Utilities.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\bin\Debug\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.pdb

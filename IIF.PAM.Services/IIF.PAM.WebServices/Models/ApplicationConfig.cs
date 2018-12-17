@@ -17,6 +17,7 @@ namespace IIF.PAM.WebServices
         public string CMMergeDocumentTemplateLocation { get; set; }
         public string CMMergeDocumentTemporaryLocation { get; set; }
         public string SmartObjectName_ADUser { get; set; }
+        public string WorkflowNames { get; set; }
 
         public string SMTPFromEmail { get; set; }
         public string SMTPFromName { get; set; }

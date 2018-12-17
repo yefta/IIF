@@ -136,6 +136,7 @@
     <Compile Include="Models\BaseGroupEmailParameter.cs" />
     <Compile Include="Models\CM_ValuationReportAttachment.cs" />
     <Compile Include="Models\CM_WorkingPaperAttachment.cs" />
+    <Compile Include="Models\K2ErrorLog.cs" />
     <Compile Include="Models\PAM_DocumentRelatedToBoCDecisionAttachment.cs" />
     <Compile Include="Models\PAM_DocumentRelatedToBoDDecisionAttachment.cs" />
     <Compile Include="Models\PAM_GroupStructureAttachment.cs" />
@@ -189,7 +190,6 @@
     <Compile Include="Services\PAM_GroupStructure_Services.cs" />
     <Compile Include="Services\PAM_HistoricalFinancialAndFinancialProjection_Services.cs" />
     <Compile Include="Models\IAttachmentType3.cs" />
-    <Compile Include="Services\IIFWorklistServices.cs" />
     <Compile Include="Services\PAM_IndustryAnalysis_Services.cs" />
     <Compile Include="Services\K2Services.cs" />
     <Compile Include="Services\PAM_KYCChecklists_Services.cs" />

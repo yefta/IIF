@@ -49,5 +49,13 @@ C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\stdo
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\log4net.xml
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.dll
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.pdb
-C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.dll.config
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.csprojResolveAssemblyReference.cache
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.dll.config
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.dll.config
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\IIF.PAM.MergeDocumentServices.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\log4net.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\bin\Debug\log4net.xml
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.csprojResolveAssemblyReference.cache
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.MergeDocumentServices\obj\Debug\IIF.PAM.MergeDocumentServices.pdb

@@ -32,3 +32,13 @@ D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Sche
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Scheduler.csproj.CopyComplete
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Scheduler.exe
 D:\IIF Proj\New folder\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Scheduler.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\IIF.PAM.Scheduler.exe.config
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\IIF.PAM.Scheduler.exe
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\IIF.PAM.Scheduler.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\IIF.PAM.Utilities.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\log4net.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\bin\Debug\log4net.xml
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Scheduler.csprojResolveAssemblyReference.cache
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Scheduler.exe
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Scheduler\obj\Debug\IIF.PAM.Scheduler.pdb

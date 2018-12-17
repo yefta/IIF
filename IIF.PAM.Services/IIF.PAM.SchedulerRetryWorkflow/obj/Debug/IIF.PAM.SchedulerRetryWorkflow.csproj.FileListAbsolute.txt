@@ -1,0 +1,10 @@
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\IIF.PAM.SchedulerRetryWorkflow.exe.config
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\IIF.PAM.SchedulerRetryWorkflow.exe
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\IIF.PAM.SchedulerRetryWorkflow.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\IIF.PAM.Utilities.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\log4net.dll
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\bin\Debug\log4net.xml
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\obj\Debug\IIF.PAM.SchedulerRetryWorkflow.csprojResolveAssemblyReference.cache
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\obj\Debug\IIF.PAM.SchedulerRetryWorkflow.exe
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.SchedulerRetryWorkflow\obj\Debug\IIF.PAM.SchedulerRetryWorkflow.pdb

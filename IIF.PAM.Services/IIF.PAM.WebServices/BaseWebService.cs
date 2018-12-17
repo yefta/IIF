@@ -46,6 +46,7 @@ namespace IIF.PAM.WebServices
                     this._appConfig.CMMergeDocumentTemplateLocation = ConfigurationManager.AppSettings["CMMergeDocumentTemplateLocation"];
                     this._appConfig.CMMergeDocumentTemporaryLocation = ConfigurationManager.AppSettings["CMMergeDocumentTemporaryLocation"];
                     this._appConfig.SmartObjectName_ADUser = ConfigurationManager.AppSettings["SmartObjectName_ADUser"];
+                    this._appConfig.WorkflowNames = ConfigurationManager.AppSettings["WorkflowNames"];
 
                     this._appConfig.SMTPFromEmail = ConfigurationManager.AppSettings["SMTPFromEmail"];
                     this._appConfig.SMTPFromName = ConfigurationManager.AppSettings["SMTPFromName"];
