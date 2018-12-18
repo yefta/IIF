@@ -262,8 +262,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				}
 				finally
 				{
-					doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-					//doc.Close(WdSaveOptions.wdSaveChanges);
+					doc.Close(WdSaveOptions.wdDoNotSaveChanges);					
 				}
 			}
 			finally
