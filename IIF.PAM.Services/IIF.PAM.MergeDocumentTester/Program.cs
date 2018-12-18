@@ -15,9 +15,15 @@ namespace IIF.PAM.MergeDocumentTester
             {
 		        log4net.Config.XmlConfigurator.Configure();
                 MergeDocument svcMerge = new MergeDocument();
-                string conStringIIF = "data source=k2projectiif;initial catalog=IIF;user id=sa;password=P@ssw0rd;";
-				string templateFolder = @"\\k2projectiif\c$\IIF\PAMTemplate\Newest";
-				string mergeResultFolder = @"\\k2projectiif\c$\IIF\MergeResult";
+				//string conStringIIF = "data source=k2projectiif;initial catalog=IIF;user id=sa;password=P@ssw0rd;";
+				string conStringIIF = "data source=.;initial catalog=IIF;user id=sa;password=P@ssw0rd;";
+				//string templateFolder = @"\\k2projectiif\c$\IIF\PAMTemplate\Newest";
+				//string mergeResultFolder = @"\\k2projectiif\c$\IIF\MergeResult";
+
+				//string conStringIIF = "data source=10.15.3.216\\IDJKTINSKTWO;initial catalog=IIF;user id=sa;password=@dmin@IIF.12;";
+				string templateFolder = @"C:\Project\IIF\IIF\PAMTemplate";
+				string mergeResultFolder = @"C:\Project\IIF\IIF\MergeResult";
+
 				//svcMerge.MergePAMDocument(32, conStringIIF, @"D:\Srf\Project\PIS\IIF\Merge\PAMTemplate", @"D:\Srf\Project\PIS\IIF\Merge\Temp", "MergeByFQN", "MergeBy");
 				//svcMerge.MergePAMDocument(10112, conStringIIF, templateFolder, @"C:\temp", "MergeByFQN", "MergeBy");
 
@@ -55,7 +61,7 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergePAMDocument(42, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//39 - PAM Equity
-				svcMerge.MergePAMDocument(39, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergePAMDocument(39, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//40 - PAM Corporate
 				//svcMerge.MergePAMDocument(40, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
@@ -64,7 +70,7 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergePAMDocument(72, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//41 - PAM Project Finance
-				//svcMerge.MergePAMDocument(41, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				svcMerge.MergePAMDocument(41, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//70 - PAM Project Finance
 				//svcMerge.MergePAMDocument(70, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
@@ -80,6 +86,9 @@ namespace IIF.PAM.MergeDocumentTester
 
 				//17 - CM Project Finance
 				//svcMerge.MergeCMDocument(17, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//41 - CM Project Finance
+				//svcMerge.MergeCMDocument(41, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//1 - CM Waiver
 				//svcMerge.MergeCMDocument(1, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");

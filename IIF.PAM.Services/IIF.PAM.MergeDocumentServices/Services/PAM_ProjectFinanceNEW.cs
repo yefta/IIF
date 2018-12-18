@@ -51,6 +51,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				app.Visible = false;
 				try
 				{
+					
 					#region Cover     
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
 
@@ -224,6 +225,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["DxRECOMMENDATIONxCIO"].Range.Text = dataResult[0].AccountResponsibleCIOName;
 
 					#endregion
+				
+					
 
 					#region Attachment 
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
@@ -249,13 +252,18 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					IIFCommon.finalizeDoc(doc);										
 
-					doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+					//doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
-					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));					
+				}
+				catch (Exception ex)
+				{
+					throw ex;
 				}
 				finally
 				{
 					doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+					//doc.Close(WdSaveOptions.wdSaveChanges);
 				}
 			}
 			finally

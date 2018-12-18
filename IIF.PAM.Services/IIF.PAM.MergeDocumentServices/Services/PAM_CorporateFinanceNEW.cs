@@ -243,7 +243,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					IIFCommon.finalizeDoc(doc);
 
-					doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+					//doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
 					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
 				}

@@ -17,7 +17,7 @@ END
 
 
 
-CREATE PROCEDURE [dbo].[Generate_Document_CM_Borrower_distinct_SP]
+CREATE PROCEDURE [dbo].[Generate_Document_CM_Borrower_Cover_SP]
 	@Id AS bigint = NULL
 AS
 BEGIN

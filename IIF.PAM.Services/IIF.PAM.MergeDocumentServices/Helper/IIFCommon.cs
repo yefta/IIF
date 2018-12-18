@@ -165,6 +165,19 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				myRange.Font.Name = "Roboto Light";				
 			}
 			catch { }
+
+			try
+			{				
+				foreach (Section mySec in doc.Sections)
+				{
+					if (mySec.Index % 2 == 0) //section genap -> landscape
+					{
+						//doc.Sections[mySec.Index].Range.InsertBreak(WdBreakType.wdSectionBreakContinuous);						
+						mySec.PageSetup.Orientation = WdOrientation.wdOrientLandscape;
+					}
+				}				
+			}
+			catch { }
 		}		
 	}
 }

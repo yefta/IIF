@@ -42,10 +42,13 @@ namespace IIF.PAM.MergeDocumentServices.Services
         protected void FillBookmarkWithPAMAttachmentNormal(Application app, SqlConnection con, string bookmarkName, string tableName, long pamId)
         {
             this.Logger.Info(tableName);
-		
+
+			object missing = System.Reflection.Missing.Value;
+			object confirmConversion = true;
+
 			object Normal = "Normal";
 
-			string query = "SELECT";
+			string query = "SELECT top 1 ";
             query = query + " Attachment";
             query = query + " FROM " + tableName;
             query = query + " WHERE PAMId = @PAMId";
@@ -70,18 +73,22 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 							try
 							{
+								//htmlResult = @"C:\Project\IIF\IIF\landscape.docx";
+								//string htmlResult = @"C:\Project\IIF\landscape.docx";
+
 								Application app2 = new Application();
 								Document sourceDocument = app2.Documents.Open(htmlResult);
 								object start = sourceDocument.Content.Start;
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
-								myRange.Select();
-								//myRange.set_Style(ref Normal);								
+								myRange.Select();								
+								//sourceDocument.Sections[1].Range.InsertBreak(WdBreakType.wdSectionBreakNextPage);
+								//sourceDocument.Sections[1].PageSetup.Orientation = WdOrientation.wdOrientLandscape;
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
 								app2.Quit();
 
-								rangeBookmark.InsertFile(htmlResult);
+								rangeBookmark.InsertFile(htmlResult);							
 							}
 							catch (Exception ex)
 							{
