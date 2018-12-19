@@ -13,13 +13,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/14/2018 14:37:44</publishTime>
     </File>
     <File Include="bin/IIF.PAM.MergeDocumentServices.dll">
-      <publishTime>12/17/2018 15:59:15</publishTime>
+      <publishTime>12/19/2018 17:18:56</publishTime>
     </File>
     <File Include="bin/IIF.PAM.MergeDocumentServices.dll.config">
       <publishTime>12/04/2018 17:18:50</publishTime>
     </File>
     <File Include="bin/IIF.PAM.MergeDocumentServices.pdb">
-      <publishTime>12/17/2018 15:59:15</publishTime>
+      <publishTime>12/19/2018 17:18:56</publishTime>
     </File>
     <File Include="bin/IIF.PAM.Utilities.dll">
       <publishTime>12/17/2018 10:01:59</publishTime>
@@ -28,10 +28,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/17/2018 10:01:59</publishTime>
     </File>
     <File Include="bin/IIF.PAM.WebServices.dll">
-      <publishTime>12/17/2018 15:59:16</publishTime>
+      <publishTime>12/19/2018 17:19:59</publishTime>
     </File>
     <File Include="bin/IIF.PAM.WebServices.pdb">
-      <publishTime>12/17/2018 15:59:16</publishTime>
+      <publishTime>12/19/2018 17:19:59</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>12/03/2018 10:45:40</publishTime>

@@ -64,14 +64,14 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					foreach (DataRow item in listBorrowerCover.Rows)
 					{
 						countBorrower++;
-						prevBorrower = item[0].ToString();
-						if (currentBorrower != prevBorrower)
+						prevBorrower = item[0].ToString().Trim();
+						if (currentBorrower.Trim() != prevBorrower.Trim())
 						{
-							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString();
-							currentBorrower = item[0].ToString();
-
-							if (countBorrower < listBorrowerCover.Rows.Count)
+							if (countBorrower < listBorrowerCover.Rows.Count && countBorrower > 1)
 								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
+
+							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString().Trim();
+							currentBorrower = item[0].ToString().Trim();
 						}
 					}
 
@@ -93,9 +93,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region PROJECT
 					app.ActiveDocument.Bookmarks["AxPROJECTxProjectName"].Range.Text = dataResult[0].ProjectName;
-					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " " + dataResult[0].SubSectorDesc;					
-					app.ActiveDocument.Bookmarks["AxPROJECTxFundingNeeds"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].FundingNeeds, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["AxPROJECTxDealStrategy"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].DealStrategy, currFontFamily, currFontSize));
+					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " " + dataResult[0].SubSectorDesc;
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "AxPROJECTxFundingNeeds", AppConstants.TableName.CM_ProjectData, cmId, "FundingNeeds", "Id");
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "AxPROJECTxDealStrategy", AppConstants.TableName.CM_ProjectData, cmId, "DealStrategy", "Id");
 					#endregion
 
 					#region BORROWER
@@ -117,7 +117,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						rowCounter++;
 
 						prevkey = item[0].ToString();
-						if (cellText != prevkey)
+						if (cellText.Trim() != prevkey.Trim())
 						{
 							//merge kolom kalo value nya beda, mulai row ke 3
 							if (rowCounter > 2 && (rowTemp != (rowCounter - 1)))
@@ -128,17 +128,17 @@ namespace IIF.PAM.MergeDocumentServices.Services
 							rowTemp = rowCounter;
 
 							tblShareholders.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString();
+							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString().Trim();
 							cellText = item[0].ToString();
 							tblShareholders.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 						}
 
 						tblShareholders.Cell(rowCounter, 2).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblShareholders.Cell(rowCounter, 2).Range.Text = item[1].ToString();
+						tblShareholders.Cell(rowCounter, 2).Range.Text = item[1].ToString().Trim();
 						tblShareholders.Cell(rowCounter, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
 						tblShareholders.Cell(rowCounter, 3).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblShareholders.Cell(rowCounter, 3).Range.Text = item[2].ToString();
+						tblShareholders.Cell(rowCounter, 3).Range.Text = item[2].ToString().Trim();
 						tblShareholders.Cell(rowCounter, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					}
 
@@ -158,12 +158,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSAndECategory"].Range.Text = dataResult[0].SAndECategoryRate + "-" + dataResult[0].SAndECategoryType;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxLQCBIChecking"].Range.Text = dataResult[0].LQCOrBICheckingRate;
 
-					app.ActiveDocument.Bookmarks["BxBORROWERxBusinessActivities"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].BusinessActivities, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["BxBORROWERxOtherInformation"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].OtherInformation, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "BxBORROWERxBusinessActivities", AppConstants.TableName.CM_BorrowerOrInvesteeCompanyData, cmId, "BusinessActivities", "Id");
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "BxBORROWERxOtherInformation", AppConstants.TableName.CM_BorrowerOrInvesteeCompanyData, cmId, "OtherInformation", "Id");
 					#endregion
 
 					#region PROPOSAL
-					app.ActiveDocument.Bookmarks["CxPROPOSALxPurpose"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Purpose, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxPurpose", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "Purpose", "Id");
 					app.ActiveDocument.Bookmarks["CxPROPOSALxApprovalAuthority"].Range.Text = dataResult[0].ApprovalAuhority;
 
 					Table tblFacility = IIFCommon.createTable(app, "CxPROPOSALxFacility", 4, true);
@@ -200,18 +200,18 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					tblFacility.Cell(rowCounter + 1, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
 					app.ActiveDocument.Bookmarks["CxPROPOSALxGroupExposure"].Range.Text = dataResult[0].GroupExposureCurr + " " + dataResult[0].GroupExposureAmount;
-					app.ActiveDocument.Bookmarks["CxPROPOSALxRemarks"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Remarks, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxRemarks", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "Remarks", "Id");
 					app.ActiveDocument.Bookmarks["CxPROPOSALxTenor"].Range.Text = dataResult[0].TenorYear + " year(s)  " + dataResult[0].TenorMonth + " month(s)";
 					app.ActiveDocument.Bookmarks["CxPROPOSALxAverageLoanLife"].Range.Text = dataResult[0].AverageLoanLifeYear + " year(s)  " + dataResult[0].AverageLoanLifeMonth + " month(s)";
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxInterestRate"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].PricingInterestRate, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxPricingxInterestRate", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingInterestRate", "Id");
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxCommitmentFee"].Range.Text = dataResult[0].PricingCommitmentFee;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxFacility"].Range.Text = dataResult[0].PricingUpfrontFacilityFee;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxStructuringFee"].Range.Text = dataResult[0].PricingStructuringFee;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxArrangerFee"].Range.Text = dataResult[0].PricingArrangerFee;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxCollateral"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].PricingCollateral, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["CxPROPOSALxOtherCondition"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].PricingOtherConditions, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxCollateral", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingCollateral", "Id");
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxOtherCondition", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingOtherConditions", "Id");
 
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit);
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed);
@@ -240,13 +240,13 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexNotes"].Range.Text = dataResult[0].notes;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxExceptionToIIFPolicy"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].PricingExceptionToIIFPolicy, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxExceptionToIIFPolicy", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingExceptionToIIFPolicy", "Id");
 					app.ActiveDocument.Bookmarks["CxPROPOSALxReviewPeriod"].Range.Text = dataResult[0].ProposalReviewPeriod;
 					#endregion
 
 					#region RECOMMENDATION
-					app.ActiveDocument.Bookmarks["DxRECOMMENDATIONxKeyInvestment"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].KeyInvestmentRecommendation, currFontFamily, currFontSize));
-					app.ActiveDocument.Bookmarks["DxRECOMMENDATION"].Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(dataResult[0].Recommendation, currFontFamily, currFontSize));
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "DxRECOMMENDATIONxKeyInvestment", AppConstants.TableName.CM_RecommendationData, cmId, "KeyInvestmentRecommendation", "Id");
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "DxRECOMMENDATION", AppConstants.TableName.CM_RecommendationData, cmId, "Recommendation", "Id");
 
 					Table tblDealTeam = IIFCommon.createTable(app, "DxRECOMMENDATIONxDealTeam", 1, false);
 					tblDealTeam.Borders.Enable = 0;
@@ -277,8 +277,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					#endregion
 
 					IIFCommon.finalizeDoc(doc);
-
-					//doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+					
 					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
 				}

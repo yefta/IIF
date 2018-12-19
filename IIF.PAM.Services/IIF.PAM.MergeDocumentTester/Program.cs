@@ -96,11 +96,18 @@ namespace IIF.PAM.MergeDocumentTester
 
 				#region DB Dev/Prod IIF
 				string conStringIIF = "data source=10.15.3.216\\IDJKTINSKTWO;initial catalog=IIF;user id=sa;password=@dmin@IIF.12;";
-				string templateFolder = @"\\IDJKTSVR048\c$\IIF\PAMTemplate";
-				string mergeResultFolder = @"\\IDJKTSVR048\c$\IIF\MergeResult";
+				string templateFolder = @"\\10.15.3.214\c$\IIF\PAMTemplate";
+				string mergeResultFolder = @"\\10.15.3.214\c$\IIF\MergeResult";
 
 				//2 - PAM Project Finance
-				svcMerge.MergePAMDocument(2, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergePAMDocument(2, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//10 - PAM Project Finance
+				//svcMerge.MergePAMDocument(10, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+
+				//15 - CM WAIVER
+				svcMerge.MergeCMDocument(15, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 				#endregion
 
 				Console.WriteLine("Success");

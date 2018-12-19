@@ -62,7 +62,7 @@ namespace IIF.PAM.MergeDocumentServices
                     }
                     
                     SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
-                    //svcSave.SavePAMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
+                    svcSave.SavePAMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
                 }
                 con.Close();
             }
@@ -122,7 +122,7 @@ namespace IIF.PAM.MergeDocumentServices
                     }
 
                     SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
-                    //svcSave.SaveCMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
+                    svcSave.SaveCMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
                 }
                 con.Close();
             }

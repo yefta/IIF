@@ -54,18 +54,21 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				{
 					#region Cover                    					
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
-					
+
+					int countBorrower = 0;
 					string prevBorrower = "";
 					string currentBorrower = "";
 					foreach (DataRow item in listBorrowerCover.Rows)
-					{						
-						prevBorrower = item[0].ToString();
-						if (currentBorrower != prevBorrower)
+					{
+						countBorrower++;
+						prevBorrower = item[0].ToString().Trim();
+						if (currentBorrower.Trim() != prevBorrower.Trim())
 						{
-							if (currentBorrower != "")
+							if (countBorrower < listBorrowerCover.Rows.Count && countBorrower > 1)
 								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
-							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString();
-							currentBorrower = item[0].ToString();															
+
+							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString().Trim();
+							currentBorrower = item[0].ToString().Trim();
 						}
 					}
 
@@ -104,7 +107,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						rowCounter++;
 
 						prevkey = item[0].ToString();
-						if (cellText != prevkey)
+						if (cellText.Trim() != prevkey.Trim())
 						{
 							//merge kolom kalo value nya beda, mulai row ke 3
 							if (rowCounter > 2 && (rowTemp != (rowCounter - 1)))
@@ -115,17 +118,17 @@ namespace IIF.PAM.MergeDocumentServices.Services
 							rowTemp = rowCounter;
 
 							tblShareholders.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString();
+							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString().Trim();
 							cellText = item[0].ToString();
 							tblShareholders.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 						}
 
 						tblShareholders.Cell(rowCounter, 2).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblShareholders.Cell(rowCounter, 2).Range.Text = item[1].ToString();
+						tblShareholders.Cell(rowCounter, 2).Range.Text = item[1].ToString().Trim();
 						tblShareholders.Cell(rowCounter, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
 						tblShareholders.Cell(rowCounter, 3).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblShareholders.Cell(rowCounter, 3).Range.Text = item[2].ToString();
+						tblShareholders.Cell(rowCounter, 3).Range.Text = item[2].ToString().Trim();
 						tblShareholders.Cell(rowCounter, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					}
 
@@ -243,8 +246,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					#endregion
 
 					IIFCommon.finalizeDoc(doc);
-
-					//doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
+					
 					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
 				}
