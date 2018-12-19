@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using IIF.PAM.MergeDocumentServices.Models;
@@ -109,6 +111,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 		{
 			object missing = System.Reflection.Missing.Value;
 			Table tblAttachment = IIFCommon.createTable(app, bookmarkNameAttachment, 1, false);
+			tblAttachment.Columns[1].Width = 250;			
 			tblAttachment.Borders.Enable = 0;
 			int rowCounter = 0;
 			foreach (DataRow item in listData.Rows)
@@ -125,6 +128,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			tblAttachment.Rows[rowCounter + 1].Delete();
 
 			Table tblDescription = IIFCommon.createTable(app, bookmarkNameDescription, 1, false);
+			tblDescription.Columns[1].Width = 250;
 			tblDescription.Borders.Enable = 0;
 			rowCounter = 0;
 			foreach (DataRow item in listData.Rows)
@@ -136,6 +140,41 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblDescription.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 			}
 			tblDescription.Rows[rowCounter + 1].Delete();
+		}
+
+		public static void copyFromNetwork(string source, string destination, string foldertemplate, string temporaryFolderLocation)
+		{
+			string NETWORK_USER_NAME = ""; 
+			string NETWORK_USER_PASSWORD = "";
+
+			try
+			{
+				NETWORK_USER_NAME = ConfigurationManager.AppSettings["NETWORK_USER_NAME"];
+			}
+			catch { NETWORK_USER_NAME = ""; }
+
+			try
+			{
+				NETWORK_USER_PASSWORD = ConfigurationManager.AppSettings["NETWORK_USER_PASSWORD"];
+			}
+			catch { NETWORK_USER_PASSWORD = ""; }
+
+			if (!String.IsNullOrEmpty(NETWORK_USER_NAME) && !String.IsNullOrEmpty(NETWORK_USER_PASSWORD))
+			{
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(foldertemplate, true);
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(temporaryFolderLocation, true);
+
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.ConnectToShare(foldertemplate, NETWORK_USER_NAME, NETWORK_USER_PASSWORD);
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.ConnectToShare(temporaryFolderLocation, NETWORK_USER_NAME, NETWORK_USER_PASSWORD);
+			}			
+
+			File.Copy(source, destination, true);
+
+			if (!String.IsNullOrEmpty(NETWORK_USER_NAME) && !String.IsNullOrEmpty(NETWORK_USER_PASSWORD))
+			{
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(foldertemplate, false);
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(temporaryFolderLocation, false);
+			}			
 		}
 
 		public static void finalizeDoc(Document doc)

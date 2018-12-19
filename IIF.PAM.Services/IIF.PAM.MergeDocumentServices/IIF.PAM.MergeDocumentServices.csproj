@@ -54,6 +54,7 @@
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\IIFCommon.cs" />
     <Compile Include="Helper\ModelMapping.cs" />
+    <Compile Include="Helper\NetworkShare.cs" />
     <Compile Include="Helper\ObjectClass.cs" />
     <Compile Include="MergeDocument.cs" />
     <Compile Include="Models\AppConstants.cs" />

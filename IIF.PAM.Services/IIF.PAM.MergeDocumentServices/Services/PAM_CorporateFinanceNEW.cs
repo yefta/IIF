@@ -37,7 +37,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 			string getfileName = Path.GetFileName(fileTemplateFullName);
 			string destFile = Path.Combine(temporaryFolderLocation, fileName);
-			File.Copy(fileTemplateFullName, destFile, true);
+
+			IIFCommon.copyFromNetwork(fileTemplateFullName, destFile, foldertemplate, temporaryFolderLocation);
 
 			object missing = System.Reflection.Missing.Value;
 			object readOnly = (object)false;
@@ -244,8 +245,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					IIFCommon.finalizeDoc(doc);
 
 					//doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
-					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
-					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
+					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
 				}
 				catch(Exception ex)
 				{
@@ -261,13 +262,13 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				app.Quit();
 			}
 
-			//File.Delete(destFile);
-			//string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
-			//byte[] fileContent = File.ReadAllBytes(destFilePDF);
+			File.Delete(destFile);
+			string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
+			byte[] fileContent = File.ReadAllBytes(destFilePDF);
 
 			FileMergeResult result = new FileMergeResult();
-			//result.FileContent = fileContent;
-			//result.FileName = fileNamePDF;			
+			result.FileContent = fileContent;
+			result.FileName = fileNamePDF;			
 			return result;
 		}
     }

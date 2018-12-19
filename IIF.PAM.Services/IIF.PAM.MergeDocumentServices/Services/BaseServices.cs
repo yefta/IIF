@@ -81,9 +81,17 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								object start = sourceDocument.Content.Start;
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
-								myRange.Select();								
+								myRange.Select();
+								//myRange.set_Style(ref Normal);
 								//sourceDocument.Sections[1].Range.InsertBreak(WdBreakType.wdSectionBreakNextPage);
 								//sourceDocument.Sections[1].PageSetup.Orientation = WdOrientation.wdOrientLandscape;
+
+								//foreach (Section mySec in sourceDocument.Sections)
+								//{
+								//	mySec.Headers[WdHeaderFooterIndex.wdHeaderFooterEvenPages].Range.Delete();
+								//	mySec.Footers[WdHeaderFooterIndex.wdHeaderFooterEvenPages].Range.Delete();
+								//}
+
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
 								app2.Quit();

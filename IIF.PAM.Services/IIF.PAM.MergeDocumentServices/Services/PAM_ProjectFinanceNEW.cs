@@ -9,6 +9,7 @@ using Microsoft.Office.Interop.Word;
 using IIF.PAM.MergeDocumentServices.Helper;
 using IIF.PAM.MergeDocumentServices.Models;
 using System.Configuration;
+using System.Security.Principal;
 
 namespace IIF.PAM.MergeDocumentServices.Services
 {
@@ -37,9 +38,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             string getfileName = Path.GetFileName(fileTemplateFullName);
             string destFile = Path.Combine(temporaryFolderLocation, fileName);
-            File.Copy(fileTemplateFullName, destFile, true);
 
-            object missing = System.Reflection.Missing.Value;
+			IIFCommon.copyFromNetwork(fileTemplateFullName, destFile, foldertemplate, temporaryFolderLocation);					
+
+			object missing = System.Reflection.Missing.Value;
             object readOnly = (object)false;
             Application app = new Application();
 
@@ -50,8 +52,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				Document doc = app.Documents.Open(destFile, ref missing, ref readOnly);
 				app.Visible = false;
 				try
-				{
+				{		
 					
+					  
 					#region Cover     
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
 
@@ -225,8 +228,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["DxRECOMMENDATIONxCIO"].Range.Text = dataResult[0].AccountResponsibleCIOName;
 
 					#endregion
-				
-					
+
+
 
 					#region Attachment 
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
@@ -239,22 +242,22 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "KYCChecklists", AppConstants.TableName.PAM_KYCChecklists, pamId);
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "OtherBanksfacilities", AppConstants.TableName.PAM_OtherBanksFacilities, pamId);
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "IndustryAnalysis", AppConstants.TableName.PAM_IndustryAnalysis, pamId);
-					
+
 					System.Data.DataTable listLegalDue = db.ExecToDataTable(con, "Generate_Document_PAM_LegalDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listLegalDue, "LegalDuediligenceReportAttachment", "LegalDuediligenceReportDescription");
-					
+
 					System.Data.DataTable listSAndDue = db.ExecToDataTable(con, "Generate_Document_PAM_SAndDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listSAndDue, "SAndDuediligenceReportAttachment", "SAndDuediligenceReportDescription");
-					
+
 					System.Data.DataTable listOtherReport = db.ExecToDataTable(con, "Generate_Document_PAM_OtherReport_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
-					IIFCommon.createLegalSAndEDueOtherReportTable(app, listOtherReport, "OtherReportAttachment", "OtherReportDescription");					
+					IIFCommon.createLegalSAndEDueOtherReportTable(app, listOtherReport, "OtherReportAttachment", "OtherReportDescription");
 					#endregion
 
 					IIFCommon.finalizeDoc(doc);										
 
 					//doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
-					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
-					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));					
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
+					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));					
 				}
 				catch (Exception ex)
 				{
@@ -270,13 +273,13 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				app.Quit();
 			}
 
-			//File.Delete(destFile);
-			//string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
-			//byte[] fileContent = File.ReadAllBytes(destFilePDF);
+			File.Delete(destFile);
+			string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
+			byte[] fileContent = File.ReadAllBytes(destFilePDF);
 
 			FileMergeResult result = new FileMergeResult();
-			//result.FileContent = fileContent;
-			//result.FileName = fileNamePDF;			
+			result.FileContent = fileContent;
+			result.FileName = fileNamePDF;			
 			return result;
 		}     
     }
