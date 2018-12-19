@@ -109,6 +109,7 @@ namespace IIF.PAM.WebServices.Services
             sbQueryInsert.Append(") VALUES ");
 
             int userIndex = 0;
+            int userHasEmail = 0;
             using (SqlCommand cmd = con.CreateCommand())
             {
                 foreach (string userFQN in listUserFQN)
@@ -133,21 +134,26 @@ namespace IIF.PAM.WebServices.Services
                             cmd.Parameters.Add(this.NewSqlParameter("To_" + userIndex.ToString(), SqlDbType.VarChar, userAD.Email));
 
                             userIndex++;
+                            userHasEmail++;
                         }
                     }
                 }
 
-                cmd.Transaction = tran;
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = sbQueryInsert.ToString();
+                if (userHasEmail > 0)
+                {
 
-                cmd.Parameters.Add(this.NewSqlParameter("From", SqlDbType.VarChar, param.From));
-                cmd.Parameters.Add(this.NewSqlParameter("Subject", SqlDbType.VarChar, param.Subject));
-                cmd.Parameters.Add(this.NewSqlParameter("Body", SqlDbType.VarChar, param.Body));
-                cmd.Parameters.Add(this.NewSqlParameter("IDEmailTemplate", SqlDbType.VarChar, param.IDEmailTemplate));
-                cmd.Parameters.Add(this.NewSqlParameter("IDReference", SqlDbType.VarChar, "CM-" + IDReference));
+                    cmd.Transaction = tran;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sbQueryInsert.ToString();
 
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.Add(this.NewSqlParameter("From", SqlDbType.VarChar, param.From));
+                    cmd.Parameters.Add(this.NewSqlParameter("Subject", SqlDbType.VarChar, param.Subject));
+                    cmd.Parameters.Add(this.NewSqlParameter("Body", SqlDbType.VarChar, param.Body));
+                    cmd.Parameters.Add(this.NewSqlParameter("IDEmailTemplate", SqlDbType.VarChar, param.IDEmailTemplate));
+                    cmd.Parameters.Add(this.NewSqlParameter("IDReference", SqlDbType.VarChar, "CM-" + IDReference));
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
