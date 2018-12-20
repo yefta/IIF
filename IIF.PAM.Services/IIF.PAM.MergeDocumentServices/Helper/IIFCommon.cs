@@ -78,7 +78,8 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
-				tblPreviousApproval.Cell(rowCounter, 5).Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(item[5].ToString(), currFontFamily, currFontSize));
+				string htmlResult = ConvertHtmlAndFile.SaveToFile(item[5].ToString());
+				tblPreviousApproval.Cell(rowCounter, 5).Range.InsertFile(htmlResult);
 				tblPreviousApproval.Cell(rowCounter, 5).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 5).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 			}

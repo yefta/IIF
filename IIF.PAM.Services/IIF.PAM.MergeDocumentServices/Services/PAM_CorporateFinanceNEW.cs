@@ -58,17 +58,28 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					int countBorrower = 0;
 					string prevBorrower = "";
 					string currentBorrower = "";
+					List<String> lsBorrower = new List<string>();
+					Table tblCoverBorrower = IIFCommon.createTable(app, "CompanyName", 1, false);
+					tblCoverBorrower.Borders.Enable = 0;
 					foreach (DataRow item in listBorrowerCover.Rows)
 					{
 						countBorrower++;
-						prevBorrower = item[0].ToString().Trim();
-						if (currentBorrower.Trim() != prevBorrower.Trim())
+						prevBorrower = item[0].ToString().Trim().ToLower();
+						if (!lsBorrower.Contains(prevBorrower))
 						{
-							if (countBorrower < listBorrowerCover.Rows.Count && countBorrower > 1)
-								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
+							if (countBorrower > 1)
+							{
+								tblCoverBorrower.Rows.Add(ref missing);
+							}
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Text = item[0].ToString();
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Name = "Roboto Light";
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Size = 18;
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+							tblCoverBorrower.Cell(countBorrower, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
-							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString().Trim();
-							currentBorrower = item[0].ToString().Trim();
+							currentBorrower = item[0].ToString().Trim().ToLower();
+
+							lsBorrower.Add(currentBorrower);
 						}
 					}
 

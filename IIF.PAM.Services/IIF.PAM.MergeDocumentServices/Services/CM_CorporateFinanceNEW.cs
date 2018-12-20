@@ -61,17 +61,28 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					int countBorrower = 0;
 					string prevBorrower = "";
 					string currentBorrower = "";
+					List<String> lsBorrower = new List<string>();
+					Table tblCoverBorrower = IIFCommon.createTable(app, "CompanyName", 1, false);
+					tblCoverBorrower.Borders.Enable = 0;
 					foreach (DataRow item in listBorrowerCover.Rows)
 					{
 						countBorrower++;
-						prevBorrower = item[0].ToString().Trim();
-						if (currentBorrower.Trim() != prevBorrower.Trim())
+						prevBorrower = item[0].ToString().Trim().ToLower();
+						if (!lsBorrower.Contains(prevBorrower))
 						{
-							if (countBorrower < listBorrowerCover.Rows.Count && countBorrower > 1)
-								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
+							if (countBorrower > 1)
+							{
+								tblCoverBorrower.Rows.Add(ref missing);
+							}
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Text = item[0].ToString();
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Name = "Roboto Light";
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Size = 18;
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+							tblCoverBorrower.Cell(countBorrower, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
-							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString().Trim();
-							currentBorrower = item[0].ToString().Trim();
+							currentBorrower = item[0].ToString().Trim().ToLower();
+
+							lsBorrower.Add(currentBorrower);
 						}
 					}
 
@@ -188,10 +199,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						tblFacility.Cell(rowCounter, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 
 						tblFacility.Cell(rowCounter, 3).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblFacility.Cell(rowCounter, 3).Range.Text = "";
+						tblFacility.Cell(rowCounter, 3).Range.Text = item[3].ToString() + " " + item[4].ToString();
+						tblFacility.Cell(rowCounter, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 
 						tblFacility.Cell(rowCounter, 4).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblFacility.Cell(rowCounter, 4).Range.Text = "";
+						tblFacility.Cell(rowCounter, 4).Range.Text = item[5].ToString() + " " + item[6].ToString();
+						tblFacility.Cell(rowCounter, 4).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					}
 
 					tblFacility.Rows.Add(ref missing);
@@ -211,31 +224,41 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["CxPROPOSALxPricingxArrangerFee"].Range.Text = dataResult[0].PricingArrangerFee;
 
 					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxCollateral", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingCollateral", "Id");
-					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxOtherCondition", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingOtherConditions", "Id");
-
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit);
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed);
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxR"].Range.Text = dataResult[0].SingleProjectExposureRemarks;
+					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxOtherCondition", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingOtherConditions", "Id");					
 
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexCurrency"].Range.Text = dataResult[0].LimitComplianceCurrency;
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexAsFor"].Range.Text = Convert.ToDateTime("01-" + dataResult[0].FacilityLimitComplianceMonth.ToString() + "-1985").ToString("MMM") + " " + dataResult[0].FacilityLimitComplianceYear.ToString();
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexAsFor"].Range.Text = Convert.ToDateTime(dataResult[0].FacilityLimitComplianceMonth.ToString() + "-1985").ToString("MMM") + " " + dataResult[0].FacilityLimitComplianceYear.ToString();
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRiskRating"].Range.Text = dataResult[0].FacilityLimitComplianceIIFRate;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSecExposure"].Range.Text = dataResult[0].SectorDesc;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductMaxLimit);
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceProductProposed);
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxML"].Range.Text = dataResult[0].FacilityLimitComplianceSingleProjectExposureMaxLimit;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxML"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxP"].Range.Text = dataResult[0].FacilityLimitComplianceSingleProjectExposureProposed;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxP"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSPELxR"].Range.Text = dataResult[0].SingleProjectExposureRemarks;
+
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxML"].Range.Text = dataResult[0].FacilityLimitComplianceProductMaxLimit;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxML"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxP"].Range.Text = dataResult[0].FacilityLimitComplianceProductProposed;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxP"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexPxR"].Range.Text = dataResult[0].ProductRemarks;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceRiskRatingMaxLimit);
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceRiskRatingProposed);
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxML"].Range.Text = dataResult[0].FacilityLimitComplianceRiskRatingMaxLimit;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxML"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxP"].Range.Text = dataResult[0].FacilityLimitComplianceRiskRatingProposed;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxP"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRRxR"].Range.Text = dataResult[0].RiskRatingRemarks;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceGrupExposureMaxLimit);
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceGrupExposureProposed);
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxML"].Range.Text = dataResult[0].FacilityLimitComplianceGrupExposureMaxLimit;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxML"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxP"].Range.Text = dataResult[0].FacilityLimitComplianceGrupExposureProposed;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxP"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexGELxR"].Range.Text = dataResult[0].GrupExposureRemarks;
 
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExML"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSectorExposureMaxLimit);
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExP"].Range.Text = Convert.ToString(dataResult[0].FacilityLimitComplianceSectorExposureProposed);
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExML"].Range.Text = dataResult[0].FacilityLimitComplianceSectorExposureMaxLimit;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExML"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExP"].Range.Text = dataResult[0].FacilityLimitComplianceSectorExposureProposed;
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExP"].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSExR"].Range.Text = dataResult[0].SectorExposureRemarks;
 
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexNotes"].Range.Text = dataResult[0].notes;

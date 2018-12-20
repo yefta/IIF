@@ -48,7 +48,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 			object Normal = "Normal";
 
-			string query = "SELECT top 1 ";
+			string query = "SELECT ";
             query = query + " Attachment";
             query = query + " FROM " + tableName;
             query = query + " WHERE PAMId = @PAMId";
@@ -82,7 +82,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
-								//myRange.set_Style(ref Normal);
+								myRange.set_Style(ref Normal);
 								//sourceDocument.Sections[1].Range.InsertBreak(WdBreakType.wdSectionBreakNextPage);
 								//sourceDocument.Sections[1].PageSetup.Orientation = WdOrientation.wdOrientLandscape;
 
@@ -209,7 +209,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
-								//myRange.set_Style(ref Normal);
+								myRange.set_Style(ref Normal);
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
 								app2.Quit();

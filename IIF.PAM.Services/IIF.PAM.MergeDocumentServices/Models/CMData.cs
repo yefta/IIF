@@ -44,6 +44,8 @@ namespace IIF.PAM.MergeDocumentServices.Models
 		public string GroupExposureAmount { get; set; }
 		public string Remarks { get; set; }
 		public string FacilityOrInvestmentRemarks { get; set; }
+		public int? ExpectedHoldingPeriodYear { get; set; }
+		public int? ExpectedHoldingPeriodMonth { get; set; }
 		public int TenorMonth { get; set; }
 		public int TenorYear { get; set; }
 		public int AverageLoanLifeMonth { get; set; }
@@ -61,23 +63,23 @@ namespace IIF.PAM.MergeDocumentServices.Models
 		public string LimitComplianceCurrency { get; set; }
 		public int FacilityLimitComplianceMonth { get; set; }
 		public int FacilityLimitComplianceYear { get; set; }
-		public decimal FacilityLimitComplianceSingleProjectExposureMaxLimit { get; set; }
-		public decimal FacilityLimitComplianceSingleProjectExposureProposed { get; set; }
+		public string FacilityLimitComplianceSingleProjectExposureMaxLimit { get; set; }
+		public string FacilityLimitComplianceSingleProjectExposureProposed { get; set; }
 		public string SingleProjectExposureRemarks { get; set; }
 		//public string FacilityLimitComplianceProductItemId { get; set; }
-		public decimal FacilityLimitComplianceProductMaxLimit { get; set; }
-		public decimal FacilityLimitComplianceProductProposed { get; set; }
+		public string FacilityLimitComplianceProductMaxLimit { get; set; }
+		public string FacilityLimitComplianceProductProposed { get; set; }
 		public string ProductRemarks { get; set; }
 		public int FacilityLimitComplianceRiskRatingId { get; set; }
 		public string FacilityLimitComplianceIIFRate { get; set; }
-		public decimal FacilityLimitComplianceRiskRatingMaxLimit { get; set; }
-		public decimal FacilityLimitComplianceRiskRatingProposed { get; set; }
+		public string FacilityLimitComplianceRiskRatingMaxLimit { get; set; }
+		public string FacilityLimitComplianceRiskRatingProposed { get; set; }
 		public string RiskRatingRemarks { get; set; }
-		public decimal FacilityLimitComplianceGrupExposureMaxLimit { get; set; }
-		public decimal FacilityLimitComplianceGrupExposureProposed { get; set; }
+		public string FacilityLimitComplianceGrupExposureMaxLimit { get; set; }
+		public string FacilityLimitComplianceGrupExposureProposed { get; set; }
 		public string GrupExposureRemarks { get; set; }		
-		public decimal FacilityLimitComplianceSectorExposureMaxLimit { get; set; }
-		public decimal FacilityLimitComplianceSectorExposureProposed { get; set; }
+		public string FacilityLimitComplianceSectorExposureMaxLimit { get; set; }
+		public string FacilityLimitComplianceSectorExposureProposed { get; set; }
 		public string SectorExposureRemarks { get; set; }
 		public string notes { get; set; }
 		public string KeyInvestmentRecommendation { get; set; }

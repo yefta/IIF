@@ -1,14 +1,153 @@
-CREATE PROCEDURE [dbo].[Generate_Document_PAM_Borrower_Cover_SP]
+alter PROCEDURE [dbo].[Generate_Document_CM_Data_SP]
 	@Id AS bigint = NULL
 AS
 BEGIN
-	SELECT 
-		PAM_BorrowerOrTargetCompany.BorrowerOrTargetCompany,		
-		Id
-			from 
-				PAM_BorrowerOrTargetCompany
-			where PAM_BorrowerOrTargetCompany.PAMId = @Id			
-		order by Id desc			
+	Select 
+		CM.Id
+
+		-- Cover
+		,CMReview.Name AS ReviewMemo
+		,MProductType.Name As ProductType
+		,CM_BorrowerOrInvesteeCompanyData.ProjectCompanyOrInvesteeOrBorrower AS CompanyName
+		,CM.CMNumber
+		,CM_ProjectData.ProjectName
+		,CM_ProjectData.ProjectCode
+		,CM.CMDate
+		-- Project
+		,CM_ProjectData.ProjectDescription
+		,CM_ProjectData.SubSector
+		,CM_ProjectData.SubSectorDesc
+		,CM_ProjectData.Sector
+		,CM_ProjectData.SectorDesc
+		,ProjectCostMCurr.Code As ProjectCosCurr
+		,CAST(CONVERT(varchar, CAST(CM_ProjectData.ProjectCostAmount AS Money), 1) AS varchar) as ProjectCostAmount		
+		,CM_ProjectData.ProjectScope
+		,CM_ProjectData.ProjectStructure
+		,CM_ProjectData.FundingNeeds
+		,CM_ProjectData.DealStrategy
+		-- Borrower
+		,CM_BorrowerOrInvesteeCompanyData.UltimateBeneficialOwner
+		,MIIFRating.Rate AS IIFRate
+		,CM_BorrowerOrInvesteeCompanyData.IIFRatingDate
+		,MSAndPRating.Rate AS SAndPRate
+		,MMoodysRating.Rate AS MoodysRate
+		,MFitchRating.Rate AS FitchRate
+		,MPefindoRating.Rate AS PefindoRate
+		,MSAndECategory.Rate AS SAndECategoryRate
+		,MSAndERatingType.Rate AS SAndECategoryType
+		,MLQCOrBICheckingRating.Rate AS LQCOrBICheckingRate
+		,CM_BorrowerOrInvesteeCompanyData.BusinessActivities
+		,CM_BorrowerOrInvesteeCompanyData.OtherInformation
+		-- Proposal
+		,CM_ProposalOrFacilityData.Purpose
+		,MApprovalAuthority.Name AS ApprovalAuhority
+		,GroupExposureCurr.Code AS GroupExposureCurr
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacilityData.GroupExposureAmount AS Money), 1) AS varchar) as GroupExposureAmount		
+		,CM_ProposalOrFacilityData.Remarks
+		,CM_ProposalOrFacilityData.FacilityOrInvestmentRemarks
+		,CM_ProposalOrFacilityData.ExpectedHoldingPeriodYear
+		,CM_ProposalOrFacilityData.ExpectedHoldingPeriodMonth
+		,CM_ProposalOrFacilityData.TenorMonth
+		,CM_ProposalOrFacilityData.TenorYear
+		,CM_ProposalOrFacilityData.AverageLoanLifeMonth
+		,CM_ProposalOrFacilityData.AverageLoanLifeYear
+		,CM_ProposalOrFacilityData.PricingInterestRate
+		,CM_ProposalOrFacilityData.PricingCommitmentFee
+		,CM_ProposalOrFacilityData.PricingUpfrontFacilityFee
+		,CM_ProposalOrFacilityData.PricingStructuringFee
+		,CM_ProposalOrFacilityData.PricingArrangerFee
+		,CM_ProposalOrFacilityData.PricingCollateral
+		,CM_ProposalOrFacilityData.PricingOtherConditions
+		,CM_ProposalOrFacilityData.PricingExceptionToIIFPolicy		
+		,ProposalReviewPeriod2.Name As ProposalReviewPeriod
+		-- ProposalcLimit Compliance
+		,ProposalOrFacility_LimitComplianceCurr.Code as LimitComplianceCurrency
+		,CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceCurrencyId
+		,CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceMonth
+		,CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceYear
+
+		
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceSingleProjectExposureMaxLimit AS Money), 1) AS varchar) as FacilityLimitComplianceSingleProjectExposureMaxLimit						
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceSingleProjectExposureProposed AS Money), 1) AS varchar) as FacilityLimitComplianceSingleProjectExposureProposed
+		
+		,CASE CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceSingleProjectExposureRemarksId
+            WHEN 1 THEN 'Comply'
+            WHEN 2 THEN 'Not Comply'
+			WHEN 3 THEN 'N/A'
+            ELSE '' 
+            END AS SingleProjectExposureRemarks
+		--,CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceProductItemId
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceProductMaxLimit AS Money), 1) AS varchar) as FacilityLimitComplianceProductMaxLimit
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceProductProposed AS Money), 1) AS varchar) as FacilityLimitComplianceProductProposed				
+
+		,CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceProductRemarksId
+		,CASE CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceProductRemarksId
+            WHEN 1 THEN 'Comply'
+            WHEN 2 THEN 'Not Comply'
+			WHEN 3 THEN 'N/A'
+            ELSE '' 
+            END AS ProductRemarks
+		,CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceRiskRatingId
+		,MIIFRating2.Rate AS FacilityLimitComplianceIIFRate
+
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceRiskRatingMaxLimit AS Money), 1) AS varchar) as FacilityLimitComplianceRiskRatingMaxLimit
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceRiskRatingProposed AS Money), 1) AS varchar) as FacilityLimitComplianceRiskRatingProposed
+		
+		,CASE CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceRiskRatingRemarksId
+            WHEN 1 THEN 'Comply'
+            WHEN 2 THEN 'Not Comply'
+			WHEN 3 THEN 'N/A'
+            ELSE '' 
+            END AS RiskRatingRemarks
+
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceGrupExposureMaxLimit AS Money), 1) AS varchar) as FacilityLimitComplianceGrupExposureMaxLimit
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceGrupExposureProposed AS Money), 1) AS varchar) as FacilityLimitComplianceGrupExposureProposed
+
+		,CASE CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceGrupExposureRemarksId
+			WHEN 1 THEN 'Comply'
+            WHEN 2 THEN 'Not Comply'
+			WHEN 3 THEN 'N/A'
+            ELSE '' 
+            END AS GrupExposureRemarks				
+
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceSectorExposureMaxLimit AS Money), 1) AS varchar) as FacilityLimitComplianceSectorExposureMaxLimit
+		,CAST(CONVERT(varchar, CAST(CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceSectorExposureProposed AS Money), 1) AS varchar) as FacilityLimitComplianceSectorExposureProposed
+		
+		,CASE CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceSectorExposureRemarksId
+			WHEN 1 THEN 'Comply'
+            WHEN 2 THEN 'Not Comply'
+			WHEN 3 THEN 'N/A'
+            ELSE '' 
+            END AS SectorExposureRemarks
+		,CM_ProposalOrFacility_LimitCompliance.notes
+		-- Reccomendation
+		,CM_RecommendationData.KeyInvestmentRecommendation
+		,CM_RecommendationData.Recommendation
+		,CM_RecommendationData.AccountResponsibleCIOName
+			from CM
+				LEFT JOIN MReviewPeriod AS CMReview ON CMReview.Id = CM.MReviewPeriodId
+				LEFT JOIN CM_ProjectData ON CM_ProjectData.Id =  CM.Id
+				LEFT JOIN MCurrency AS ProjectCostMCurr ON ProjectCostMCurr.Id = CM_ProjectData.ProjectCostMCurrencyId
+				LEFT JOIN CM_BorrowerOrInvesteeCompanyData ON CM_BorrowerOrInvesteeCompanyData.Id = CM.Id
+				LEFT JOIN MIIFRating ON MIIFRating.Id = CM_BorrowerOrInvesteeCompanyData.MIIFRatingId				
+				LEFT JOIN MSAndPRating ON MSAndPRating.Id = CM_BorrowerOrInvesteeCompanyData.ExternalRatingMSAndPRatingId
+				LEFT JOIN MMoodysRating ON MMoodysRating.Id = CM_BorrowerOrInvesteeCompanyData.ExternalRatingMMoodysRatingId
+				LEFT JOIN MFitchRating ON MFitchRating.Id = CM_BorrowerOrInvesteeCompanyData.ExternalRatingMFitchRatingId
+				LEFT JOIN MPefindoRating ON MPefindoRating.Id = CM_BorrowerOrInvesteeCompanyData.ExternalRatingMPefindoRatingId
+				LEFT JOIN MSAndECategory ON MSAndECategory.Id = CM_BorrowerOrInvesteeCompanyData.MSAndECategoryId
+				LEFT JOIN MSAndERatingType ON MSAndERatingType.Id = CM_BorrowerOrInvesteeCompanyData.MSAndERatingTypeId
+				LEFT JOIN MLQCOrBICheckingRating ON MLQCOrBICheckingRating.Id = CM_BorrowerOrInvesteeCompanyData.MLQCOrBICheckingRatingId
+				LEFT JOIN CM_ProposalOrFacilityData ON CM_ProposalOrFacilityData.Id =  CM.Id
+				LEFT JOIN MApprovalAuthority ON MApprovalAuthority.Id = CM_ProposalOrFacilityData.MApprovalAuthorityId
+				LEFT JOIN MCurrency as GroupExposureCurr ON GroupExposureCurr.Id = CM_ProposalOrFacilityData.GroupExposureMCurrencyId
+				LEFT JOIN MReviewPeriod As ProposalReviewPeriod ON ProposalReviewPeriod.Id = CM.MReviewPeriodId
+				LEFT JOIN MReviewPeriod As ProposalReviewPeriod2 ON ProposalReviewPeriod2.Id = CM_ProposalOrFacilityData.PricingMReviewPeriodId
+				LEFT JOIN MProductType ON MProductType.Id = CM.MProductTypeId
+				LEFT JOIN CM_ProposalOrFacility_LimitCompliance ON CM_ProposalOrFacility_LimitCompliance.Id = CM.Id
+				LEFT JOIN MIIFRating MIIFRating2 ON MIIFRating2.Id = CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceRiskRatingId
+				LEFT JOIN MCurrency as ProposalOrFacility_LimitComplianceCurr ON ProposalOrFacility_LimitComplianceCurr.Id = CM_ProposalOrFacility_LimitCompliance.FacilityLimitComplianceCurrencyId
+				LEFT JOIN CM_RecommendationData ON CM_RecommendationData.Id = CM.Id
+			where CM.Id = @Id
 END
 
 
@@ -17,15 +156,153 @@ END
 
 
 
-CREATE PROCEDURE [dbo].[Generate_Document_CM_Borrower_Cover_SP]
+
+
+alter PROCEDURE [dbo].[Generate_Document_CM_Borrower_SP]
 	@Id AS bigint = NULL
 AS
 BEGIN
 	SELECT 
-		BorrowerOrCompany,		
+		LTRIM(RTRIM(BorrowerOrCompany)) as BorrowerOrCompany,
+		ProjectSponsorsOrShareHolders,
+		CAST(CONVERT(varchar, CAST(PercentOwnership AS Money), 1) AS varchar) as PercentOwnership		
+			from 
+				Vw_PAMCM_BorrowerOrCompany				
+			where Vw_PAMCM_BorrowerOrCompany.PAMOrCMId = @Id					
+END
+
+
+
+
+
+
+alter PROCEDURE [dbo].[Generate_Document_CM_Borrower_Cover_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		LTRIM(RTRIM(BorrowerOrCompany)) as BorrowerOrCompany,		
 		Id	
 			from 
 				Vw_PAMCM_BorrowerOrCompany				
 			where Vw_PAMCM_BorrowerOrCompany.PAMOrCMId = @Id	
-		order by Id desc		
+		order by Id 
+END
+
+
+
+
+
+
+alter PROCEDURE [dbo].[Generate_Document_PAM_Borrower_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		LTRIM(RTRIM(PAM_BorrowerOrTargetCompany.BorrowerOrTargetCompany)) as  BorrowerOrTargetCompany,
+		PAM_BorrowerOrTargetCompany.ProjectSponsorOrShareHolder,		
+		CAST(CONVERT(varchar, CAST(PAM_BorrowerOrTargetCompany.PercentOwnership AS Money), 1) AS varchar) as PercentOwnership
+			from 
+				PAM_BorrowerOrTargetCompany
+			where PAM_BorrowerOrTargetCompany.PAMId = @Id			
+END
+
+
+
+
+
+
+alter PROCEDURE [dbo].[Generate_Document_PAM_Borrower_Cover_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		LTRIM(RTRIM(PAM_BorrowerOrTargetCompany.BorrowerOrTargetCompany)) as  BorrowerOrTargetCompany,	
+		Id
+			from 
+				PAM_BorrowerOrTargetCompany
+			where PAM_BorrowerOrTargetCompany.PAMId = @Id			
+		order by Id 			
+END
+
+
+
+
+
+alter PROCEDURE [dbo].[Generate_Document_CM_PreviousApproval_SP]
+	@ProjectCode AS varchar(MAX)
+AS
+BEGIN
+	select * from
+	(
+	--PAM
+	SELECT 
+		1 as RowOrder
+		,'PAM' as TypeDocument		
+		,'-' as RunningNumber
+		,'BoD-IC Approval' as TypeApproval
+		,MAX(BoDDecisionDate) as ApprovalDate		
+		,b.Purpose
+		FROM [dbo].[PAM_BoDDecision] a		
+		left join dbo.PAM_ProposalData b on b.Id = a.PAMId		
+		where PAMId in
+		(
+			select Id from PAM_ProjectData where ProjectCode = @ProjectCode
+		)
+		Group By Purpose
+
+	UNION
+
+	SELECT 
+		2 as RowOrder
+		,'PAM' as TypeDocument
+		,'-' as RunningNumber
+		,'BoC-IC Approval' as TypeApproval
+		,MAX(BoCDecisionDate) as ApprovalDate
+		,b.Purpose
+		FROM [dbo].[PAM_BoCDecision] a
+		left join dbo.PAM_ProposalData b on b.Id = a.PAMId	
+		where PAMId in
+		(
+			select Id from PAM_ProjectData where ProjectCode = @ProjectCode
+		)
+		Group By Purpose
+
+	UNION
+	--CM
+	SELECT 
+		3 as RowOrder
+		,'CM' as TypeDocument
+		,c.CMNumber as RunningNumber
+		,'BoD-IC Approval' as TypeApproval
+		,MAX(BoDDecisionDate) as ApprovalDate
+		,b.Purpose
+		FROM [dbo].[CM_BoDDecision] a
+		left join dbo.CM_ProposalOrFacilityData b on b.Id = a.CMId
+		left join dbo.CM c on c.Id = a.CMId
+		where CMId in
+		(
+			select Id from CM_ProjectData where ProjectCode = @ProjectCode
+		)
+		Group By Purpose,CMNumber
+
+	UNION
+
+	SELECT 
+		4 as RowOrder
+		,'CM' as TypeDocument
+		,c.CMNumber as RunningNumber
+		,'BoC-IC Approval' as TypeApproval
+		,MAX(BoCDecisionDate) as ApprovalDate
+		,b.Purpose
+		FROM [dbo].[CM_BoCDecision] a
+		left join dbo.CM_ProposalOrFacilityData b on b.Id = a.CMId
+		left join dbo.CM c on c.Id = a.CMId
+		where CMId in
+		(
+			select Id from CM_ProjectData where ProjectCode = @ProjectCode
+		)
+		Group By Purpose,CMNumber
+
+	) a order by RowOrder
 END
