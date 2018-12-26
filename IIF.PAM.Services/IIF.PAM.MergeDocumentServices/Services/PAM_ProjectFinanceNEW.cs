@@ -31,7 +31,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_PAM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
-            string fileName = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".docx";
+			System.Data.DataTable listDocVersion = db.ExecToDataTable(con, "Generate_Document_PAM_Version_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
+
+			string fileName = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".docx";
             string fileNamePDF = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
             string fileTemplateName = "PAM Project Finance Template.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
@@ -88,9 +90,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					app.ActiveDocument.Bookmarks["ProjectName"].Range.Text = dataResult[0].ProjectName;
 
-					
+
 					app.ActiveDocument.Bookmarks["ProjectCode"].Range.Text = dataResult[0].ProjectCode;
-					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dataResult[0].PAMDate.ToString("dd-MMMM-yyyy");
+					System.Globalization.CultureInfo cult = new System.Globalization.CultureInfo("en-us");
+					string dateToShow = string.Format(cult, "{0:dd-MMMM-yyyy}", dataResult[0].PAMDate);
+					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dateToShow;
 
 					app.ActiveDocument.Bookmarks["FooterProjectCode"].Range.Text = dataResult[0].ProjectCode;
 					#endregion
@@ -123,8 +127,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						tblProjectSponsors.Rows.Add(ref missing);
 						rowCounter++;
 
-						prevkey = item[0].ToString();
-						if (cellText.Trim() != prevkey.Trim())
+						prevkey = item[0].ToString().Trim().ToLower();
+						if (cellText.Trim().ToLower() != prevkey.Trim().ToLower())
 						{
 							//merge kolom kalo value nya beda, mulai row ke 3
 							if (rowCounter > 2 && (rowTemp != (rowCounter - 1)))
@@ -136,7 +140,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 							tblProjectSponsors.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 							tblProjectSponsors.Cell(rowCounter, 1).Range.Text = item[0].ToString().Trim();
-							cellText = item[0].ToString();
+							cellText = item[0].ToString().Trim().ToLower();
 							tblProjectSponsors.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 						}
 
@@ -264,8 +268,26 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listOtherReport, "OtherReportAttachment", "OtherReportDescription");
 					#endregion
 
-					IIFCommon.finalizeDoc(doc);										
-										
+					IIFCommon.finalizeDoc(doc);
+					IIFCommon.injectFooterPAM(doc, dataResult[0].ProjectCode);
+
+					string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileNamePDF);
+					if (listDocVersion.Rows.Count == 0)
+					{
+						fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+					}
+					else
+					{
+						if (string.IsNullOrEmpty(listDocVersion.Rows[0]["LastVersion"].ToString()))
+						{
+							fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+						}
+						else
+						{
+							int lastVersion = Convert.ToInt32(listDocVersion.Rows[0]["LastVersion"]);
+							fileNamePDF = fileNameWithoutExt + "-v" + (lastVersion + 1) + ".0.pdf";
+						}
+					}
 					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));					
 				}

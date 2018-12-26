@@ -30,6 +30,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_CM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
 
+			System.Data.DataTable listDocVersion = db.ExecToDataTable(con, "Generate_Document_CM_Version_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, cmId) });
+
 			string fileName = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".docx";
 			string fileNamePDF = "CM-" + dataResult[0].ProductType + "-" + dataResult[0].CompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
 
@@ -97,9 +99,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						);
 
 					app.ActiveDocument.Bookmarks["ProjectCode"].Range.Text = dataResult[0].ProjectCode;
-					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dataResult[0].CMDate.ToString("dd-MMMM-yyyy");
+					System.Globalization.CultureInfo cult = new System.Globalization.CultureInfo("en-us");
+					string dateToShow = string.Format(cult, "{0:dd-MMMM-yyyy}", dataResult[0].CMDate);
+					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dateToShow;
 
-					app.ActiveDocument.Bookmarks["FooterDate"].Range.Text = dataResult[0].CMDate.ToString("MMM") + " " + dataResult[0].CMDate.ToString("yyyy");
+					string footerDateToShow = string.Format(cult, "{0:MMM yyyy}", dataResult[0].CMDate);
+					app.ActiveDocument.Bookmarks["FooterDate"].Range.Text = footerDateToShow;
 					#endregion
 
 					#region PROJECT
@@ -127,8 +132,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						tblShareholders.Rows.Add(ref missing);
 						rowCounter++;
 
-						prevkey = item[0].ToString();
-						if (cellText.Trim() != prevkey.Trim())
+						prevkey = item[0].ToString().Trim().ToLower();
+						if (cellText.Trim().ToLower() != prevkey.Trim().ToLower())
 						{
 							//merge kolom kalo value nya beda, mulai row ke 3
 							if (rowCounter > 2 && (rowTemp != (rowCounter - 1)))
@@ -140,7 +145,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 							tblShareholders.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString().Trim();
-							cellText = item[0].ToString();
+							cellText = item[0].ToString().Trim().ToLower();
 							tblShareholders.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 						}
 
@@ -300,7 +305,26 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					#endregion
 
 					IIFCommon.finalizeDoc(doc);
-					
+					IIFCommon.injectFooterCM(doc, footerDateToShow, "Corporate");
+
+					string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileNamePDF);
+					if (listDocVersion.Rows.Count == 0)
+					{
+						fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+					}
+					else
+					{
+						if (string.IsNullOrEmpty(listDocVersion.Rows[0]["LastVersion"].ToString()))
+						{
+							fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+						}
+						else
+						{
+							int lastVersion = Convert.ToInt32(listDocVersion.Rows[0]["LastVersion"]);
+							fileNamePDF = fileNameWithoutExt + "-v" + (lastVersion + 1) + ".0.pdf";
+						}
+					}
+
 					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
 				}
