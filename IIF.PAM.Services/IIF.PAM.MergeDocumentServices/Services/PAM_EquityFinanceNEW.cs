@@ -30,16 +30,19 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
             System.Data.DataTable listDealTeam = db.ExecToDataTable(con, "Generate_Document_PAM_DealTeam_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 
-            string fileName = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".docx";
+			System.Data.DataTable listDocVersion = db.ExecToDataTable(con, "Generate_Document_PAM_Version_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
+
+			string fileName = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".docx";
             string fileNamePDF = "PAM-" + dataResult[0].ProductType + "-" + dataResult[0].ProjectCompanyName + "-" + dataResult[0].ProjectCode + ".pdf";
             string fileTemplateName = "PAM Equity Investment Template.docx";
             string fileTemplateFullName = foldertemplate.AppendPath("\\", fileTemplateName);
 
             string getfileName = Path.GetFileName(fileTemplateFullName);
             string destFile = Path.Combine(temporaryFolderLocation, fileName);
-            File.Copy(fileTemplateFullName, destFile, true);
 
-            object missing = System.Reflection.Missing.Value;
+			IIFCommon.copyFromNetwork(fileTemplateFullName, destFile, foldertemplate, temporaryFolderLocation);
+
+			object missing = System.Reflection.Missing.Value;
             object readOnly = (object)false;
             Application app = new Application();
 
@@ -50,24 +53,35 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				Document doc = app.Documents.Open(destFile, ref missing, ref readOnly);
 				app.Visible = false;
 				try
-				{
+				{							
 					#region Cover                    					
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
 
 					int countBorrower = 0;
 					string prevBorrower = "";
 					string currentBorrower = "";
+					List<String> lsBorrower = new List<string>();
+					Table tblCoverBorrower = IIFCommon.createTable(app, "CompanyName", 1, false);
+					tblCoverBorrower.Borders.Enable = 0;
 					foreach (DataRow item in listBorrowerCover.Rows)
 					{
 						countBorrower++;
-						prevBorrower = item[0].ToString();
-						if (currentBorrower != prevBorrower)
+						prevBorrower = item[0].ToString().Trim().ToLower();
+						if (!lsBorrower.Contains(prevBorrower))
 						{
-							app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = item[0].ToString();
-							currentBorrower = item[0].ToString();
+							if (countBorrower > 1)
+							{
+								tblCoverBorrower.Rows.Add(ref missing);
+							}
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Text = item[0].ToString();
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Name = "Roboto Light";
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Size = 18;
+							tblCoverBorrower.Cell(countBorrower, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
+							tblCoverBorrower.Cell(countBorrower, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+							
+							currentBorrower = item[0].ToString().Trim().ToLower();
 
-							if (countBorrower < listBorrowerCover.Rows.Count)
-								app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = System.Environment.NewLine;
+							lsBorrower.Add(currentBorrower);
 						}
 					}
 
@@ -75,7 +89,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["ProjectName"].Range.Text = dataResult[0].ProjectName;
 
 					app.ActiveDocument.Bookmarks["ProjectCode"].Range.Text = dataResult[0].ProjectCode;
-					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dataResult[0].PAMDate.ToString("dd-MMMM-yyyy");
+					System.Globalization.CultureInfo cult = new System.Globalization.CultureInfo("en-us");
+					string dateToShow = string.Format(cult, "{0:dd-MMMM-yyyy}", dataResult[0].PAMDate);					
+					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dateToShow;					
 
 					app.ActiveDocument.Bookmarks["FooterProjectCode"].Range.Text = dataResult[0].ProjectCode;
 					#endregion
@@ -105,8 +121,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						tblShareholders.Rows.Add(ref missing);
 						rowCounter++;
 
-						prevkey = item[0].ToString();
-						if (cellText != prevkey)
+						prevkey = item[0].ToString().Trim().ToLower();
+						if (cellText.Trim().ToLower() != prevkey.Trim().ToLower())
 						{
 							//merge kolom kalo value nya beda, mulai row ke 3
 							if (rowCounter > 2 && (rowTemp != (rowCounter - 1)))
@@ -117,17 +133,17 @@ namespace IIF.PAM.MergeDocumentServices.Services
 							rowTemp = rowCounter;
 
 							tblShareholders.Cell(rowCounter, 1).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString();
-							cellText = item[0].ToString();
+							tblShareholders.Cell(rowCounter, 1).Range.Text = item[0].ToString().Trim();
+							cellText = item[0].ToString().Trim().ToLower();
 							tblShareholders.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 						}
 
 						tblShareholders.Cell(rowCounter, 2).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblShareholders.Cell(rowCounter, 2).Range.Text = item[1].ToString();
+						tblShareholders.Cell(rowCounter, 2).Range.Text = item[1].ToString().Trim();
 						tblShareholders.Cell(rowCounter, 2).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
 						tblShareholders.Cell(rowCounter, 3).Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-						tblShareholders.Cell(rowCounter, 3).Range.Text = item[2].ToString();
+						tblShareholders.Cell(rowCounter, 3).Range.Text = item[2].ToString().Trim();
 						tblShareholders.Cell(rowCounter, 3).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 					}
 
@@ -149,7 +165,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "BxBORROWERxBusinessActivities", AppConstants.TableName.PAM_BorrowerOrTargetCompanyData, pamId, "BusinessActivities", "Id");
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "BxBORROWERxOtherInformation", AppConstants.TableName.PAM_BorrowerOrTargetCompanyData, pamId, "OtherInformation", "Id");
 					#endregion
-
+					
 					#region PROPOSAL					
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxPurpose", AppConstants.TableName.PAM_ProposalData, pamId, "Purpose", "Id");
 
@@ -210,11 +226,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					app.ActiveDocument.Bookmarks["DxRECOMMENDATIONxCIO"].Range.Text = dataResult[0].AccountResponsibleCIOName;
 
-					#endregion
+					#endregion					
 
-					
 					#region Attachment 
-					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);					
+					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "HistoricalFinancialandFinancialProject", AppConstants.TableName.PAM_HistoricalFinancial, pamId);
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "Supplemental", AppConstants.TableName.PAM_Supplemental, pamId);
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "SocialEnvironmental", AppConstants.TableName.PAM_Social, pamId);
@@ -224,22 +239,39 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "OtherBanksfacilities", AppConstants.TableName.PAM_OtherBanksFacilities, pamId);
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ShareValuationReport", AppConstants.TableName.PAM_ShareValuationReport, pamId);
 
-
 					System.Data.DataTable listLegalDue = db.ExecToDataTable(con, "Generate_Document_PAM_LegalDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listLegalDue, "LegalDuediligenceReportAttachment", "LegalDuediligenceReportDescription");
 
 					System.Data.DataTable listSAndDue = db.ExecToDataTable(con, "Generate_Document_PAM_SAndDue_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
-					IIFCommon.createLegalSAndEDueOtherReportTable(app, listSAndDue, "SAndDuediligenceReportAttachment", "SAndDuediligenceReportDescription");
+					IIFCommon.createLegalSAndEDueOtherReportTable(app, listSAndDue, "SAndDuediligenceReportAttachment", "SAndDuediligenceReportDescription");					
 
 					System.Data.DataTable listOtherReport = db.ExecToDataTable(con, "Generate_Document_PAM_OtherReport_SP", CommandType.StoredProcedure, new List<SqlParameter> { this.NewSqlParameter("@Id", SqlDbType.BigInt, pamId) });
 					IIFCommon.createLegalSAndEDueOtherReportTable(app, listOtherReport, "OtherReportAttachment", "OtherReportDescription");
-					#endregion
+					#endregion					
 
 					IIFCommon.finalizeDoc(doc);
+					IIFCommon.injectFooterPAM(doc, dataResult[0].ProjectCode);
 
-					doc.PageSetup.PaperSize = WdPaperSize.wdPaperA4;
-					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
-					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
+					string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileNamePDF);
+					if (listDocVersion.Rows.Count == 0)
+					{
+						fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+					}
+					else
+					{
+						if (string.IsNullOrEmpty(listDocVersion.Rows[0]["LastVersion"].ToString()))
+						{
+							fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+						}
+						else
+						{
+							int lastVersion = Convert.ToInt32(listDocVersion.Rows[0]["LastVersion"]);
+							fileNamePDF = fileNameWithoutExt + "-v" + (lastVersion + 1) + ".0.pdf";
+						}						
+					}					
+
+					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
+					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));
 				}
 				catch (Exception ex)
 				{
@@ -255,13 +287,13 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				app.Quit();
 			}
 
-			//File.Delete(destFile);
-			//string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
-			//byte[] fileContent = File.ReadAllBytes(destFilePDF);
+			File.Delete(destFile);
+			string destFilePDF = Path.Combine(temporaryFolderLocation, fileNamePDF);			
+			byte[] fileContent = File.ReadAllBytes(destFilePDF);
 
 			FileMergeResult result = new FileMergeResult();
-			//result.FileContent = fileContent;
-			//result.FileName = fileNamePDF;			
+			result.FileContent = fileContent;
+			result.FileName = fileNamePDF;			
 			return result;
 		}
     }

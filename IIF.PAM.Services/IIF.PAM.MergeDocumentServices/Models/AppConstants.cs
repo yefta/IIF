@@ -44,7 +44,12 @@ namespace IIF.PAM.MergeDocumentServices.Models
             public static string CM_OtherBanksFacilities { get { return "[dbo].[CM_OtherBanksFacilitiesOrSummaryofPefindoReport]"; } }
             public static string CM_ValuationReport { get { return "[dbo].[CM_ValuationReport]"; } }
             public static string CM_OtherAttachment { get { return "[dbo].[CM_OtherAttachmentOrReports]"; } }
-            #endregion
-        }
+			public static string CM_ProjectData { get { return "[dbo].[CM_ProjectData]"; } }
+			public static string CM_BorrowerOrInvesteeCompanyData { get { return "[dbo].[CM_BorrowerOrInvesteeCompanyData]"; } }
+			public static string CM_ProposalOrFacilityData { get { return "[dbo].[CM_ProposalOrFacilityData]"; } }
+			public static string CM_RecommendationData { get { return "[dbo].[CM_RecommendationData]"; } }
+			
+			#endregion
+		}
     }
 }

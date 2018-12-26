@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using IIF.PAM.MergeDocumentServices.Models;
@@ -23,9 +25,9 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 
 			res.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
-			if(fillHeaderBgColor)
+			if (fillHeaderBgColor)
 				res.Rows[1].Range.Shading.BackgroundPatternColor = WdColor.wdColorGray10;
-			
+
 			return res;
 		}
 
@@ -76,11 +78,12 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 
-				tblPreviousApproval.Cell(rowCounter, 5).Range.InsertFile(ConvertHtmlAndFile.SaveToHtmlNew(item[5].ToString(), currFontFamily, currFontSize));
+				string htmlResult = ConvertHtmlAndFile.SaveToFile(item[5].ToString());
+				tblPreviousApproval.Cell(rowCounter, 5).Range.InsertFile(htmlResult);
 				tblPreviousApproval.Cell(rowCounter, 5).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 5).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 			}
-			
+
 		}
 
 		public static string generateCMNumber(string projectCode, string noUrut, string wewenangPemutus, string bulan, string tahun)
@@ -109,6 +112,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 		{
 			object missing = System.Reflection.Missing.Value;
 			Table tblAttachment = IIFCommon.createTable(app, bookmarkNameAttachment, 1, false);
+			tblAttachment.Columns[1].Width = 250;
 			tblAttachment.Borders.Enable = 0;
 			int rowCounter = 0;
 			foreach (DataRow item in listData.Rows)
@@ -125,6 +129,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			tblAttachment.Rows[rowCounter + 1].Delete();
 
 			Table tblDescription = IIFCommon.createTable(app, bookmarkNameDescription, 1, false);
+			tblDescription.Columns[1].Width = 250;
 			tblDescription.Borders.Enable = 0;
 			rowCounter = 0;
 			foreach (DataRow item in listData.Rows)
@@ -136,6 +141,41 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblDescription.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
 			}
 			tblDescription.Rows[rowCounter + 1].Delete();
+		}
+
+		public static void copyFromNetwork(string source, string destination, string foldertemplate, string temporaryFolderLocation)
+		{
+			string NETWORK_USER_NAME = "";
+			string NETWORK_USER_PASSWORD = "";
+
+			try
+			{
+				NETWORK_USER_NAME = ConfigurationManager.AppSettings["NETWORK_USER_NAME"];
+			}
+			catch { NETWORK_USER_NAME = ""; }
+
+			try
+			{
+				NETWORK_USER_PASSWORD = ConfigurationManager.AppSettings["NETWORK_USER_PASSWORD"];
+			}
+			catch { NETWORK_USER_PASSWORD = ""; }
+
+			if (!String.IsNullOrEmpty(NETWORK_USER_NAME) && !String.IsNullOrEmpty(NETWORK_USER_PASSWORD))
+			{
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(foldertemplate, true);
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(temporaryFolderLocation, true);
+
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.ConnectToShare(foldertemplate, NETWORK_USER_NAME, NETWORK_USER_PASSWORD);
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.ConnectToShare(temporaryFolderLocation, NETWORK_USER_NAME, NETWORK_USER_PASSWORD);
+			}
+
+			File.Copy(source, destination, true);
+
+			if (!String.IsNullOrEmpty(NETWORK_USER_NAME) && !String.IsNullOrEmpty(NETWORK_USER_PASSWORD))
+			{
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(foldertemplate, false);
+				IIF.PAM.MergeDocumentServices.Helper.NetworkShare.DisconnectFromShare(temporaryFolderLocation, false);
+			}
 		}
 
 		public static void finalizeDoc(Document doc)
@@ -162,9 +202,60 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				object end = doc.Content.End;
 				Microsoft.Office.Interop.Word.Range myRange = doc.Range(ref start, ref end);
 				myRange.Select();
-				myRange.Font.Name = "Roboto Light";				
+				myRange.Font.Name = "Roboto Light";
 			}
 			catch { }
-		}		
+
+			foreach (Section mySec in doc.Sections)
+			{
+				if (mySec.Index % 2 == 0) //section genap -> landscape
+				{
+					mySec.PageSetup.Orientation = WdOrientation.wdOrientLandscape;
+				}
+			}
+		}
+
+		public static void injectFooterPAM(Document doc, string projectCode)
+		{
+			try
+			{
+				object currentPage = Microsoft.Office.Interop.Word.WdFieldType.wdFieldPage;
+				string privateStr = "\tPrivate & Confidential";
+
+				foreach (Section mySec in doc.Sections)
+				{
+					Range footerRangePage = mySec.Footers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
+					footerRangePage.Fields.Add(footerRangePage, currentPage);
+					footerRangePage.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+					footerRangePage.InsertBefore(projectCode + "\t");
+					footerRangePage.InsertAfter(privateStr);					
+				}								
+			}
+			catch { }
+		}
+
+		public static void injectFooterCM(Document doc, string footerDate, string cmType)
+		{
+			try
+			{
+				object currentPage = Microsoft.Office.Interop.Word.WdFieldType.wdFieldPage;
+
+				foreach (Section mySec in doc.Sections)
+				{
+					Range footerRangePage = mySec.Footers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
+					footerRangePage.Fields.Add(footerRangePage, currentPage);
+					footerRangePage.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					if (cmType == "Waiver")
+						footerRangePage.InsertBefore("Credit Memorandum – Project/Corporate Loan/Equity " + footerDate + "\t\t");
+					if (cmType == "Project")
+						footerRangePage.InsertBefore("Periodic Review Memorandum – Project Loan " + footerDate + "\t\t");
+					if (cmType == "Equity")
+						footerRangePage.InsertBefore("Periodic Review Memorandum – Equity " + footerDate + "\t\t");
+					if (cmType == "Corporate")
+						footerRangePage.InsertBefore("Periodic Review Memorandum – Corporate Loan " + footerDate + "\t\t");
+				}
+			}
+			catch { }
+		}
 	}
 }

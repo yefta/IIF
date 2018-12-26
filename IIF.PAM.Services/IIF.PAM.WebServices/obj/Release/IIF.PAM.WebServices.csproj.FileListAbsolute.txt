@@ -72,3 +72,17 @@ D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin
 D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Release\IIF.PAM.WebServices.csprojResolveAssemblyReference.cache
 D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Release\IIF.PAM.WebServices.dll
 D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Release\IIF.PAM.WebServices.pdb
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.WebServices.dll.config
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.WebServices.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.WebServices.pdb
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.MergeDocumentServices.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.Utilities.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\log4net.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\stdole.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.MergeDocumentServices.pdb
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.MergeDocumentServices.dll.config
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\IIF.PAM.Utilities.pdb
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\bin\log4net.xml
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Release\IIF.PAM.WebServices.csprojResolveAssemblyReference.cache
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Release\IIF.PAM.WebServices.dll
+C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.WebServices\obj\Release\IIF.PAM.WebServices.pdb

@@ -6,32 +6,35 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\Srf\Project\PIS\IIF\Code\Publish\IIF.PAM.WebServices</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Project\IIF\IIF\Publish</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="AttachmentServices.asmx">
       <publishTime>09/14/2018 14:37:44</publishTime>
     </File>
     <File Include="bin/IIF.PAM.MergeDocumentServices.dll">
-      <publishTime>12/05/2018 09:44:37</publishTime>
+      <publishTime>12/21/2018 17:49:05</publishTime>
+    </File>
+    <File Include="bin/IIF.PAM.MergeDocumentServices.dll.config">
+      <publishTime>12/04/2018 17:18:50</publishTime>
     </File>
     <File Include="bin/IIF.PAM.MergeDocumentServices.pdb">
-      <publishTime>11/23/2018 10:52:48</publishTime>
+      <publishTime>12/21/2018 17:49:05</publishTime>
     </File>
     <File Include="bin/IIF.PAM.Utilities.dll">
-      <publishTime>12/05/2018 09:44:37</publishTime>
+      <publishTime>12/17/2018 10:01:59</publishTime>
     </File>
     <File Include="bin/IIF.PAM.Utilities.pdb">
-      <publishTime>11/07/2018 10:14:06</publishTime>
+      <publishTime>12/17/2018 10:01:59</publishTime>
     </File>
     <File Include="bin/IIF.PAM.WebServices.dll">
-      <publishTime>12/07/2018 10:59:05</publishTime>
+      <publishTime>12/21/2018 17:49:06</publishTime>
     </File>
     <File Include="bin/IIF.PAM.WebServices.pdb">
-      <publishTime>11/23/2018 10:52:50</publishTime>
+      <publishTime>12/21/2018 17:49:06</publishTime>
     </File>
     <File Include="bin/log4net.dll">
-      <publishTime>11/29/2018 17:49:08</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="bin/SourceCode.Workflow.Client.dll">
       <publishTime>08/28/2018 09:45:36</publishTime>
@@ -40,40 +43,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/19/2010 13:21:56</publishTime>
     </File>
     <File Include="IIFCMAttachmentServices.asmx">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="IIFCMServices.asmx">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="IIFK2Services.asmx">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="IIFPAMAttachmentServices.asmx">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="IIFPAMServices.asmx">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="IIFStaticServices.asmx">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="Images/IIFLogo.png">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="Images/Information.ico">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="Images/QuestionMark.png">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>11/29/2018 17:49:07</publishTime>
+      <publishTime>12/03/2018 10:45:40</publishTime>
     </File>
     <File Include="ProjectAnalysisServices.asmx">
       <publishTime>09/14/2018 12:36:27</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/07/2018 10:59:06</publishTime>
+      <publishTime>12/17/2018 15:59:16</publishTime>
     </File>
   </ItemGroup>
 </Project>

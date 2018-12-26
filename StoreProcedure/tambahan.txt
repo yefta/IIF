@@ -1,14 +1,25 @@
-CREATE PROCEDURE [dbo].[Generate_Document_PAM_Borrower_Cover_SP]
+alter PROCEDURE [dbo].[Generate_Document_CM_ProposalFacility_SP]
 	@Id AS bigint = NULL
 AS
 BEGIN
-	SELECT 
-		PAM_BorrowerOrTargetCompany.BorrowerOrTargetCompany,		
-		Id
-			from 
-				PAM_BorrowerOrTargetCompany
-			where PAM_BorrowerOrTargetCompany.PAMId = @Id			
-		order by Id desc			
+	Select 
+		CASE 
+			WHEN CM_ProposalFacilityOrInvestment.MFacilityId = 1 
+			THEN 'Other - ' + CM_ProposalFacilityOrInvestment.OtherFacility
+			ELSE MFacility.Facility
+		END AS [Type]
+		,CurrApproved.Code As CurrApproved
+		,CAST(CONVERT(varchar, CAST(CM_ProposalFacilityOrInvestment.ApprovedAmount AS Money), 1) AS varchar) as ApprovedAmount		
+		,CurrProposed.Code As CurrProposed
+		,CAST(CONVERT(varchar, CAST(CM_ProposalFacilityOrInvestment.ProposedAmount AS Money), 1) AS varchar) as ProposedAmount		
+		,CurrOutstanding.Code As CurrOutstanding
+		,CAST(CONVERT(varchar, CAST(CM_ProposalFacilityOrInvestment.OutstandingAmount AS Money), 1) AS varchar) as OutstandingAmount				
+			FROM CM_ProposalFacilityOrInvestment
+			LEFT JOIN MCurrency AS CurrApproved  ON CurrApproved.Id = CM_ProposalFacilityOrInvestment.ApprovedCurrencyId
+			LEFT JOIN MCurrency AS CurrProposed ON CurrProposed.Id = CM_ProposalFacilityOrInvestment.ProposedCurrencyId
+			LEFT JOIN MCurrency AS CurrOutstanding ON CurrOutstanding.Id = CM_ProposalFacilityOrInvestment.OutstandingCurrencyId 
+			LEFT JOIN MFacility ON MFacility.Id = CM_ProposalFacilityOrInvestment.MFacilityId
+			WHERE CM_ProposalFacilityOrInvestment.CMId = @Id
 END
 
 
@@ -16,16 +27,20 @@ END
 
 
 
-
-CREATE PROCEDURE [dbo].[Generate_Document_CM_Borrower_distinct_SP]
+alter PROCEDURE [dbo].[Generate_Document_PAM_ProposalFacility_SP]
 	@Id AS bigint = NULL
 AS
 BEGIN
-	SELECT 
-		BorrowerOrCompany,		
-		Id	
-			from 
-				Vw_PAMCM_BorrowerOrCompany				
-			where Vw_PAMCM_BorrowerOrCompany.PAMOrCMId = @Id	
-		order by Id desc		
+	Select 
+		CASE 
+			WHEN PAM_ProposalFacilityOrInvestment.MFacilityId = 1 
+			THEN 'Other - ' + PAM_ProposalFacilityOrInvestment.OtherFacility
+			ELSE MFacility.Facility
+		END AS [Type],
+		MCurrency.Code As CurrFacility,
+		CAST(CONVERT(varchar, CAST(Amount AS Money), 1) AS varchar) as Amount		
+			from PAM_ProposalFacilityOrInvestment
+			LEFT JOIN MCurrency ON MCurrency.Id = PAM_ProposalFacilityOrInvestment.MCurrencyId 
+			LEFT JOIN MFacility ON MFacility.Id = PAM_ProposalFacilityOrInvestment.MFacilityId
+			where PAM_ProposalFacilityOrInvestment.PAMId = @Id
 END
