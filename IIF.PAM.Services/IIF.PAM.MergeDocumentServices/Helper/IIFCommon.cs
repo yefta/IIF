@@ -232,7 +232,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				}								
 			}
 			catch { }
-		}
+		}		
 
 		public static void injectFooterCM(Document doc, string footerDate, string cmType)
 		{
@@ -257,5 +257,44 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			}
 			catch { }
 		}
+
+		public static string fileNameFormat(System.Data.DataTable listDocVersion, string fileNamePDF, bool isPreview = false)
+		{
+			string res = "";
+			try
+			{
+				string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileNamePDF);
+				if (listDocVersion.Rows.Count == 0)
+				{
+					if(isPreview)
+						res = fileNameWithoutExt + "-v0.5.pdf";
+					else
+						res = fileNameWithoutExt + "-v1.0.pdf";
+				}
+				else
+				{
+					if (string.IsNullOrEmpty(listDocVersion.Rows[0]["LastVersion"].ToString()))
+					{
+						if (isPreview)
+							res = fileNameWithoutExt + "-v0.5.pdf";
+						else
+							res = fileNameWithoutExt + "-v1.0.pdf";
+					}
+					else
+					{
+						int lastVersion = Convert.ToInt32(listDocVersion.Rows[0]["LastVersion"]);
+
+						if (isPreview)
+							res = fileNameWithoutExt + "-v" + (lastVersion) + ".5.pdf";
+						else
+							res = fileNameWithoutExt + "-v" + (lastVersion + 1) + ".0.pdf";
+					}
+				}
+
+				return res;
+			}
+			catch { return null; }
+		}
+		
 	}
 }

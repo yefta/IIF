@@ -12,9 +12,13 @@ namespace IIF.PAM.MergeDocumentServices
 {
     public class MergeDocument : BaseServices
     {
+		string version = "v27Des_12:00PM";
         public void MergePAMDocument(long id, string connectionString, string folderTemplateLocation, string temporaryFolderLocation, string mergeByFQN, string mergeBy)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+			log4net.Config.XmlConfigurator.Configure();
+			this.Logger.Info("MergePAMDocument_" + version);
+
+			using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
 
@@ -60,9 +64,39 @@ namespace IIF.PAM.MergeDocumentServices
                         default:
                             break;
                     }
-                    
-                    SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
-                    svcSave.SavePAMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
+
+					string query1 = string.Empty;
+					query1 = query1 + "SELECT";
+					query1 = query1 + " [MWorkflowStatusId]";
+					query1 = query1 + " FROM [dbo].[PAM]";
+					query1 = query1 + " WHERE [Id] = @Id";
+					int? mWorkflowStatusId = null;
+					using (SqlCommand cmd = con.CreateCommand())
+					{
+						cmd.CommandType = CommandType.Text;
+						cmd.CommandText = query1;
+						cmd.Parameters.Add(this.NewSqlParameter("Id", SqlDbType.BigInt, id));
+
+						using (SqlDataReader dr = cmd.ExecuteReader())
+						{
+							int indexOf_mWorkflowStatusId = dr.GetOrdinal("MWorkflowStatusId");
+
+							while (dr.Read())
+							{
+								mWorkflowStatusId = dr.GetInt32(indexOf_mWorkflowStatusId);
+							}
+						}
+					}
+					bool isPreview = false;
+					try
+					{
+						if (mWorkflowStatusId != null && mWorkflowStatusId == 7)
+							isPreview = true;
+					}
+					catch { }
+
+					SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
+                    svcSave.SavePAMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName, isPreview);
                 }
                 con.Close();
             }
@@ -70,7 +104,10 @@ namespace IIF.PAM.MergeDocumentServices
 
         public void MergeCMDocument(long id, string connectionString, string folderTemplateLocation, string temporaryFolderLocation, string mergeByFQN, string mergeBy)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+			log4net.Config.XmlConfigurator.Configure();
+			this.Logger.Info("MergeCMDocument_" + version);
+
+			using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
 
@@ -121,8 +158,38 @@ namespace IIF.PAM.MergeDocumentServices
                             break;
                     }
 
-                    SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
-                    svcSave.SaveCMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName);
+					string query1 = string.Empty;
+					query1 = query1 + "SELECT";
+					query1 = query1 + " [MWorkflowStatusId]";
+					query1 = query1 + " FROM [dbo].[CM]";
+					query1 = query1 + " WHERE [Id] = @Id";
+					int? mWorkflowStatusId = null;
+					using (SqlCommand cmd = con.CreateCommand())
+					{
+						cmd.CommandType = CommandType.Text;
+						cmd.CommandText = query1;
+						cmd.Parameters.Add(this.NewSqlParameter("Id", SqlDbType.BigInt, id));
+
+						using (SqlDataReader dr = cmd.ExecuteReader())
+						{
+							int indexOf_mWorkflowStatusId = dr.GetOrdinal("MWorkflowStatusId");
+
+							while (dr.Read())
+							{
+								mWorkflowStatusId = dr.GetInt32(indexOf_mWorkflowStatusId);
+							}
+						}
+					}
+					bool isPreview = false;
+					try
+					{
+						if (mWorkflowStatusId != null && mWorkflowStatusId == 7)
+							isPreview = true;
+					}
+					catch { }
+
+					SaveMergeResultToDatabase svcSave = new SaveMergeResultToDatabase();
+                    svcSave.SaveCMToDatabase(con, id, fileMergeResult.FileContent, mergeByFQN, mergeBy, fileMergeResult.FileName, isPreview);
                 }
                 con.Close();
             }

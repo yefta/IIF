@@ -83,14 +83,14 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
 								myRange.set_Style(ref Normal);
-								//sourceDocument.Sections[1].Range.InsertBreak(WdBreakType.wdSectionBreakNextPage);
-								//sourceDocument.Sections[1].PageSetup.Orientation = WdOrientation.wdOrientLandscape;
 
-								//foreach (Section mySec in sourceDocument.Sections)
-								//{
-								//	mySec.Headers[WdHeaderFooterIndex.wdHeaderFooterEvenPages].Range.Delete();
-								//	mySec.Footers[WdHeaderFooterIndex.wdHeaderFooterEvenPages].Range.Delete();
-								//}
+								myRange.Find.ClearFormatting();
+								myRange.Find.ClearAllFuzzyOptions();
+								myRange.Find.Highlight = 1;
+								myRange.Find.Replacement.ClearFormatting();
+								myRange.Find.Replacement.Text = "";
+								myRange.Find.Wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+								myRange.Find.Execute(Replace: Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll);
 
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
@@ -210,6 +210,15 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
 								myRange.set_Style(ref Normal);
+
+								myRange.Find.ClearFormatting();
+								myRange.Find.ClearAllFuzzyOptions();
+								myRange.Find.Highlight = 1;
+								myRange.Find.Replacement.ClearFormatting();
+								myRange.Find.Replacement.Text = "";
+								myRange.Find.Wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+								myRange.Find.Execute(Replace: Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll);
+
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
 								app2.Quit();

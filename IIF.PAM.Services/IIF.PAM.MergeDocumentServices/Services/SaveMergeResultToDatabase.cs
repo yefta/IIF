@@ -9,7 +9,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 {
     public class SaveMergeResultToDatabase : BaseServices
     {
-        public void SavePAMToDatabase(SqlConnection con, long pamId, byte[] file, string mergeByFQN, string mergeBy, string fileName)
+        public void SavePAMToDatabase(SqlConnection con, long pamId, byte[] file, string mergeByFQN, string mergeBy, string fileName, bool isPreview = false)
         {
             DBHelper db = new DBHelper();
             
@@ -22,11 +22,12 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     this.NewSqlParameter("@PAMId", SqlDbType.BigInt, pamId),                    
                     this.NewSqlParameter("@Attachment", SqlDbType.VarChar, fileAsString),
                     this.NewSqlParameter("@MergeByFQN", SqlDbType.VarChar, mergeByFQN),                    
-                    this.NewSqlParameter("@MergeBy", SqlDbType.VarChar, mergeBy)
-                });
+                    this.NewSqlParameter("@MergeBy", SqlDbType.VarChar, mergeBy),
+					this.NewSqlParameter("@IsPreview", SqlDbType.Bit, isPreview)
+				});
         }
 
-        public void SaveCMToDatabase(SqlConnection con, long pamId, byte[] file, string mergeByFQN, string mergeBy, string fileName)
+        public void SaveCMToDatabase(SqlConnection con, long pamId, byte[] file, string mergeByFQN, string mergeBy, string fileName, bool isPreview = false)
         {
             DBHelper db = new DBHelper();
 
@@ -39,8 +40,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
                     this.NewSqlParameter("@CMId", SqlDbType.BigInt, pamId),
                     this.NewSqlParameter("@Attachment", SqlDbType.VarChar, fileAsString),
                     this.NewSqlParameter("@MergeByFQN", SqlDbType.VarChar, mergeByFQN),
-                    this.NewSqlParameter("@MergeBy", SqlDbType.VarChar, mergeBy)
-                });
+                    this.NewSqlParameter("@MergeBy", SqlDbType.VarChar, mergeBy),
+					this.NewSqlParameter("@IsPreview", SqlDbType.Bit, isPreview)
+				});
         }
     }
 }

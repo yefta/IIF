@@ -85,6 +85,6 @@ namespace IIF.PAM.MergeDocumentServices.Models
 		public string KeyInvestmentRecommendation { get; set; }
 		public string Recommendation { get; set; }
 		public string AccountResponsibleCIOName { get; set; }
-
+		public int? MWorkflowStatusId { get; set; }
 	}
 }

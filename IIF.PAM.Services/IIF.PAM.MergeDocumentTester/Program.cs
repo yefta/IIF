@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 
@@ -120,6 +122,16 @@ namespace IIF.PAM.MergeDocumentTester
 				string templateFolder = @"\\10.15.3.214\c$\IIF\PAMTemplate";
 				string mergeResultFolder = @"\\10.15.3.214\c$\IIF\MergeResult";
 
+				#region get INSTALLED fonts
+				//InstalledFontCollection installedFontCollection = new InstalledFontCollection();				
+				//FontFamily[] fontFamilies = installedFontCollection.Families;
+				//int count = fontFamilies.Length;
+				//for (int j = 0; j < count; ++j)
+				//{
+				//	Console.WriteLine(fontFamilies[j].Name);					
+				//}
+				#endregion
+
 				//2 - PAM Project Finance
 				//svcMerge.MergePAMDocument(2, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
@@ -128,6 +140,9 @@ namespace IIF.PAM.MergeDocumentTester
 
 				//17 - PAM Project Finance
 				//svcMerge.MergePAMDocument(17, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//26 - PAM Project Finance
+				//svcMerge.MergePAMDocument(26, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//16 - PAM Equity
 				//svcMerge.MergePAMDocument(16, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
@@ -139,8 +154,11 @@ namespace IIF.PAM.MergeDocumentTester
 				//21 - CM PROJECT
 				//svcMerge.MergeCMDocument(21, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
+				//28 - CM PROJECT
+				svcMerge.MergeCMDocument(28, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
 				//23 - CM Corporate
-				svcMerge.MergeCMDocument(23, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergeCMDocument(23, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//2 - CM Equity
 				//svcMerge.MergeCMDocument(2, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");

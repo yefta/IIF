@@ -271,23 +271,15 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					IIFCommon.finalizeDoc(doc);
 					IIFCommon.injectFooterPAM(doc, dataResult[0].ProjectCode);
 
-					string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileNamePDF);
-					if (listDocVersion.Rows.Count == 0)
+					bool isPreview = false;
+					try
 					{
-						fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
+						if (dataResult[0].MWorkflowStatusId != null && dataResult[0].MWorkflowStatusId == 7)
+							isPreview = true;
 					}
-					else
-					{
-						if (string.IsNullOrEmpty(listDocVersion.Rows[0]["LastVersion"].ToString()))
-						{
-							fileNamePDF = fileNameWithoutExt + "-v1.0.pdf";
-						}
-						else
-						{
-							int lastVersion = Convert.ToInt32(listDocVersion.Rows[0]["LastVersion"]);
-							fileNamePDF = fileNameWithoutExt + "-v" + (lastVersion + 1) + ".0.pdf";
-						}
-					}
+					catch { }					
+					fileNamePDF = IIFCommon.fileNameFormat(listDocVersion, fileNamePDF, isPreview);
+
 					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));					
 				}
