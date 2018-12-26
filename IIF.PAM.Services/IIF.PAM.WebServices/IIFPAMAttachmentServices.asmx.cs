@@ -292,11 +292,11 @@ namespace IIF.PAM.WebServices
         }
 
         [WebMethod]
-        public List<PAM_MergedDocumentResultAttachment> List_PAM_MergedDocumentResultAttachment(long pamId)
+        public List<PAM_MergedDocumentResultAttachment> List_PAM_MergedDocumentResultAttachment(long pamId, bool isPreview)
         {
             PAM_MergedDocumentResult_Services svc = new PAM_MergedDocumentResult_Services();
             svc.AppConfig = this.AppConfig;
-            return svc.ListMergedDocumentResultAttachment(pamId);
+            return svc.ListMergedDocumentResultAttachment(pamId, isPreview);
         }
 
         [WebMethod]
