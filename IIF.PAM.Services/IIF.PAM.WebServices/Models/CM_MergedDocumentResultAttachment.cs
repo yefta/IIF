@@ -9,5 +9,6 @@ namespace IIF.PAM.WebServices.Models
     public class CM_MergedDocumentResultAttachment : BaseCMAttachment
     {
         public bool IsForHistory { get; set; }
+        public bool IsPreview { get; set; }
     }
 }

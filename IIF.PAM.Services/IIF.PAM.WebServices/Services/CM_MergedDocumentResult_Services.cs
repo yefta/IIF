@@ -10,7 +10,7 @@ namespace IIF.PAM.WebServices.Services
 {
     public class CM_MergedDocumentResult_Services : BaseAttachmentServices
     {
-        public List<CM_MergedDocumentResultAttachment> ListMergedDocumentResultAttachment(long cmId)
+        public List<CM_MergedDocumentResultAttachment> ListMergedDocumentResultAttachment(long cmId, bool isPreview)
         {
             List<CM_MergedDocumentResultAttachment> result = new List<CM_MergedDocumentResultAttachment>();
             string conStringIIF = this.AppConfig.IIFConnectionString;
@@ -18,11 +18,12 @@ namespace IIF.PAM.WebServices.Services
             {
                 con.Open();
 
-                string query = "SELECT Id, CMId, Attachment, IsForHistory";
+                string query = "SELECT Id, CMId, Attachment, IsForHistory, IsPreview";
                 query = query + " , CreatedByFQN, CreatedBy, CreatedOn";
                 query = query + " , ModifiedByFQN, ModifiedBy, ModifiedOn";
                 query = query + " FROM [dbo].[CM_MergedDocumentResult]";
                 query = query + " WHERE CMId = @CMId";
+                query = query + " AND IsPreview = @IsPreview";
                 query = query + " ORDER BY ModifiedOn";
 
                 using (SqlCommand cmd = con.CreateCommand())
@@ -30,6 +31,7 @@ namespace IIF.PAM.WebServices.Services
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = query;
                     cmd.Parameters.Add(this.NewSqlParameter("CMId", SqlDbType.BigInt, cmId));
+                    cmd.Parameters.Add(this.NewSqlParameter("IsPreview", SqlDbType.Bit, isPreview));
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -37,6 +39,7 @@ namespace IIF.PAM.WebServices.Services
                         int indexOf_CMId = dr.GetOrdinal("CMId");
                         int indexOf_Attachment = dr.GetOrdinal("Attachment");
                         int indexOf_IsForHistory = dr.GetOrdinal("IsForHistory");
+                        int indexOf_IsPreview = dr.GetOrdinal("IsPreview");
                         int indexOf_CreatedByFQN = dr.GetOrdinal("CreatedByFQN");
                         int indexOf_CreatedBy = dr.GetOrdinal("CreatedBy");
                         int indexOf_CreatedOn = dr.GetOrdinal("CreatedOn");
@@ -50,6 +53,7 @@ namespace IIF.PAM.WebServices.Services
                             data.Id = dr.GetInt64(indexOf_Id);
                             data.CMId = dr.GetInt64(indexOf_CMId);
                             data.IsForHistory = dr.GetBoolean(indexOf_IsForHistory);
+                            data.IsPreview = dr.GetBoolean(indexOf_IsPreview);
 
                             data.CreatedByFQN = dr.GetString(indexOf_CreatedByFQN);
                             data.CreatedBy = dr.GetString(indexOf_CreatedBy);
