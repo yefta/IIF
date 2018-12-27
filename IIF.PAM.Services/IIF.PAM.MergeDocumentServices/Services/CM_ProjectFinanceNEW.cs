@@ -54,32 +54,32 @@ namespace IIF.PAM.MergeDocumentServices.Services
                 app.Visible = false;
                 try
                 {
+					
+
                     #region Cover                    
 					app.ActiveDocument.Bookmarks["Review"].Range.Text = dataResult[0].ReviewMemo;
 
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].CompanyName;
 
 					int countBorrower = 0;
+					int countSetBorrower = 0;
 					string prevBorrower = "";
 					string currentBorrower = "";
 					List<String> lsBorrower = new List<string>();
-					Table tblCoverBorrower = IIFCommon.createTable(app, "CompanyName", 1, false);
-					tblCoverBorrower.Borders.Enable = 0;
+
 					foreach (DataRow item in listBorrowerCover.Rows)
 					{
 						countBorrower++;
 						prevBorrower = item[0].ToString().Trim().ToLower();
+
 						if (!lsBorrower.Contains(prevBorrower))
 						{
-							if (countBorrower > 1)
+							if (countBorrower > 5)
 							{
-								tblCoverBorrower.Rows.Add(ref missing);
+								continue;
 							}
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Text = item[0].ToString();
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Name = "Roboto Light";
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Size = 18;
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-							tblCoverBorrower.Cell(countBorrower, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+							countSetBorrower++;
+							app.ActiveDocument.Bookmarks["CompanyName" + (countSetBorrower)].Range.Text = item[0].ToString();
 
 							currentBorrower = item[0].ToString().Trim().ToLower();
 
@@ -103,9 +103,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dateToShow;
 
 					string footerDateToShow = string.Format(cult, "{0:MMM yyyy}", dataResult[0].CMDate);
-					app.ActiveDocument.Bookmarks["FooterDate"].Range.Text = footerDateToShow;
+					//app.ActiveDocument.Bookmarks["FooterDate"].Range.Text = footerDateToShow;
 					#endregion
 
+					
+					 
 					#region PROJECT
 					app.ActiveDocument.Bookmarks["AxPROJECTxProjectDescription"].Range.Text = dataResult[0].ProjectDescription;
 					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " - " + dataResult[0].SubSectorDesc;					
@@ -167,8 +169,9 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					}
 
 					app.ActiveDocument.Bookmarks["BxBORROWERxUltimateBeneficialOwner"].Range.Text = dataResult[0].UltimateBeneficialOwner;
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRating"].Range.Text = dataResult[0].IIFRate;
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = Convert.ToDateTime(dataResult[0].IIFRatingDate).ToString("dd MMM yyyy");
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRating"].Range.Text = dataResult[0].IIFRate;					
+					string ratingDateToShow = string.Format(cult, "{0:dd MMM yyyy}", dataResult[0].IIFRatingDate);
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = ratingDateToShow;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = dataResult[0].SAndPRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxMoodys"].Range.Text = dataResult[0].MoodysRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxFitch"].Range.Text = dataResult[0].FitchRate;
@@ -233,7 +236,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithCMAttachmentABNormal(app, con, "CxPROPOSALxOtherCondition", AppConstants.TableName.CM_ProposalOrFacilityData, cmId, "PricingOtherConditions", "Id");
 
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexCurrency"].Range.Text = dataResult[0].LimitComplianceCurrency;
-					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexAsFor"].Range.Text = Convert.ToDateTime(dataResult[0].FacilityLimitComplianceMonth.ToString() + "-1985").ToString("MMM") + " " + dataResult[0].FacilityLimitComplianceYear.ToString();
+					string asForDateToShow = string.Format(cult, "{0:MMM}", Convert.ToDateTime("1985-" + dataResult[0].FacilityLimitComplianceMonth.ToString() + "-01"));
+					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexAsFor"].Range.Text = asForDateToShow + " " + dataResult[0].FacilityLimitComplianceYear.ToString();
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexRiskRating"].Range.Text = dataResult[0].FacilityLimitComplianceIIFRate;
 					app.ActiveDocument.Bookmarks["CxPROPOSALxLimitCompliancexSecExposure"].Range.Text = dataResult[0].SectorDesc;
 
@@ -304,7 +308,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithCMAttachmentNormal(app, con, "SandEReview", AppConstants.TableName.CM_SAndEReview, cmId);
 					this.FillBookmarkWithCMAttachmentNormal(app, con, "OtherBanksfacilities", AppConstants.TableName.CM_OtherBanksFacilities, cmId);
 					this.FillBookmarkWithCMAttachmentNormal(app, con, "OtherAttachment", AppConstants.TableName.CM_OtherAttachment, cmId);
-					#endregion
+					#endregion					
 
 					IIFCommon.finalizeDoc(doc);
 					IIFCommon.injectFooterCM(doc, footerDateToShow, "Project");

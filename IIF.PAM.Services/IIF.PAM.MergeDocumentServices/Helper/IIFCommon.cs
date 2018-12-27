@@ -20,8 +20,9 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			res.Range.Font.Name = "Roboto Light";
 			res.Range.Font.Size = 10;
 			res.set_Style("Table Grid");
-			res.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitWindow);
-			res.PreferredWidth = 100;
+			res.AllowAutoFit = true;			
+			res.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitWindow);			
+			res.PreferredWidth = 100;			
 
 			res.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
@@ -225,6 +226,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				foreach (Section mySec in doc.Sections)
 				{
 					Range footerRangePage = mySec.Footers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
+					footerRangePage.Font.Size = 9;
 					footerRangePage.Fields.Add(footerRangePage, currentPage);
 					footerRangePage.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 					footerRangePage.InsertBefore(projectCode + "\t");
@@ -240,11 +242,15 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			{
 				object currentPage = Microsoft.Office.Interop.Word.WdFieldType.wdFieldPage;
 
+				if (footerDate.Contains("0001"))
+					footerDate = "";
+
 				foreach (Section mySec in doc.Sections)
 				{
 					Range footerRangePage = mySec.Footers[WdHeaderFooterIndex.wdHeaderFooterPrimary].Range;
 					footerRangePage.Fields.Add(footerRangePage, currentPage);
 					footerRangePage.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+					footerRangePage.Font.Size = 9;
 					if (cmType == "Waiver")
 						footerRangePage.InsertBefore("Credit Memorandum – Project/Corporate Loan/Equity " + footerDate + "\t\t");
 					if (cmType == "Project")

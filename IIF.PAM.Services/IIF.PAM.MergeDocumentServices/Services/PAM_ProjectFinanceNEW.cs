@@ -61,26 +61,24 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
 
 					int countBorrower = 0;
+					int countSetBorrower = 0;
 					string prevBorrower = "";
 					string currentBorrower = "";
 					List<String> lsBorrower = new List<string>();
-					Table tblCoverBorrower = IIFCommon.createTable(app, "CompanyName", 1, false);
-					tblCoverBorrower.Borders.Enable = 0;
+
 					foreach (DataRow item in listBorrowerCover.Rows)
 					{
 						countBorrower++;
 						prevBorrower = item[0].ToString().Trim().ToLower();
+
 						if (!lsBorrower.Contains(prevBorrower))
 						{
-							if (countBorrower > 1)
+							if (countBorrower > 5)
 							{
-								tblCoverBorrower.Rows.Add(ref missing);
+								continue;
 							}
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Text = item[0].ToString();
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Name = "Roboto Light";
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Font.Size = 18;
-							tblCoverBorrower.Cell(countBorrower, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
-							tblCoverBorrower.Cell(countBorrower, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+							countSetBorrower++;
+							app.ActiveDocument.Bookmarks["CompanyName" + (countSetBorrower)].Range.Text = item[0].ToString();
 
 							currentBorrower = item[0].ToString().Trim().ToLower();
 
@@ -96,7 +94,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					string dateToShow = string.Format(cult, "{0:dd-MMMM-yyyy}", dataResult[0].PAMDate);
 					app.ActiveDocument.Bookmarks["ProjectDate"].Range.Text = dateToShow;
 
-					app.ActiveDocument.Bookmarks["FooterProjectCode"].Range.Text = dataResult[0].ProjectCode;
+					//app.ActiveDocument.Bookmarks["FooterProjectCode"].Range.Text = dataResult[0].ProjectCode;
 					#endregion
 
 					#region PROJECT
@@ -161,7 +159,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					app.ActiveDocument.Bookmarks["BxBORROWERxUltimateBeneficialOwner"].Range.Text = dataResult[0].UltimateBeneficialOwner;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRating"].Range.Text = dataResult[0].IIFRate;
-					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = Convert.ToDateTime(dataResult[0].IIFRatingDate).ToString("dd MMM yyyy");
+					string ratingDateToShow = string.Format(cult, "{0:dd MMM yyyy}", dataResult[0].IIFRatingDate);
+					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxRatingDate"].Range.Text = ratingDateToShow;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxSP"].Range.Text = dataResult[0].SAndPRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxMoodys"].Range.Text = dataResult[0].MoodysRate;
 					app.ActiveDocument.Bookmarks["BxBORROWERxRatingxFitch"].Range.Text = dataResult[0].FitchRate;

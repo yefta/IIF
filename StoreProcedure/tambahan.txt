@@ -394,3 +394,49 @@ BEGIN
 				LEFT JOIN CM_RecommendationData ON CM_RecommendationData.Id = CM.Id
 			where CM.Id = @Id
 END
+
+
+
+
+
+
+
+
+
+
+
+
+
+alter PROCEDURE [dbo].[Generate_Document_CM_Borrower_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		LTRIM(RTRIM(BorrowerOrCompany)) as BorrowerOrCompany,
+		ProjectSponsorsOrShareHolders,
+		CAST(CONVERT(varchar, CAST(PercentOwnership AS Money), 1) AS varchar) as PercentOwnership		
+			from 
+				Vw_PAMCM_BorrowerOrCompany				
+			where Vw_PAMCM_BorrowerOrCompany.PAMOrCMId = @Id		
+			and MDocTypeId = 2			
+END
+
+
+
+
+
+
+
+alter PROCEDURE [dbo].[Generate_Document_CM_Borrower_Cover_SP]
+	@Id AS bigint = NULL
+AS
+BEGIN
+	SELECT 
+		LTRIM(RTRIM(BorrowerOrCompany)) as BorrowerOrCompany,		
+		Id	
+			from 
+				Vw_PAMCM_BorrowerOrCompany				
+			where Vw_PAMCM_BorrowerOrCompany.PAMOrCMId = @Id	
+			and MDocTypeId = 2
+		order by Id 
+END

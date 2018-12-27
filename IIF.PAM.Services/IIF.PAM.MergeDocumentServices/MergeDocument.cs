@@ -12,7 +12,7 @@ namespace IIF.PAM.MergeDocumentServices
 {
     public class MergeDocument : BaseServices
     {
-		string version = "v27Des_12:00PM";
+		string version = "v27Des_12:03PM";
         public void MergePAMDocument(long id, string connectionString, string folderTemplateLocation, string temporaryFolderLocation, string mergeByFQN, string mergeBy)
         {
 			log4net.Config.XmlConfigurator.Configure();
