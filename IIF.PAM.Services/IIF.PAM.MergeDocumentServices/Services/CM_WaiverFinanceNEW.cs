@@ -58,7 +58,6 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					#region Cover                    
 					app.ActiveDocument.Bookmarks["Review"].Range.Text = dataResult[0].ReviewMemo;
 
-
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].CompanyName;
 
 					int countBorrower = 0;
@@ -116,7 +115,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 
 					#region PROJECT
 					app.ActiveDocument.Bookmarks["AxPROJECTxProjectName"].Range.Text = dataResult[0].ProjectName;
-					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " " + dataResult[0].SubSectorDesc;
+					app.ActiveDocument.Bookmarks["AxPROJECTxSectorSubsector"].Range.Text = dataResult[0].SectorDesc + " - " + dataResult[0].SubSectorDesc;
 					this.FillBookmarkWithCMAttachmentABNormal(app, con, "AxPROJECTxFundingNeeds", AppConstants.TableName.CM_ProjectData, cmId, "FundingNeeds", "Id");					
 					
 					#endregion

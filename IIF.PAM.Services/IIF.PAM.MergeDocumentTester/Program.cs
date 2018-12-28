@@ -148,11 +148,14 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergePAMDocument(16, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//40 - PAM Corporate
-				svcMerge.MergePAMDocument(40, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergePAMDocument(40, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 
 				//15 - CM WAIVER
 				//svcMerge.MergeCMDocument(15, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//32 - CM WAIVER
+				svcMerge.MergeCMDocument(32, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//21 - CM PROJECT
 				//svcMerge.MergeCMDocument(21, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
