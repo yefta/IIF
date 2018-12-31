@@ -15,6 +15,9 @@ using IIF.PAM.MergeDocumentServices.Models;
 using System.IO;
 using System.Threading;
 
+
+using System.Text.RegularExpressions;
+
 namespace IIF.PAM.MergeDocumentServices.Services
 {
     public class BaseServices
@@ -82,7 +85,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
-								myRange.set_Style(ref Normal);
+								//myRange.set_Style(ref Normal);
 
 								myRange.Find.ClearFormatting();
 								myRange.Find.ClearAllFuzzyOptions();
@@ -151,6 +154,11 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
+
+								myRange.Font.Name = "Roboto Light";
+								myRange.Font.Size = 10;
+
+								IIFCommon.FindEmptyParagraphsAndDelete(sourceDocument);
 								//myRange.set_Style(ref Normal);
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
@@ -209,7 +217,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
-								myRange.set_Style(ref Normal);
+								//myRange.set_Style(ref Normal);
 
 								myRange.Find.ClearFormatting();
 								myRange.Find.ClearAllFuzzyOptions();
@@ -270,16 +278,23 @@ namespace IIF.PAM.MergeDocumentServices.Services
 							{
 								Application app2 = new Application();
 								Document sourceDocument = app2.Documents.Open(htmlResult);
+								sourceDocument.Activate();
 								object start = sourceDocument.Content.Start;
 								object end = sourceDocument.Content.End;
 								Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
 								myRange.Select();
+
+								myRange.Font.Name = "Roboto Light";
+								myRange.Font.Size = 10;
+
+								IIFCommon.FindEmptyParagraphsAndDelete(sourceDocument);
+								//DeleteCurrentSelectionLine(app2);
 								//myRange.set_Style(ref Normal);
 								sourceDocument.Save();
 								sourceDocument.Close(WdSaveOptions.wdSaveChanges);
 								app2.Quit();
 
-								rangeBookmark.InsertFile(htmlResult);
+								rangeBookmark.InsertFile(htmlResult);																
 							}
 							catch (Exception ex)
 							{
@@ -302,5 +317,31 @@ namespace IIF.PAM.MergeDocumentServices.Services
             rangeBookmark.Font.Size = 10;
             rangeBookmark.Text = value;
         }
-    }
+
+		
+
+		private void DeleteCurrentSelectionLine(_Application app2)
+		{
+			object missing = System.Reflection.Missing.Value;
+
+			object wdLine = WdUnits.wdLine;
+			object wdCharacter = WdUnits.wdCharacter;
+			object wdExtend = WdMovementType.wdExtend;
+			object count = 1;
+
+		
+
+			object what = WdGoToItem.wdGoToLine;
+			object which = WdGoToDirection.wdGoToLast;
+
+			Selection selection = app2.Selection;
+			selection.GoTo(ref what, ref which, ref missing, ref missing);
+			selection.HomeKey(ref wdLine, ref missing);
+			selection.EndKey(ref wdLine, ref missing);
+			//selection.MoveDown(ref wdLine, ref count, ref wdExtend);
+			//selection.TypeBackspace();
+			selection.TypeText("xxx");
+			//selection.Delete(ref wdCharacter, ref missing);
+		}
+	}
 }

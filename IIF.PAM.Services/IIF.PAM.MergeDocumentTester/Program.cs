@@ -108,7 +108,7 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergeCMDocument(41, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//105 - CM Project Finance
-				//svcMerge.MergeCMDocument(105, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergeCMDocument(105, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");				
 
 				//1 - CM Waiver
 				//svcMerge.MergeCMDocument(1, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
@@ -147,6 +147,9 @@ namespace IIF.PAM.MergeDocumentTester
 				//16 - PAM Equity
 				//svcMerge.MergePAMDocument(16, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
+				//49 - PAM Equity
+				svcMerge.MergePAMDocument(49, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
 				//40 - PAM Corporate
 				//svcMerge.MergePAMDocument(40, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
@@ -155,7 +158,7 @@ namespace IIF.PAM.MergeDocumentTester
 				//svcMerge.MergeCMDocument(15, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//32 - CM WAIVER
-				svcMerge.MergeCMDocument(32, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+				//svcMerge.MergeCMDocument(32, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//21 - CM PROJECT
 				//svcMerge.MergeCMDocument(21, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
@@ -165,6 +168,9 @@ namespace IIF.PAM.MergeDocumentTester
 
 				//29 - CM PROJECT
 				//svcMerge.MergeCMDocument(29, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
+
+				//34 - CM PROJECT
+				//svcMerge.MergeCMDocument(34, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");
 
 				//23 - CM Corporate
 				//svcMerge.MergeCMDocument(23, conStringIIF, templateFolder, mergeResultFolder, "MergeByFQN", "MergeBy");

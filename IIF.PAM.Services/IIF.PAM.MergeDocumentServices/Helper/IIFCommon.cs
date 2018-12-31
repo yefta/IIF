@@ -8,6 +8,9 @@ using System.Text;
 using IIF.PAM.MergeDocumentServices.Models;
 using Microsoft.Office.Interop.Word;
 
+using ParagraphsList =
+	System.Collections.Generic.List<Microsoft.Office.Interop.Word.Paragraph>;
+
 namespace IIF.PAM.MergeDocumentServices.Helper
 {
 	public class IIFCommon
@@ -66,23 +69,64 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblPreviousApproval.Cell(rowCounter, 1).Range.Text = item[1].ToString();
 				tblPreviousApproval.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 1).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Font.Name = currFontFamily;
+				tblPreviousApproval.Cell(rowCounter, 1).Range.Font.Size = currFontSize;
 
 				tblPreviousApproval.Cell(rowCounter, 2).Range.Text = item[2].ToString();
 				tblPreviousApproval.Cell(rowCounter, 2).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 2).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblPreviousApproval.Cell(rowCounter, 2).Range.Font.Name = currFontFamily;
+				tblPreviousApproval.Cell(rowCounter, 2).Range.Font.Size = currFontSize;
 
 				tblPreviousApproval.Cell(rowCounter, 3).Range.Text = item[3].ToString();
 				tblPreviousApproval.Cell(rowCounter, 3).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 3).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblPreviousApproval.Cell(rowCounter, 3).Range.Font.Name = currFontFamily;
+				tblPreviousApproval.Cell(rowCounter, 3).Range.Font.Size = currFontSize;
 
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Text = Convert.ToDateTime(item[4].ToString()).ToString("dd MMM yyyy");
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 4).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblPreviousApproval.Cell(rowCounter, 4).Range.Font.Name = currFontFamily;
+				tblPreviousApproval.Cell(rowCounter, 4).Range.Font.Size = currFontSize;
 
 				string htmlResult = ConvertHtmlAndFile.SaveToFile(item[5].ToString());
+
+				#region delete empty paragraph
+				Application app2 = new Application();
+				Document sourceDocument = app2.Documents.Open(htmlResult);
+				object start = sourceDocument.Content.Start;
+				object end = sourceDocument.Content.End;
+				Microsoft.Office.Interop.Word.Range myRange = sourceDocument.Range(ref start, ref end);
+				myRange.Select();
+				FindEmptyParagraphsAndDelete(sourceDocument);
+				//myRange.set_Style(ref Normal);
+				sourceDocument.Save();
+				sourceDocument.Close(WdSaveOptions.wdSaveChanges);
+				app2.Quit();
+				#endregion
+
 				tblPreviousApproval.Cell(rowCounter, 5).Range.InsertFile(htmlResult);
 				tblPreviousApproval.Cell(rowCounter, 5).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblPreviousApproval.Cell(rowCounter, 5).Range.Paragraphs.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblPreviousApproval.Cell(rowCounter, 5).Range.Font.Name = currFontFamily;
+				tblPreviousApproval.Cell(rowCounter, 5).Range.Font.Size = currFontSize;
+			}
+
+		}
+
+		public static void FindEmptyParagraphsAndDelete(Document document)
+		{
+			ParagraphsList list = new ParagraphsList();
+			foreach (Paragraph para in document.Content.Paragraphs)
+			{
+				if ((para.Range.End - para.Range.Start) <= 2)
+					list.Add(para);
+			}
+
+			foreach (Paragraph myPar in list)
+			{
+				myPar.Range.Delete();
 			}
 
 		}
@@ -109,7 +153,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 			return res;
 		}
 
-		public static void createLegalSAndEDueOtherReportTable(Application app, System.Data.DataTable listData, string bookmarkNameAttachment, string bookmarkNameDescription)
+		public static void createLegalSAndEDueOtherReportTable(Application app, System.Data.DataTable listData, string bookmarkNameAttachment, string bookmarkNameDescription, string currFontFamily, float currFontSize)
 		{
 			object missing = System.Reflection.Missing.Value;
 			Table tblAttachment = IIFCommon.createTable(app, bookmarkNameAttachment, 1, false);
@@ -140,6 +184,8 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				tblDescription.Cell(rowCounter, 1).Range.Text = item[1].ToString();
 				tblDescription.Cell(rowCounter, 1).Range.Shading.BackgroundPatternColor = WdColor.wdColorWhite;
 				tblDescription.Cell(rowCounter, 1).Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphLeft;
+				tblDescription.Cell(rowCounter, 1).Range.Font.Name = currFontFamily;
+				tblDescription.Cell(rowCounter, 1).Range.Font.Size = currFontSize;
 			}
 			tblDescription.Rows[rowCounter + 1].Delete();
 		}
@@ -203,7 +249,7 @@ namespace IIF.PAM.MergeDocumentServices.Helper
 				object end = doc.Content.End;
 				Microsoft.Office.Interop.Word.Range myRange = doc.Range(ref start, ref end);
 				myRange.Select();
-				myRange.Font.Name = "Roboto Light";
+				myRange.Font.Name = "Roboto Light";			
 			}
 			catch { }
 
