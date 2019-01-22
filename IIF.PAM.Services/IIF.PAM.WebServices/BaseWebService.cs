@@ -55,6 +55,8 @@ namespace IIF.PAM.WebServices
                     this._appConfig.SMTPEnableSSL = ConfigurationManager.AppSettings["SMTPEnableSSL"].ToUpper() == "TRUE";
                     this._appConfig.SMTPCredentialName = ConfigurationManager.AppSettings["SMTPCredentialName"];
                     this._appConfig.SMTPCredentialPassword = ConfigurationManager.AppSettings["SMTPCredentialPassword"];
+
+                    this._appConfig.DMSSharedFolderLocation = ConfigurationManager.AppSettings["DMSSharedFolderLocation"];
                 }
                 return this._appConfig;
             }

@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Web;
+using System.Web.Configuration;
+using System.Web.Services;
 using System.Xml.Linq;
 
 using IIF.PAM.Utilities;
@@ -480,6 +485,5 @@ namespace IIF.PAM.WebServices.Services
 
             return result;
         }
-
     }
 }

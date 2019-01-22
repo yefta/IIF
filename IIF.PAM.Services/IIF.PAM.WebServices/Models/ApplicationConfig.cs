@@ -26,5 +26,7 @@ namespace IIF.PAM.WebServices
         public bool SMTPEnableSSL { get; set; }
         public string SMTPCredentialName { get; set; }
         public string SMTPCredentialPassword { get; set; }
+
+        public string DMSSharedFolderLocation { get; set; }
     }
 }

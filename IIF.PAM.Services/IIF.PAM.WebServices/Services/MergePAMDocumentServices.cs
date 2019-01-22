@@ -15,6 +15,10 @@ namespace IIF.PAM.WebServices.Services
             MergeDocument svcMerge = new MergeDocument();
             string conStringIIF = this.AppConfig.IIFConnectionString;
             svcMerge.MergePAMDocument(id, conStringIIF, this.AppConfig.PAMMergeDocumentTemplateLocation, this.AppConfig.PAMMergeDocumentTemporaryLocation, mergeByFQN, mergeBy);
+
+            PAM_Services svcPAM = new PAM_Services();
+            svcPAM.AppConfig = this.AppConfig;
+            svcPAM.DownloadPAMToSharedFolder(id);            
         }
     }
 }

@@ -19,6 +19,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
         {
             DBHelper db = new DBHelper();
 
+            this.Logger.Info("MergePAMProjectFinance - Start");
+
 			//foldertemplate = System.Configuration.ConfigurationManager.AppSettings["PAM_TEMPLATE_FOLDER_LOCATION"];
 			//temporaryFolderLocation = System.Configuration.ConfigurationManager.AppSettings["PAM_MERGE_FOLDER_LOCATION"];
 
@@ -56,8 +58,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 				try
 				{
 
-
-					#region Cover     
+					#region Cover
 					//app.ActiveDocument.Bookmarks["CompanyName"].Range.Text = dataResult[0].ProjectCompanyName;
 
 					int countBorrower = 0;
@@ -171,7 +172,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "BxBORROWERxOtherInformation", AppConstants.TableName.PAM_BorrowerOrTargetCompanyData, pamId, "OtherInformation", "Id");
 					#endregion
 
-					#region PROPOSAL					
+					#region PROPOSAL
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "CxPROPOSALxPurpose", AppConstants.TableName.PAM_ProposalData, pamId, "Purpose", "Id");
 					app.ActiveDocument.Bookmarks["CxPROPOSALxApprovalAuthority"].Range.Text = dataResult[0].ApprovalAuthority;
 
@@ -223,7 +224,7 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["CxPROPOSALxReviewPeriod"].Range.Text = dataResult[0].reviewPeriod;
 					#endregion
 
-					#region RECOMMENDATION					
+					#region RECOMMENDATION
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "DxRECOMMENDATIONxKeyInvestment", AppConstants.TableName.PAM_RecommendationData, pamId, "KeyInvestmentRecommendation", "Id");					
 					this.FillBookmarkWithPAMAttachmentABNormal(app, con, "DxRECOMMENDATION", AppConstants.TableName.PAM_RecommendationData, pamId, "Recommendation", "Id");
 
@@ -242,8 +243,6 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					app.ActiveDocument.Bookmarks["DxRECOMMENDATIONxCIO"].Range.Text = dataResult[0].AccountResponsibleCIOName;
 
 					#endregion
-
-
 
 					#region Attachment 
 					this.FillBookmarkWithPAMAttachmentNormal(app, con, "ProjectAnalysis", AppConstants.TableName.PAM_ProjectAnalysis, pamId);
@@ -276,10 +275,10 @@ namespace IIF.PAM.MergeDocumentServices.Services
 						if (dataResult[0].MWorkflowStatusId != null && dataResult[0].MWorkflowStatusId == 7)
 							isPreview = true;
 					}
-					catch { }					
-					fileNamePDF = IIFCommon.fileNameFormat(listDocVersion, fileNamePDF, isPreview);
+					catch { }
 
-					doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);					
+                    fileNamePDF = IIFCommon.fileNameFormat(listDocVersion, fileNamePDF, isPreview);
+                    doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileNamePDF), WdExportFormat.wdExportFormatPDF);                                        
 					//doc.SaveAs2(Path.Combine(temporaryFolderLocation, fileName));					
 				}
 				catch (Exception ex)
@@ -287,8 +286,8 @@ namespace IIF.PAM.MergeDocumentServices.Services
 					throw ex;
 				}
 				finally
-				{
-					doc.Close(WdSaveOptions.wdDoNotSaveChanges);					
+				{                    
+					doc.Close(WdSaveOptions.wdDoNotSaveChanges);
 				}
 			}
 			finally

@@ -78,6 +78,11 @@ namespace IIF.PAM.Utilities
             return firstPart + pathSeparator + lastPart;
         }
 
+        public static string AppendFolderPath(this string value, string additionalPath)
+        {
+            return value.AppendPath("\\", additionalPath);
+        }
+
         public static string AppendUrlPath(this string value, string additionalPath)
         {
             return value.AppendPath("/", additionalPath);

@@ -93,6 +93,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AttachmentTypeConstants.cs" />
+    <Compile Include="Models\AttachmentWithContent.cs" />
     <Compile Include="Models\CMGroupEmailParameter.cs" />
     <Compile Include="IIFCMAttachmentServices.asmx.cs">
       <DependentUpon>IIFCMAttachmentServices.asmx</DependentUpon>
@@ -175,6 +177,7 @@
     <Compile Include="Services\CM_PeriodicReview_Services.cs" />
     <Compile Include="Services\CM_RiskRating_Services.cs" />
     <Compile Include="Services\CM_SAndEReview_Services.cs" />
+    <Compile Include="Services\CM_Services.cs" />
     <Compile Include="Services\CM_ValuationReport_Services.cs" />
     <Compile Include="Services\CM_WorkingPaper_Services.cs" />
     <Compile Include="Services\MergeCMDocumentServices.cs" />
@@ -201,6 +204,7 @@
     <Compile Include="Services\PAM_OtherSupportingDocument_Services.cs" />
     <Compile Include="Services\OutboxEmailServices.cs" />
     <Compile Include="Services\PAM_ProjectAnalysis_Services.cs" />
+    <Compile Include="Services\PAM_Services.cs" />
     <Compile Include="Services\ReminderServices.cs" />
     <Compile Include="Services\PAM_RiskRating_Services.cs" />
     <Compile Include="Services\PAM_SAndEDueDiligence_Services.cs" />

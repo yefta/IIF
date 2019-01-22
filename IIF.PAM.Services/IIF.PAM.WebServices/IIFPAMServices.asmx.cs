@@ -33,6 +33,22 @@ namespace IIF.PAM.WebServices
         }
 
         [WebMethod]
+        public void DownloadPAMToSharedFolder(long id)
+        {
+            try
+            {
+                PAM_Services svcPAM = new PAM_Services();
+                svcPAM.AppConfig = this.AppConfig;
+                svcPAM.DownloadPAMToSharedFolder(id);  
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [WebMethod]
         public void SendGroupEmail(PAMGroupEmailParameter param)
         {
             try

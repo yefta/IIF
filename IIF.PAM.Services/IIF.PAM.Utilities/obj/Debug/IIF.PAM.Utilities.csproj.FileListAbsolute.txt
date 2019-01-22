@@ -23,3 +23,4 @@ C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\bin\Debug\IIF.PAM.Utilitie
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.csprojResolveAssemblyReference.cache
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.dll
 C:\Project\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.pdb
+D:\Srf\Cloud\GitHub\SherriffPIS\IIF\IIF\IIF.PAM.Services\IIF.PAM.Utilities\obj\Debug\IIF.PAM.Utilities.csprojResolveAssemblyReference.cache

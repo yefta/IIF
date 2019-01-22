@@ -32,6 +32,22 @@ namespace IIF.PAM.WebServices
             }
         }
 
+        [WebMethod]
+        public void DownloadCMToSharedFolder(long id)
+        {
+            try
+            {
+                CM_Services svcCM = new CM_Services();
+                svcCM.AppConfig = this.AppConfig;
+                svcCM.DownloadCMToSharedFolder(id);
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Error(ex);
+                throw;
+            }
+        }
+
 		[WebMethod]
 		public void SendGroupEmail(CMGroupEmailParameter param)
         {
